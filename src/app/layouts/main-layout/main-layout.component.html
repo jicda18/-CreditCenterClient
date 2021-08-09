@@ -1,0 +1,135 @@
+<div class="container-fluid main-box p-0 m-0">
+	<nav class="navbar main-navbar navbar-expand bg-white border-yellow">
+		<a class="navbar-brand" ng-reflect-router-link="/" href="#/">
+			<!-- Todo: add minimize branch -->
+			<img src="assets/logo.png" height="50" alt="Logo" class="navbar-brand-full">
+		</a>
+
+
+		<i class="toggler-icon text-indigo fas fa-bars mr-auto"></i>
+
+		<!-- Todo: convert to dropdown -->
+		<ul class="nav navbar-nav ml-auto mr-1">
+			<!-- Todo: Add loading -->
+
+			<!-- Todo: Change Image -->
+			<img alt="img" class="img-avatar border border-gray-light" src="http://api.voiceteam.com/img/employees/vsUv9X2dfpVtjH3i6z4NXYqlz3iGMHOqF7bOMAM7.jpeg">
+
+			<!-- Todo: Change Name -->
+			<li placement="bottom right" class="nav-item mr-4 d-flex">
+				<span role="button" aria-haspopup="true" aria-expanded="false" class="nav-link custom-toggle text-indigo name-area">Josue Cruz</span>
+				<i class="fas fa-caret-down text-indigo" style="margin-top: 22px;"></i>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="display-area d-flex">
+		<!-- sidebar -->
+		<div class="col sidebar">
+
+			<!-- Todo: add redirect and ng-for-->
+			<a href="javascript:void();" class="nav-link">
+				<i class="fas fa-user-cog"></i> Admin
+			</a>
+
+			<a href="javascript:void();" class="nav-link">
+				<i class="fas fa-cogs"></i> Configuraciones
+			</a>
+
+			<a href="javascript:void();" class="nav-link">
+				<i class="fas fa-user-circle"></i> Usuarios
+			</a>
+
+			<a href="javascript:void();" class="nav-link">
+				<i class="fas fa-university"></i> Bancos
+			</a>
+
+			<a href="javascript:void();" class="nav-link active">
+				<i class="fas fa-users"></i> Clientes
+			</a>
+		</div>
+
+		<!-- view render -->
+		<div class="col m-0 p-0 bg-ghost-white view-area">
+			<router-outlet></router-outlet>
+
+			<!-- todo: remove -->
+			<div class="container-fluid py-3">
+				<h1 class="text-indigo mb-3">Crear Cliente</h1>
+				<form class="d-flex">
+					<div class="col">
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="text" class="form-control material-input" placeholder="Nombre*">
+							<small id="emailHelp" class="form-text text-muted">Nombre completo del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<select class="form-control material-input" placeholder="Sexo*">
+								<option>Sexo*</option>
+								<option value="M">Masculino</option>
+								<option value="M">Femenino</option>
+							</select>
+							<small class="form-text text-muted">Sexo del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="date" class="form-control material-input" placeholder="Fecha Nacimiento">
+							<small class="form-text text-muted">Fecha Nacimiento del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="phone" class="form-control material-input" placeholder="Fecha Nacimiento">
+							<small class="form-text text-muted">Fecha Nacimiento del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="number" step="0.01" class="form-control material-input" placeholder="Ingresos">
+							<small class="form-text text-muted">Ingresos del cliente.</small>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="text" class="form-control material-input" placeholder="Apodo">
+							<small class="form-text text-muted">Alias del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<select class="form-control material-input" placeholder="Provincia*">
+								<option>Provincia*</option>
+								<option value="M">Santiago</option>
+								<option value="M">Santo Domingo</option>
+							</select>
+							<small class="form-text text-muted">Provincia del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="text" class="form-control material-input" placeholder="Dirreción*">
+							<small class="form-text text-muted">Dirreción del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="text" class="form-control material-input" placeholder="Ocupación">
+							<small class="form-text text-muted">Ocupación del cliente.</small>
+						</div>
+
+						<div class="form-group">
+							<!-- <label for="exampleInputEmail1">Nombre</label> -->
+							<input type="number" step="0.01" class="form-control material-input" placeholder="Otros Ingresos">
+							<small class="form-text text-muted">Otros Ingresos del cliente.</small>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

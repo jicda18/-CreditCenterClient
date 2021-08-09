@@ -1,0 +1,26 @@
+// fonts
+@import "./fonts";
+
+// Variables
+@import "./variables";
+
+// Import icons
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims";
+
+// Import styles
+// @import "~bootstrap/scss/bootstrap";
+
+// ngx-bootstrap
+// $theme-list: () !default;
+// $theme-list: map-merge($theme-colors, $theme-list);
+// @import '~ngx-bootstrap/datepicker/bs-datepicker.scss';
+
+// Import PrimeNg styles
+@import '_primeNgCustom';
+
+// custom
+@import "./custom";

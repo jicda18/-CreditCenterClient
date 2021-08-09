@@ -1,0 +1,61 @@
+<div class="container-fluid main-box p-0">
+	<div style="height: 92px;"></div>
+	<div class="row m-0 p-0">
+		<div class="container-fluid col-12 col-sm-10 col-md-8 mx-auto login-box">
+			<div class="row">
+				<div class="col">
+					<!-- Todo: use from api -->
+					<img src="assets/logo.png" alt="logo.png" class="img-fluid">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<!-- Todo: use from api -->
+					<h3 class="text-indigo text-center">Login a Credit Center</h3>
+				</div>
+			</div>
+
+			<form [formGroup]="form" (ngSubmit)="authenticate()">
+				<div class="row">
+					<div class="col">
+						<div class="input-group mt-3 mb-0 mx-0">
+							<div class="input-group-prepend">
+								<span class="input-group-text bg-white"><i class="fas fa-user text-indigo"></i></span>
+							</div>
+							<input type="text" formControlName="username" class="form-control form-control-lg" placeholder="Usuario" autocomplete="Usuario" required>
+						</div>
+						<small class="text-danger" *ngIf="username?.invalid && (username?.touched || username?.dirty)">El Usuario es requerido.</small>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col">
+						<div class="input-group mb-0 mt-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text bg-white"><i class="fas fa-lock text-indigo"></i></span>
+							</div>
+							<input [type]="show ? 'text' : 'password'" formControlName="password" class="form-control form-control-lg" placeholder="Contraseña" autocomplete="current-password" required>
+							<div class="input-group-prepend">
+								<span class="input-group-text bg-white" (click)="show = !show">
+									<i [ngClass]="{'text-indigo fas btn p-0': true, 'fa-eye' : !show , 'fa-eye-slash' : show}"></i>
+								</span>
+							</div>
+						</div>
+						<small class="text-danger" *ngIf="password?.invalid && (password?.touched || password?.dirty)">La Contraseña es requerida.</small>
+					</div>
+				</div>
+				<app-loading [loading]="loading" customClass="m-0 mt-3 p-0"></app-loading>
+
+				<div class="row m-0 mt-3 p-0" *ngIf="!loading">
+					<button type="submit" class="btn btn-outline-light mx-auto mt-3 mb-0 rounded-pill w-100">Iniciar</button>
+				</div>
+			</form>
+
+			<div class="row my-3">
+				<a href="javascrpit:void(0);" class="text-indigo mx-auto" (click)="passwordRecovery()">¿Olvido su contraseña?</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Todo: Implement loading -->
+<!-- Todo: use Theme -->

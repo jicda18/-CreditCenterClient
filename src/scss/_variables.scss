@@ -1,0 +1,52 @@
+// Body
+$body-bg: #c6c5c3;
+
+// Colors
+$ghostwhite: #F8F8FF;
+$white: #fff;
+$black: #000;
+
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #f7e13e;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+$medium-slate-blue: #7B68EE;
+$medium-sea-green: #3CB371;
+$indian-red: #CD5C5C;
+$light-coral: #F08080;
+$gold-yellow: #ffa62b;
+$royal-blue: #4169e1;
+$purple-pink: #BA55D3;
+$gray: #c6c5c3;
+$light-gray: invert($gray);
+
+$theme-colors: () !default;
+$theme-colors: map-merge(("blue": $blue,
+		"indigo": $indigo,
+		"purple": $purple,
+		"pink": $pink,
+		"red": $red,
+		"orange": $orange,
+		"yellow": $yellow,
+		"green": $green,
+		"teal": $teal,
+		"cyan": $cyan,
+		"medium-slate-blue": $medium-slate-blue,
+		"medium-sea-green": $medium-sea-green,
+		"indian-red": $indian-red,
+		"light-coral": $light-coral,
+		"gold-yellow": $gold-yellow,
+		"royal-blue": $royal-blue,
+		"purple-pink": $purple-pink,
+		"gray": $gray,
+		"light-gray": $light-gray,
+		"ghost-white": $ghostwhite,
+	), $theme-colors);
+
+$headings-font-family: "Playfair Display', serif";
