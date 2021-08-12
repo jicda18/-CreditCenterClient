@@ -3,9 +3,9 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ErrorResponse } from '../models/error-response.model';
 import { Response } from '../models/response.model';
-import { MessageProvider } from '../providers/message.provider';
 import { TokenProvider } from '../providers/token.provider';
 import { errorResponseToMessage } from '../utils/helpers.utils';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,8 @@ import { errorResponseToMessage } from '../utils/helpers.utils';
 export class ApiService {
   public onUnauthorized = new EventEmitter<string>();
   public onCall = new EventEmitter<void>();
+
+  private _ms: undefined | MessageService;
 
   private get oauthHeaders(): HttpHeaders {
     const token = this.tp.token;
@@ -22,7 +24,11 @@ export class ApiService {
     });
   }
 
-  constructor(private http: HttpClient, private tp: TokenProvider, private mp: MessageProvider) { }
+  public set ms(value: MessageService) {
+    this._ms = value;
+  }
+
+  constructor(private http: HttpClient, private tp: TokenProvider) { }
 
   private async httpErrorResponseHandler(response: HttpErrorResponse, notification: boolean, onError: (response: ErrorResponse) => null): Promise<void> {
     if (environment.production) {
@@ -40,7 +46,12 @@ export class ApiService {
     }
 
     if (notification) {
-      this.mp.addMessage(await errorResponseToMessage(response.error as ErrorResponse));
+      const m = await errorResponseToMessage(response.error as ErrorResponse);
+      if (Array.isArray(m)) {
+        this._ms?.addAll(m);
+      } else {
+        this._ms?.add(m);
+      }
     }
 
     if (onError !== undefined && onError !== null) {
@@ -58,7 +69,7 @@ export class ApiService {
     if (!isValid) {
       const msg = 'Su token expiro y no se pudo removar.';
       this.onUnauthorized.emit(msg);
-      this.mp.addMessage({ type: 'danger', title: 'Error', message: msg });
+      this._ms?.add({ severity: 'error', summary: 'Error', detail: msg });
     }
 
     return isValid;

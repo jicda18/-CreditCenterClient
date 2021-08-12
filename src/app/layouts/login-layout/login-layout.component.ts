@@ -6,7 +6,7 @@ import { SessionService } from 'src/app/services/session.service';
 @Component({
   selector: 'app-login-layout',
   templateUrl: './login-layout.component.html',
-  styleUrls: ['./login-layout.component.scss']
+  styleUrls: ['./login-layout.component.scss'],
 })
 export class LoginLayoutComponent implements OnInit {
   public form: FormGroup;
@@ -19,6 +19,14 @@ export class LoginLayoutComponent implements OnInit {
 
   public get password(): AbstractControl | null {
     return this.form.get('password');
+  }
+
+  public get usernameInvalid(): boolean {
+    return (this.username?.invalid && (this.username?.touched || this.username?.dirty)) ?? false;
+  }
+
+  public get passwordInvalid(): boolean {
+    return (this.password?.invalid && (this.password?.touched || this.password?.dirty)) ?? false;
   }
 
   constructor(private fb: FormBuilder, private ss: SessionService, private router: Router) {

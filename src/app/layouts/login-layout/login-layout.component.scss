@@ -6,9 +6,13 @@
 }
 
 .login-box {
-	background-color: $light-gray;
+	background-color: var(--surface-e);
 	min-height: 440px;
 	padding: 32px 16px;
+}
+
+.login-subtitle {
+	text-align: center;
 }
 
 // Small devices (landscape phones, 576px and up)

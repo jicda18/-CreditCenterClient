@@ -11,6 +11,8 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/v4-shims";
 
+@import '~primeicons/primeicons';
+
 // Import styles
 // @import "~bootstrap/scss/bootstrap";
 
@@ -20,7 +22,9 @@
 // @import '~ngx-bootstrap/datepicker/bs-datepicker.scss';
 
 // Import PrimeNg styles
-@import '_primeNgCustom';
+@import '~primeflex/primeflex';
+@import 'primeNgCustom';
+@import '~primeng/resources/primeng.min.css';
 
 // custom
 @import "./custom";

@@ -1,10 +1,9 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ErrorResponse } from '../models/error-response.model';
-import { Message } from '../models/message.model';
 import { DateTime } from 'luxon';
 import { ApiService } from '../services/api.service';
-import { AlertProvider } from '../providers/alert.provider';
+import { Message } from 'primeng/api';
 
 // ----- Validations -----
 /**
@@ -129,17 +128,17 @@ export async function errorResponseToMessage(response: Blob | ErrorResponse): Pr
   if (response instanceof Blob) {
     const msg = await blobError(response);
 
-    return { title: 'Error', type: 'danger', message: msg };
+    return { summary: 'Error', severity: 'error', detail: msg };
   }
 
   if (typeof response.error === 'string') {
-    return { title: 'Error', type: 'danger', message: response.error };
+    return { summary: 'Error', severity: 'error', detail: response.error };
   }
 
   let errors = response.error;
   if (errors !== undefined && errors !== null && Object.prototype.hasOwnProperty.call(errors, 'message')) {
     if (typeof errors.message === 'string') {
-      return { title: 'Error', type: 'danger', message: errors.message };
+      return { summary: 'Error', severity: 'error', detail: errors.message };
     } else {
       errors = errors.message;
     }
@@ -150,7 +149,7 @@ export async function errorResponseToMessage(response: Blob | ErrorResponse): Pr
     if (Object.prototype.hasOwnProperty.call(errors, key)) {
       const error = errors[key];
 
-      messages.push({ title: 'Error', type: 'danger', message: error });
+      messages.push({ summary: 'Error', severity: 'error', detail: error });
     }
   }
 
@@ -256,18 +255,18 @@ export function run<T>(f: () => T): Promise<T> {
 }
 
 // ----- api ----
-export async function apiDelete<T>(api: ApiService, ap: AlertProvider, url: string, question = 'Are you sure yo want to delete it?', comment = ''): Promise<T | false> {
-  const alert = ap.yesNoQuestion('danger', 'Deletion', question, comment, 'fa-trash');
-  const answer = await alert.promise.catch<false>(() => false);
-  let item: undefined | T | false;
+// export async function apiDelete<T>(api: ApiService, ap: AlertProvider, url: string, question = 'Are you sure yo want to delete it?', comment = ''): Promise<T | false> {
+//   const alert = ap.yesNoQuestion('danger', 'Deletion', question, comment, 'fa-trash');
+//   const answer = await alert.promise.catch<false>(() => false);
+//   let item: undefined | T | false;
 
-  if (answer) {
-    item = (await api.delete<T>(url)).data;
-  }
+//   if (answer) {
+//     item = (await api.delete<T>(url)).data;
+//   }
 
-  alert.close();
-  return item ?? false;
-}
+//   alert.close();
+//   return item ?? false;
+// }
 
 export async function downloadApi(url: string, api: ApiService): Promise<void> {
   const response = await api.download(url);

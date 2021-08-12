@@ -4,10 +4,10 @@ import { DateTime } from 'luxon';
 import { SessionStatus } from '../enums/session-status.enum';
 import { User } from '../models/user.model';
 import { LayoutProvider } from '../providers/layout.provider';
-import { MessageProvider } from '../providers/message.provider';
 import { StorageProvider } from '../providers/storage.provider';
 import { TokenProvider } from '../providers/token.provider';
 import { ApiService } from './api.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +20,21 @@ export class SessionService {
   private _status?: SessionStatus;
   private _lastUrl?: string;
   private _waiting = false;
+  private _userWaiting = false;
   private _interval: undefined | number;
   private _lastAction = DateTime.now();
   private _inactiveStep = 5;
+
+  private _ms: undefined | MessageService;
 
   public onLogging: EventEmitter<DateTime> = new EventEmitter<DateTime>();
   public onLogged: EventEmitter<DateTime> = new EventEmitter<DateTime>();
   public onLogouting: EventEmitter<DateTime> = new EventEmitter<DateTime>();
   public onLogouted: EventEmitter<DateTime> = new EventEmitter<DateTime>();
+
+  public set ms(value: MessageService) {
+    this._ms = value;
+  }
 
   public get lastUrl(): string {
     if (this._lastUrl === undefined) {
@@ -101,12 +108,12 @@ export class SessionService {
     return this._user?.administrator ?? false;
   }
 
-  constructor(private tp: TokenProvider, private api: ApiService, private mp: MessageProvider, private router: Router, private sp: StorageProvider, private lp: LayoutProvider) {
+  constructor(private tp: TokenProvider, private api: ApiService, private router: Router, private sp: StorageProvider, private lp: LayoutProvider) {
     this.api.onUnauthorized.subscribe(async () => {
       const logout = await this.logout();
 
       if (logout === false) {
-        this.mp.addMessage({ type: 'error', title: 'Error inesperado.', message: 'Error inesperado mienstra se cerraba su sección.' });
+        this._ms?.add({ severity: 'error', summary: 'Error inesperado.', detail: 'Error inesperado mienstra se cerraba su sección.' });
       }
     });
 
@@ -161,25 +168,25 @@ export class SessionService {
   }
 
   private async setUser(): Promise<boolean> {
-    if (this._waiting) {
-      this.mp.addMessage({ message: 'Estamos trabajando. Favor intenar mas tarde.', title: 'Ocupado', type: 'warning' });
+    if (this._userWaiting) {
+      this._ms?.add({ detail: 'Estamos trabajando. Favor intenar mas tarde.', summary: 'Ocupado', severity: 'warn' });
       return false;
     }
 
-    this._waiting = true;
+    this._userWaiting = true;
 
     if (this._user === undefined) {
-      this._user = (await this.api.get<User>('users/myself'))?.data;
+      this._user = (await this.api.get<User>('users/me'))?.data;
     }
 
-    this._waiting = false;
+    this._userWaiting = false;
 
     return this._user !== undefined;
   }
 
   private timerHandler: TimerHandler = () => {
     if (this._lastAction === undefined || DateTime.now().diff(this._lastAction, 'seconds').seconds > this.INACTIVE_TIME) {
-      this.mp.addMessage({ type: 'info', title: 'Logout', message: 'Se sección fue cerrada por politicas de seguridad por largo periodo de inactividad.' });
+      this._ms?.add({ severity: 'info', summary: 'Logout', detail: 'Se sección fue cerrada por politicas de seguridad por largo periodo de inactividad.' });
 
       this.logout();
     }
@@ -193,15 +200,15 @@ export class SessionService {
 
   public async login(username: string, password: string): Promise<boolean> {
     if (this._waiting) {
-      this.mp.addMessage({ message: 'Estamos trabajando. Favor intenar mas tarde.', title: 'Ocupado', type: 'warning' });
+      this._ms?.add({ detail: 'Estamos trabajando. Favor intenar mas tarde.', summary: 'Ocupado', severity: 'warn' });
       return false;
     }
 
     this._waiting = true;
-    this.mp.clear();
+    this._ms?.clear();
 
     if (this.status !== SessionStatus.Logout) {
-      this.mp.addMessage({ message: 'Su sección se encuentra activa.', title: 'Error', type: 'danger' });
+      this._ms?.add({ detail: 'Su sección se encuentra activa.', summary: 'Error', severity: 'error' });
       this._waiting = false;
       return false;
     }
@@ -222,7 +229,7 @@ export class SessionService {
 
     this.Status = SessionStatus.Logout;
 
-    this.mp.addMessage({ message: 'Usuario o contraseña incorrecta.', title: 'Credenciales invalida.', type: 'warning' });
+    this._ms?.add({ detail: 'Usuario o contraseña incorrecta.', summary: 'Credenciales invalida.', severity: 'warn' });
     this._waiting = false;
 
     return false;
@@ -230,7 +237,7 @@ export class SessionService {
 
   public async logout(): Promise<boolean> {
     if (this._waiting) {
-      this.mp.addMessage({ message: 'Estamos trabajando. Favor intenar mas tarde.', title: 'Ocupado', type: 'warning' });
+      this._ms?.add({ detail: 'Estamos trabajando. Favor intenar mas tarde.', summary: 'Ocupado', severity: 'warn' });
       return false;
     }
 

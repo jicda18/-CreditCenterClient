@@ -1,15 +1,37 @@
 // Extra small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
 body {
-	background-color: $light-gray;
+	background-color: var(--surface-e);
 	margin: 0;
 	padding: 0;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.progressbar-warning {
+	.p-progressbar {
+		background-color: rgba(255, 245, 157, 0.32);
+	}
+
+	.p-progressbar-value {
+		background: rgb(255, 245, 157);
+	}
+}
+
+.p-sidebar-inline {
+	position: relative !important;
 }
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
 	body {
-		background-color: $body-bg;
+		background-color: var(--surface-700);
 	}
 }
 

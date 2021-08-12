@@ -5,6 +5,7 @@ import { Token } from '../models/token.model';
 import { environment } from '../../environments/environment';
 import { ErrorResponse } from '../models/error-response.model';
 import { httpErrorResponseFalse, httpErrorResponseHandler } from '../utils/helpers.utils';
+import { Response } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,13 @@ export class TokenProvider {
     params.append('username', username);
     params.append('password', password);
 
-    return await this.http.post<Token>(environment.api + 'tokens', params).toPromise().catch<ErrorResponse>(httpErrorResponseHandler);
+    const response = await this.http.post<Response<Token>>(environment.api + 'tokens', params).toPromise().catch<ErrorResponse>(httpErrorResponseHandler);
+
+    if ('data' in response) {
+      return response.data;
+    }
+
+    return response;
   }
 
   public get exists(): boolean {

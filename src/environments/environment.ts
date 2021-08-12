@@ -8,9 +8,10 @@ export const environment: Environment = {
   production: false,
   api: 'http://creditcenter.cruz/',
   client: 1,
-  secret: 'nX6sWOHIfrMiyYwg0zRDxdGTQ3tOdq8hmupEv7NQoKpTSINBNZyLRMj5sSWu57i6',
+  secret: 'a6QBFjwr0LI6I7tljktMlnUy54aEBdnIJMhQat5mXLxR4tVZeamG4h5jWm8zONGd',
   grant: 'password',
   version: '0.1.0',
+  company: '0fc7a51e-3227-4ab0-ac25-647dc3f8f163',
 };
 
 /*
@@ -20,4 +21,4 @@ export const environment: Environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

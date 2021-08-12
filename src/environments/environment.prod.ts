@@ -7,4 +7,5 @@ export const environment: Environment = {
   secret: '',
   grant: '',
   version: '0.1.0',
+  company: '',
 };
