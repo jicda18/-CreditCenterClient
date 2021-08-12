@@ -273,3 +273,11 @@ export async function downloadApi(url: string, api: ApiService): Promise<void> {
 
   downloadBlob(response);
 }
+
+export function getLogoUrl(): string {
+  return `${environment.api}companies/${environment.company}/logo`;
+}
+
+export function getIcoUrl(): string {
+  return `${environment.api}companies/${environment.company}/ico`;
+}

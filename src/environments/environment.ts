@@ -12,6 +12,7 @@ export const environment: Environment = {
   grant: 'password',
   version: '0.1.0',
   company: '0fc7a51e-3227-4ab0-ac25-647dc3f8f163',
+  name: 'Credit Center',
 };
 
 /*

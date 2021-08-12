@@ -1,17 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { Navbar } from '../models/navbar.model';
-import { Sidebar } from '../models/sidebar.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutProvider {
-  private navbar: undefined | Navbar;
-  private sidebar: undefined | Sidebar;
-
   constructor(private router: Router, @Inject(DOCUMENT) private document: Document) {
 
     this.router.events.subscribe((event: Event) => {

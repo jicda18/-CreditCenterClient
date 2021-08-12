@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { SessionService } from 'src/app/services/session.service';
+import { getLogoUrl } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-main-layout',
@@ -29,6 +30,18 @@ export class MainLayoutComponent implements OnInit {
     this.items[0].badge = value.toString();
   }
 
+  public get name(): string {
+    return this.ss.user?.name ?? '';
+  }
+
+  public get image(): string {
+    return this.ss.user?.avatar ?? 'assets/images/no-user.png';
+  }
+
+  public get logo(): string {
+    return getLogoUrl();
+  }
+
   constructor(private ss: SessionService) { }
 
   ngOnInit(): void {
@@ -38,7 +51,7 @@ export class MainLayoutComponent implements OnInit {
   // capture when closing the windows
   @HostListener('window:beforeunload', ['$event'])
   async beforeunloadHandler($event: any): Promise<void> {
-    this.ss.logout();
+    // this.ss.logout();
   }
 
   // capture when focus the windows

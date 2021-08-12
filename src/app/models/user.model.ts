@@ -1,4 +1,8 @@
+import { Company } from './company.model';
+import { Permission } from './permission.model';
+
 export interface User {
+  avatar: string;
   key: string;
   user: string;
   mail: string;
@@ -7,6 +11,6 @@ export interface User {
   inserted_at: string;
   edited_at: string;
   removed_at: string;
-  companies?: any[]; // Todo: create interfaces
-  permissions: any[]; // Todo: create interfaces
+  companies?: Company[];
+  permissions: Permission[];
 }

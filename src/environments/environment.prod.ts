@@ -8,4 +8,5 @@ export const environment: Environment = {
   grant: '',
   version: '0.1.0',
   company: '',
+  name: '',
 };

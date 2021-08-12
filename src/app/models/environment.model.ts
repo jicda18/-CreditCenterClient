@@ -6,4 +6,5 @@ export interface Environment {
   grant: string;
   version: string;
   company: string;
+  name: string;
 }
