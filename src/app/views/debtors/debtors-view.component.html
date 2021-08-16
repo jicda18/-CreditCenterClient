@@ -1,2 +1,23 @@
-<p>debtors-view works!</p>
-{{debtor | json}}
+<div style="background-color: var(--surface-e); min-height: 100%;">
+	<p-tabView>
+		<p-tabPanel header="Información" leftIcon="pi pi-bell" [selected]="true">
+			<app-debors-form [debtor]="debtor"></app-debors-form>
+		</p-tabPanel>
+		<p-tabPanel header="Deuda" leftIcon="pi pi-bell">
+			<app-loans-form [loan]="loan"></app-loans-form>
+		</p-tabPanel>
+		<p-tabPanel header="Transaciones" leftIcon="pi pi-bell">
+			<app-grid #grid *ngIf="endpoint !== undefined"
+				[cols]="cols"
+				[endpoint]="endpoint"
+				header=""
+				[mapper]="mapper"
+				[includes]="includes"
+				[filter]="false"
+				[show]="false"
+				[add]="false"
+				[edit]="false"
+				[delete]="false"></app-grid>
+		</p-tabPanel>
+	</p-tabView>
+</div>

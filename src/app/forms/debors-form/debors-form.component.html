@@ -179,7 +179,7 @@
 		</div>
 
 		<!-- Only if insert -->
-		<div *ngIf="isInsert">
+		<div [ngStyle]="{'display': isInsert ? 'block' : 'none'}">
 			<div class="flex my-1">
 				<div class="col">
 					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">

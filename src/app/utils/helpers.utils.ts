@@ -381,7 +381,7 @@ export async function selectOption(route: string, api: ApiService): Promise<{ va
   return response.data;
 }
 
-export async function getModel<T>(key: string, route: string, api: ApiService, router: Router, back = '/home'): Promise<undefined | T> {
+export async function getModel<T>(key: string, route: string, api: ApiService, router: Router, back = '/home', includes = ''): Promise<undefined | T> {
   if (key === '') {
     await router.navigate([back]);
     return;
@@ -393,7 +393,9 @@ export async function getModel<T>(key: string, route: string, api: ApiService, r
     return model;
   }
 
-  model = (await api.get<T>(`${route}/${key}`)).data;
+  const include = includes === '' ? '' : `?include=${includes}`;
+
+  model = (await api.get<T>(`${route}/${key}${include}`)).data;
 
   if (model !== undefined && model !== null) {
     return model;

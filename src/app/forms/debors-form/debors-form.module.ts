@@ -24,7 +24,6 @@ import { CalendarModule } from 'primeng/calendar';
     InputNumberModule,
     ProgressBarModule,
     DropdownModule,
-    InputNumberModule,
     InputMaskModule,
     RadioButtonModule,
     CalendarModule,

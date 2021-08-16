@@ -8,9 +8,9 @@
 			<div class="table-header">
 				<button pButton class="p-button-outlined p-button-success mx-2" icon="pi pi-plus" (click)="addClick.emit()" *ngIf="add"></button>
 
-				<button pButton class="p-button-outlined p-button-primary ml-2 mr-auto" icon="pi pi-filter-slash" (click)="dt.clear()"></button>
+				<button pButton class="p-button-outlined p-button-primary ml-2 mr-auto" icon="pi pi-filter-slash" (click)="dt.clear()" *ngIf="filter"></button>
 
-				<span class="p-input-icon-left ml-auto mr-2" *ngIf="globalFilter !== undefined">
+				<span class="p-input-icon-left ml-auto mr-2" *ngIf="filter && globalFilter !== undefined">
 					<i class="pi pi-search" style="color: var(--surface-100);"></i>
 					<input #search pInputText type="text" (input)="dt.filterGlobal(search.value, 'contains')" placeholder="Buscar" />
 				</span>
@@ -24,7 +24,7 @@
 				<th *ngFor="let col of cols" [pSortableColumn]="col.key">
 					{{ col.label }}
 					<p-sortIcon [field]="col.key" *ngIf="!col.disableSort"></p-sortIcon>
-					<p-columnFilter #filter [type]="col.type" [field]="col.key" display="menu" class="p-ml-auto" *ngIf="col.filter" [showApplyButton]="!col.enableOptions" [showMatchModes]="!col.enableOptions" matchMode="equals" [showAddButton]="false" [showOperator]="false" [minFractionDigits]="col.minFractionDigits ?? 0" [prefix]="col.prefix ?? ''" [suffix]="col.suffix ?? ''">
+					<p-columnFilter #filter [type]="col.type" [field]="col.key" display="menu" class="p-ml-auto" *ngIf="filter && col.filter" [showApplyButton]="!col.enableOptions" [showMatchModes]="!col.enableOptions" matchMode="equals" [showAddButton]="false" [showOperator]="false" [minFractionDigits]="col.minFractionDigits ?? 0" [prefix]="col.prefix ?? ''" [suffix]="col.suffix ?? ''">
 						<ng-template pTemplate="filter" let-value let-filter="filterCallback" *ngIf="col.enableOptions">
 							<p-dropdown [ngModel]="value" [options]="col.options ?? []" (onChange)="filter($event.value)" placeholder="Cualquiera" optionLabel="label" optionValue="value">
 								<ng-template let-option pTemplate="item">

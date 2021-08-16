@@ -24,6 +24,7 @@ export class GridComponent implements OnInit {
   @Input() globalFilter: undefined | ((query: string) => string);
   @Input() includes: string[] = [];
 
+  @Input() filter = true;
   @Input() add = true;
   @Input() show = true;
   @Input() edit = true;

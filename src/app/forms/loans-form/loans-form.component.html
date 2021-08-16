@@ -1,0 +1,90 @@
+<div class="p-grid m-0 p-0">
+	<form [formGroup]="form" (ngSubmit)="submit()">
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda" [readonly]="true">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Moneda*</label>
+				</span>
+
+				<small class="p-error" *ngIf="currency_keyInvalid">Moneda es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Frecuencia*</label>
+				</span>
+
+				<small class="p-error" *ngIf="frequency_keyInvalid">Frecuencia es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (fee_amountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fee_amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Cuotas*</label>
+				</span>
+
+				<small class="p-error" *ngIf="fee_amountInvalid">Monto es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
+					<label for="float-input">Dias de Gracias*</label>
+				</span>
+
+				<small class="p-error" *ngIf="thanks_daysInvalid">Dias de Gracias es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-calendar [styleClass]="'w-100' + (next_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="next_at"></p-calendar>
+					<label for="float-input">Proximo Pago</label>
+				</span>
+
+				<small class="p-error" *ngIf="next_atInvalid">Proximo Pago es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Estatus: </label>
+				<p-radioButton [styleClass]="'mx-2' + (statusInvalid ? ' ng-invalid ng-dirty' : '')" name="status" value="active" label="Activo" formControlName="status"></p-radioButton>
+				<!-- <p-radioButton [styleClass]="'mx-2' + (statusInvalid ? ' ng-invalid ng-dirty' : '')" name="status" value="settled" label="Casado" formControlName="status"></p-radioButton> -->
+				<p-radioButton [styleClass]="'mx-2' + (statusInvalid ? ' ng-invalid ng-dirty' : '')" name="status" value="paused" label="Pausado" formControlName="status"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (statusInvalid ? ' ng-invalid ng-dirty' : '')" name="status" value="canceled" label="Cancelado" formControlName="status"></p-radioButton>
+
+				<small class="p-error" *ngIf="statusInvalid">Estatus es requerido.</small>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+		</div>
+	</form>
+</div>

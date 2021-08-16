@@ -10,6 +10,10 @@ export interface Transaction {
   register_key: string;
   was_at: string;
   amount: number;
+  loan_amount: number;
+  bank_amount: number;
+  loan_balance: number;
+  bank_balance: number;
   inserted_at: string;
   edited_at: string;
   removed_at: string;
