@@ -9,6 +9,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { InputMaskModule } from 'primeng/inputmask';
     DropdownModule,
     RadioButtonModule,
     InputMaskModule,
+    InputTextareaModule,
   ],
   exports: [
     BusinessFormComponent

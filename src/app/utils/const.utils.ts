@@ -90,6 +90,12 @@ export const navs: NavItem[] = [
     permission: [],
     admin: true,
   },
+  {
+    label: 'Transacciones',
+    icon: 'fas fa-cash-register',
+    href: '/transactions',
+    permission: [], // set permissions
+  },
 ];
 
 export const genderOptions: { value: string; label: string }[] = [

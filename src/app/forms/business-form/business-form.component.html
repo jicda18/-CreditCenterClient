@@ -78,7 +78,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<input type="text" [class]="'w-100' + (commentsInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="comments" pInputText>
+					<textarea type="text" [class]="'w-100' + (commentsInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="comments" [autoResize]="true" pInputTextarea></textarea>
 					<label for="float-input">Comentario*</label>
 				</span>
 

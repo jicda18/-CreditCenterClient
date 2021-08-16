@@ -50,6 +50,11 @@ const routes: Routes = [
         loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule),
         // Todo: set Permission guard and data
       },
+      {
+        path: 'transactions',
+        loadChildren: () => import('./views/transactions/transactions.module').then(m => m.TransactionsModule),
+        // Todo: set Permission guard and data
+      },
     ],
   },
   {
