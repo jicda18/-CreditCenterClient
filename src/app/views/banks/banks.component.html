@@ -1,0 +1,13 @@
+<app-grid #grid
+	[cols]="cols"
+	[endpoint]="endpoint"
+	header="Lista de Bancos"
+	[mapper]="mapper"
+	[globalFilter]="globalFilter"
+	[includes]="includes"
+	(showClick)="show($event)"
+	(addClick)="add()"
+	(editClick)="edit($event)"
+	(deleteClick)="delete($event)"></app-grid>
+
+<app-modal #modal></app-modal>

@@ -1,0 +1,12 @@
+<app-grid #grid
+	[cols]="cols"
+	[endpoint]="endpoint"
+	header="Lista de Monedas"
+	[mapper]="mapper"
+	[globalFilter]="globalFilter"
+	[show]="false"
+	(addClick)="add()"
+	(editClick)="edit($event)"
+	(deleteClick)="delete($event)"></app-grid>
+
+<app-modal #modal></app-modal>

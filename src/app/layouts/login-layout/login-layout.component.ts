@@ -44,7 +44,6 @@ export class LoginLayoutComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-
   }
 
   ngOnInit(): void {

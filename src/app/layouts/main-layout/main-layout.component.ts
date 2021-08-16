@@ -1,17 +1,21 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { SessionService } from 'src/app/services/session.service';
-import { getLogoUrl } from 'src/app/utils/helpers.utils';
+import { getLogoUrl, sleep, userNavs } from 'src/app/utils/helpers.utils';
+import { navs as menuItems } from 'src/app/utils/const.utils';
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+  styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent implements OnInit {
   private _badgeCount = 0;
 
+  public navs: undefined | MenuItem[];
+
   public visibleSidebar = true;
+
   public items: MenuItem[] = [
     // Todo: redirect to notification views
     { label: 'Notificaciones', icon: 'pi pi-envelope', badge: '0', badgeStyleClass: 'p-badge-primary' },
@@ -42,10 +46,23 @@ export class MainLayoutComponent implements OnInit {
     return getLogoUrl();
   }
 
-  constructor(private ss: SessionService) { }
+  constructor(private ss: SessionService, private ms: MessageService) { }
 
   ngOnInit(): void {
+    this.ms.add({ detail: 'hola mundo 1' });
+
+    this.getNavs();
+
+    // Todo: set dageCount;
     this.badgeCount = 4;
+  }
+
+  private async getNavs(): Promise<void> {
+    while (this.ss.user === undefined) {
+      await sleep(250);
+    }
+
+    this.navs = userNavs(menuItems, this.ss.user.administrator, this.ss.user.permissions.map((permission) => permission.key));
   }
 
   // capture when closing the windows

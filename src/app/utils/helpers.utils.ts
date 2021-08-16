@@ -1,9 +1,13 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ErrorResponse } from '../models/error-response.model';
 import { DateTime } from 'luxon';
 import { ApiService } from '../services/api.service';
-import { Message } from 'primeng/api';
+import { MenuItem, Message, MessageService } from 'primeng/api';
+import { NavItem } from '../models/nav-item.model';
+import { Router } from '@angular/router';
+import { GridComponent } from '../components/grid/grid.component';
+import { EventEmitter } from '@angular/core';
 
 // ----- Validations -----
 /**
@@ -224,11 +228,11 @@ export function dateStandardFormat(dte: string | Date | DateTime): string {
 }
 
 export function timeStandardFormat(dte: string | Date | DateTime): string {
-  return dateFormat(dte, 'hh:mm:ss a');
+  return dateFormat(dte, 'hh:mm a');
 }
 
 export function dateTimeStandardFormat(dte: string | Date | DateTime): string {
-  return dateFormat(dte, 'LL/dd/yyyy hh:mm:ss a');
+  return dateFormat(dte, 'LL/dd/yyyy hh:mm a');
 }
 
 export function ucfirst(str: string): string {
@@ -280,4 +284,252 @@ export function getLogoUrl(): string {
 
 export function getIcoUrl(): string {
   return `${environment.api}companies/${environment.company}/ico`;
+}
+
+export function hasAll<T>(self: T[], required: T[]): boolean {
+  if (required.length > 0) {
+    for (const item of required) {
+      if (!self.includes(item)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+export function hasAny<T>(self: T[], required: T[]): boolean {
+  if (required.length > 0) {
+    for (const item of required) {
+      if (self.includes(item)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  return true;
+}
+
+export function mapNavItemsToMenuItems(nav: NavItem): MenuItem {
+  const item: MenuItem = {
+    label: nav.label,
+    icon: nav.icon,
+  };
+
+  if ((nav.children === undefined || nav.children.length === 0) && (nav.href !== undefined && nav.href !== '')) {
+    item.routerLink = [nav.href];
+  }
+
+  if (nav.children !== undefined && nav.children.length !== 0) {
+    item.items = nav.children.map(mapNavItemsToMenuItems);
+  }
+
+  return item;
+}
+
+export function userNavs(navs: NavItem[], admin: boolean, permissions: string[]): MenuItem[] {
+  if (navs.length === 0) {
+    return [];
+  }
+
+  if (admin) {
+    return navs.map(mapNavItemsToMenuItems);
+  }
+
+  const answer: MenuItem[] = [];
+  for (const nav of navs) {
+    if (nav.admin === true) {
+      continue;
+    }
+
+    if (nav.permission !== undefined && !hasAll(permissions, nav.permission)) {
+      continue;
+    }
+
+    const item: MenuItem = {
+      label: nav.label,
+      icon: nav.icon,
+    };
+
+    if ((nav.children === undefined || nav.children.length === 0) && (nav.href !== undefined && nav.href !== '')) {
+      item.routerLink = [nav.href];
+    }
+
+    if (nav.children !== undefined && nav.children.length !== 0) {
+      item.items = userNavs(nav.children, admin, permissions);
+
+      if (item.items.length === 0) {
+        continue;
+      }
+    }
+
+    answer.push(item);
+  }
+
+  return answer;
+}
+
+export async function selectOption(route: string, api: ApiService): Promise<{ value: number | string; label: string; uuid: string }[]> {
+  const response = await api.get<{ value: number; label: string; uuid: string }[]>(route);
+
+  if (response === undefined || response.data === undefined) {
+    return [];
+  }
+
+  return response.data;
+}
+
+export async function getModel<T>(key: string, route: string, api: ApiService, router: Router, back = '/home'): Promise<undefined | T> {
+  if (key === '') {
+    await router.navigate([back]);
+    return;
+  }
+
+  let model: any = history.state.data;
+
+  if (model !== undefined && model !== null) {
+    return model;
+  }
+
+  model = (await api.get<T>(route)).data;
+
+  if (model !== undefined && model !== null) {
+    return model;
+  }
+
+  await router.navigate([back]);
+
+  return;
+}
+
+export function translate(word: string): string {
+  const dictionary: { [key: string]: string } = {
+    female: 'Mujer',
+    male: 'Hombre',
+    single: 'Soltero',
+    married: 'Casado',
+    divorced: 'Divorciado',
+    widowed: 'Vuido',
+  };
+
+
+  if (Object.prototype.hasOwnProperty.call(dictionary, word)) {
+    return dictionary[word];
+  }
+
+  return word;
+}
+
+export async function apiDelete<T>(api: ApiService, ms: MessageService, route: string, grid?: GridComponent, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
+  if (grid !== undefined) {
+    grid.loading = true;
+  }
+
+  const item = (await api.delete<T>(route)).data ?? false;
+
+  if (item !== false) {
+    const msg = success === undefined ? 'Elemento eliminado.' : success(item);
+    ms.add({ summary: 'Eliminado', detail: msg, icon: 'pi-check-circle', severity: 'success' });
+
+    if (grid !== undefined) {
+      grid.remove(item);
+    }
+  } else if (withFail) {
+    const msg = fail === undefined ? 'Elemento no eliminado.' : fail();
+    ms.add({ summary: 'Error', detail: msg, icon: 'pi-times-circle', severity: 'error' });
+  }
+
+  if (grid !== undefined) {
+    grid.loading = false;
+  }
+
+  return item;
+}
+
+export function basicTypeToString(value: string | number | boolean | Date, format = 'yyyy-LL-dd'): string {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value.toString();
+  }
+
+  if (typeof value === 'boolean') {
+    return value ? '1' : '0';
+  }
+
+  return dateFormat(value, format);
+}
+
+export function objectToFormData(data: { [key: string]: Blob | string | number | boolean | Date | Array<string | number | boolean | Date> }): FormData {
+  const form = new FormData();
+
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const item = data[key];
+
+      if (Array.isArray(item)) {
+        for (const i of item) {
+          form.append(`${key}[]`, basicTypeToString(i));
+        }
+      } else if (item instanceof Blob) {
+        form.append(key, item);
+      } else {
+        form.append(key, basicTypeToString(item));
+      }
+    }
+  }
+
+  return form;
+}
+
+export function objectToHttpParams(data: { [key: string]: string | number | boolean | Date | Array<string | number | boolean | Date> }): HttpParams {
+  let form = new HttpParams();
+
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const item = data[key];
+
+      if (Array.isArray(item)) {
+        for (const i of item) {
+          form = form.set(`${key}[]`, basicTypeToString(i));
+        }
+      } else {
+        form = form.set(key, basicTypeToString(item));
+      }
+    }
+  }
+
+  return form;
+}
+
+export async function createResource<T>(api: ApiService, route: string, form: FormData, ms: MessageService, event: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
+  const item = (await api.post<T>(route, form)).data ?? false;
+
+  if (item !== false) {
+    const msg = success === undefined ? 'Elemento creado.' : success(item);
+    ms.add({ summary: 'Creado', detail: msg, icon: 'pi-check-circle', severity: 'success' });
+
+    event.emit(item);
+  } else if (withFail) {
+    const msg = fail === undefined ? 'Elemento no creado.' : fail();
+    ms.add({ summary: 'Error', detail: msg, icon: 'pi-times-circle', severity: 'error' });
+  }
+
+  return item;
+}
+
+export async function updateResource<T>(api: ApiService, route: string, form: HttpParams, ms: MessageService, event: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
+  const item = (await api.put<T>(route, form)).data ?? false;
+
+  if (item !== false) {
+    const msg = success === undefined ? 'Elemento actualizado.' : success(item);
+    ms.add({ summary: 'Actualizado', detail: msg, icon: 'pi-check-circle', severity: 'success' });
+
+    event.emit(item);
+  } else if (withFail) {
+    const msg = fail === undefined ? 'Elemento no actualizado.' : fail();
+    ms.add({ summary: 'Error', detail: msg, icon: 'pi-times-circle', severity: 'error' });
+  }
+
+  return item;
 }

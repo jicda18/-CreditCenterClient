@@ -14,7 +14,7 @@ export class ApiService {
   public onUnauthorized = new EventEmitter<string>();
   public onCall = new EventEmitter<void>();
 
-  private _ms: undefined | MessageService;
+  private _ms?: MessageService;
 
   private get oauthHeaders(): HttpHeaders {
     const token = this.tp.token;

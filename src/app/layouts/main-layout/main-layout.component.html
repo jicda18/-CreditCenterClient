@@ -23,10 +23,8 @@
 	<div class="display-area flex">
 		<!-- sidebar -->
 		<div #sidebarArea class="col p-0 sidebar-area">
-			<p-sidebar [appendTo]="sidebarArea" [(visible)]="visibleSidebar" position="left" styleClass="p-sidebar-sm p-sidebar-inline" [modal]="false" [dismissible]="false" [closeOnEscape]="false" [showCloseIcon]="false">
-				<h2 style="font-weight:normal">Sidebar</h2>
-
-
+			<p-sidebar [appendTo]="sidebarArea" [(visible)]="visibleSidebar" position="left" styleClass="p-sidebar-sm p-sidebar-inline p-0" [modal]="false" [dismissible]="false" [closeOnEscape]="false" [showCloseIcon]="false">
+				<p-tieredMenu [model]="navs ?? []" styleClass="w-100 p-0"></p-tieredMenu>
 			</p-sidebar>
 		</div>
 
@@ -36,3 +34,5 @@
 		</div>
 	</div>
 </div>
+
+<p-toast position="top-right"></p-toast>

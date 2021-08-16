@@ -12,6 +12,7 @@ export interface Debtor {
   province_key: string;
   name: string;
   nick_name: string;
+  personal_id: string;
   gender: 'female' | 'male';
   street: string;
   dob: string;

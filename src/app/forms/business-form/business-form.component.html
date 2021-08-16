@@ -1,0 +1,96 @@
+<div class="p-grid m-0 p-0">
+	<form [formGroup]="form" (ngSubmit)="submit()">
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<label for="float-input">Nombre*</label>
+				</span>
+
+				<small class="p-error" *ngIf="nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Relacción: </label>
+				<p-radioButton [styleClass]="'mx-2' + (relationInvalid ? ' ng-invalid ng-dirty' : '')" name="relation" value="own" label="Propio" formControlName="relation"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (relationInvalid ? ' ng-invalid ng-dirty' : '')" name="relation" value="rent" label="Empleado" formControlName="relation"></p-radioButton>
+
+				<small class="p-error" *ngIf="relationInvalid">Relacción es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (noeInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="noe" [min]="0" [showButtons]="true"></p-inputNumber>
+					<label for="float-input"># Empleados*</label>
+				</span>
+
+				<small class="p-error" *ngIf="noeInvalid"># Empleados es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="provinceOptions" [styleClass]="'w-100' + (province_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="province_key" optionLabel="label" optionValue="uuid" placeholder="Provincia">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Provincia*</label>
+				</span>
+
+				<small class="p-error" *ngIf="province_keyInvalid">Provincia es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (streetInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="street" pInputText>
+					<label for="float-input">Dirrección*</label>
+				</span>
+
+				<small class="p-error" *ngIf="streetInvalid">Dirrección es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputMask [styleClass]="'w-100' + (phone_numberInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="phone_number" mask="(999) 999-9999"></p-inputMask>
+					<label for="float-input">Telefono*</label>
+				</span>
+
+				<small class="p-error" *ngIf="phone_numberInvalid">Telefono es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (commentsInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="comments" pInputText>
+					<label for="float-input">Comentario*</label>
+				</span>
+
+				<small class="p-error" *ngIf="commentsInvalid">Comentario es requerido.</small>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+		</div>
+	</form>
+</div>

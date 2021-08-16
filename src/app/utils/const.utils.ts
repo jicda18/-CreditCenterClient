@@ -1,10 +1,15 @@
+import { NavItem } from '../models/nav-item.model';
+import { translate } from './helpers.utils';
+
 export const languagePrimeNg = {
   startsWith: 'Inicia con',
+  notStartsWith: 'No inicia con',
   contains: 'Contiene',
   notContains: 'No contiene',
   endsWith: 'Termina con',
+  notEndsWith: 'No termina con',
   equals: 'Igual',
-  notEquals: 'No igual',
+  notEquals: 'Diferente',
   noFilter: 'No filtro',
   lt: 'Menor que',
   lte: 'Menor o igual que',
@@ -14,6 +19,7 @@ export const languagePrimeNg = {
   isNot: 'No es',
   before: 'Antes',
   after: 'Después',
+  between: 'Entre',
   clear: 'Limpiar',
   apply: 'Aplicar',
   matchAll: 'Coincidir con todos',
@@ -39,3 +45,61 @@ export const languagePrimeNg = {
   emptyMessage: 'No se encontró ningún resultado',
   emptyFilterMessage: 'No se encontró ningún resultado'
 };
+
+export const navs: NavItem[] = [
+  {
+    label: 'Dashboard',
+    icon: 'fas fa-tachometer-alt',
+    href: '/home',
+    permission: [],
+  },
+  {
+    label: 'Bancos',
+    icon: 'fas fa-university',
+    href: '/banks',
+    permission: [], // set permissions
+  },
+  {
+    label: 'Clientes',
+    icon: 'fas fa-id-card-alt',
+    href: '/debtors',
+    permission: [], // set permissions
+  },
+  {
+    label: 'Garantes',
+    icon: 'fas fa-people-arrows',
+    href: '/guarantors',
+    permission: [], // set permissions
+  },
+  {
+    label: 'Monedas',
+    icon: 'fas fa-money-bill-alt',
+    href: '/currencies',
+    permission: [], // set permissions
+  },
+  {
+    label: 'Negocios',
+    icon: 'fas fa-building',
+    href: '/businesses',
+    permission: [], // set permissions
+  },
+  {
+    label: 'Usuarios',
+    icon: 'fas fa-users',
+    href: '/users',
+    permission: [],
+    admin: true,
+  },
+];
+
+export const genderOptions: { value: string; label: string }[] = [
+  { value: 'female', label: translate('female') },
+  { value: 'male', label: translate('male') },
+];
+
+export const maritalStatusOptions: { value: string; label: string }[] = [
+  { value: 'single', label: translate('single') },
+  { value: 'married', label: translate('married') },
+  { value: 'divorced', label: translate('divorced') },
+  { value: 'widowed', label: translate('widowed') },
+];

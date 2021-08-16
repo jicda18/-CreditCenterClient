@@ -7,6 +7,7 @@ export interface Guarantor {
   province_key: string;
   company_key: string;
   name: string;
+  personal_id: string;
   gender: 'female' | 'male';
   street: string;
   phone_number: string;

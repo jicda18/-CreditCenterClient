@@ -26,6 +26,72 @@ body {
 
 .p-sidebar-inline {
 	position: relative !important;
+
+	&.p-0 {
+		.p-sidebar-content {
+			padding: 0;
+		}
+
+		.p-sidebar-header {
+			display: none;
+		}
+	}
+}
+
+.p-input-icon-left {
+	.p-inputtext {
+		padding-left: 2.5rem;
+	}
+}
+
+
+.p-checkbox-false {
+	.p-checkbox-box {
+		border-color: #EF9A9A !important;
+		background: #EF9A9A !important;
+	}
+}
+
+.p-checkbox-true {
+	.p-checkbox-box {
+		border-color: #C5E1A5 !important;
+		background: #C5E1A5 !important;
+	}
+}
+
+.cc-modal {
+	.p-dialog-header {
+		padding: 1.0rem 1.25rem;
+		border-bottom: 2px transparentize($ghostwhite, 0.25) solid;
+
+		.p-dialog-title {
+			color: transparentize($ghostwhite, 0.25);
+		}
+
+		.p-dialog-header-close-icon {
+			color: transparentize($ghostwhite, 0.25);
+		}
+	}
+
+	/* width */
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	/* Track */
+	::-webkit-scrollbar-track {
+		background: $indigo;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: transparentize($ghostwhite, 0.25);
+	}
+
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		background: transparentize($ghostwhite, 0);
+	}
 }
 
 // Small devices (landscape phones, 576px and up)

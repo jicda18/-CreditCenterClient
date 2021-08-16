@@ -15,6 +15,41 @@ const routes: Routes = [
     canLoad: [SessionGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'prefix' },
+      {
+        path: 'home',
+        loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'banks',
+        loadChildren: () => import('./views/banks/banks.module').then(m => m.BanksModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'businesses',
+        loadChildren: () => import('./views/business/business.module').then(m => m.BusinessModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'currencies',
+        loadChildren: () => import('./views/currencies/currencies.module').then(m => m.CurrenciesModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'debtors',
+        loadChildren: () => import('./views/debtors/debtors.module').then(m => m.DebtorsModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'guarantors',
+        loadChildren: () => import('./views/guarantors/guarantors.module').then(m => m.GuarantorsModule),
+        // Todo: set Permission guard and data
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule),
+        // Todo: set Permission guard and data
+      },
     ],
   },
   {

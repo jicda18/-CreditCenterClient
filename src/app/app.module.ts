@@ -10,7 +10,6 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 import { NotFoundLayoutComponent } from './layouts/not-found-layout/not-found-layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { LoadingModule } from './components/loading/loading.module';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -37,7 +36,6 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    LoadingModule,
     InputTextModule,
     ButtonModule,
     RippleModule,

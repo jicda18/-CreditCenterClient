@@ -5,17 +5,13 @@ export interface Links {
   preview: string;
 }
 
-export interface Pagination {
+export interface Meta {
   total: number;
   count: number;
   per_page: number;
   current_page: number;
   total_pages: number;
   links: Links;
-}
-
-export interface Meta {
-  pagination: Pagination;
 }
 
 export interface Response<T> {
