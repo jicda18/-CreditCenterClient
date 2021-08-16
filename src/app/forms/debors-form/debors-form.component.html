@@ -1,4 +1,287 @@
 <div class="p-grid m-0 p-0">
 	<form [formGroup]="form" (ngSubmit)="submit()">
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<label for="float-input">Nombre*</label>
+				</span>
+
+				<small class="p-error" *ngIf="nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (nick_nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="nick_name" pInputText>
+					<label for="float-input">Apodo*</label>
+				</span>
+
+				<small class="p-error" *ngIf="nick_nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="personal_id" pInputText>
+					<label for="float-input">Documento*</label>
+				</span>
+
+				<small class="p-error" *ngIf="personal_idInvalid">Documento es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Genero: </label>
+				<p-radioButton [styleClass]="'mx-2' + (genderInvalid ? ' ng-invalid ng-dirty' : '')" name="gender" value="male" label="Hombre" formControlName="gender"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (genderInvalid ? ' ng-invalid ng-dirty' : '')" name="gender" value="female" label="Mujer" formControlName="gender"></p-radioButton>
+
+				<small class="p-error" *ngIf="genderInvalid">Genero es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="provinceOptions" [styleClass]="'w-100' + (province_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="province_key" optionLabel="label" optionValue="value" placeholder="Provincia">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Provincia*</label>
+				</span>
+
+				<small class="p-error" *ngIf="province_keyInvalid">Provincia es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (streetInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="street" pInputText>
+					<label for="float-input">Dirrección*</label>
+				</span>
+
+				<small class="p-error" *ngIf="streetInvalid">Dirrección es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputMask [styleClass]="'w-100' + (phone_numberInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="phone_number" mask="(999) 999-9999"></p-inputMask>
+					<label for="float-input">Telefono</label>
+				</span>
+
+				<small class="p-error" *ngIf="phone_numberInvalid">Telefono es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-calendar [styleClass]="'w-100' + (dobInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="dob"></p-calendar>
+					<label for="float-input">Fecha Nacimiento</label>
+				</span>
+
+				<small class="p-error" *ngIf="dobInvalid">Fecha Nacimiento es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Estado Civil: </label>
+				<p-radioButton [styleClass]="'mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="single" label="Soltero" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="married" label="Casado" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="divorced" label="Divorciado" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="widowed" label="Vuido" formControlName="marital_status"></p-radioButton>
+
+				<small class="p-error" *ngIf="marital_statusInvalid">Estado Civil es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="businessOptions" [styleClass]="'w-100' + (business_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="business_key" optionLabel="label" optionValue="value" placeholder="Negocio">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Negocio*</label>
+				</span>
+
+				<small class="p-error" *ngIf="business_keyInvalid">Negocio es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (occupationInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="occupation" pInputText>
+					<label for="float-input">Ocupación*</label>
+				</span>
+
+				<small class="p-error" *ngIf="occupationInvalid">Ocupación es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (incomeInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="income" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Ingreso*</label>
+				</span>
+
+				<small class="p-error" *ngIf="incomeInvalid">Ingreso es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (other_incomeInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="other_income" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Otros Ingresos*</label>
+				</span>
+
+				<small class="p-error" *ngIf="other_incomeInvalid">Otros Ingresos es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="guarantorOptions" [styleClass]="'w-100' + (guarantor_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="guarantor_key" optionLabel="label" optionValue="value" placeholder="Garante">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Garante*</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_keyInvalid">Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- Only if insert -->
+		<div *ngIf="isInsert">
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-dropdown [options]="bankOptions" [styleClass]="'w-100' + (bank_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco">
+							<ng-template let-option pTemplate="item">
+								<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+							</ng-template>
+						</p-dropdown>
+						<label for="float-input">Banco*</label>
+					</span>
+
+					<small class="p-error" *ngIf="bank_keyInvalid">Banco es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
+							<ng-template let-option pTemplate="item">
+								<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+							</ng-template>
+						</p-dropdown>
+						<label for="float-input">Moneda*</label>
+					</span>
+
+					<small class="p-error" *ngIf="currency_keyInvalid">Moneda es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+						<label for="float-input">Monto*</label>
+					</span>
+
+					<small class="p-error" *ngIf="balanceInvalid">Monto es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+							<ng-template let-option pTemplate="item">
+								<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+							</ng-template>
+						</p-dropdown>
+						<label for="float-input">Frecuencia*</label>
+					</span>
+
+					<small class="p-error" *ngIf="frequency_keyInvalid">Frecuencia es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-inputNumber [styleClass]="'w-100' + (fee_amountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fee_amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+						<label for="float-input">Cuotas*</label>
+					</span>
+
+					<small class="p-error" *ngIf="fee_amountInvalid">Monto es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-calendar [styleClass]="'w-100' + (start_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="start_at"></p-calendar>
+						<label for="float-input">Primer Pago</label>
+					</span>
+
+					<small class="p-error" *ngIf="start_atInvalid">Primer Pago es requerido.</small>
+				</div>
+			</div>
+
+			<div class="flex my-1">
+				<div class="col">
+					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+						<i class="fa fa-university"></i>
+						<p-inputNumber [styleClass]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
+						<label for="float-input">Dias de Gracias*</label>
+					</span>
+
+					<small class="p-error" *ngIf="thanks_daysInvalid">Dias de Gracias es requerido.</small>
+				</div>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+		</div>
 	</form>
 </div>
