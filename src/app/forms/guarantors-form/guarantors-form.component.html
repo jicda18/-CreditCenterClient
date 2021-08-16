@@ -38,7 +38,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<p-dropdown [options]="provinceOptions" [styleClass]="'w-100' + (province_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="province_key" optionLabel="label" optionValue="uuid" placeholder="Provincia">
+					<p-dropdown [options]="provinceOptions" [styleClass]="'w-100' + (province_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="province_key" optionLabel="label" optionValue="value" placeholder="Provincia">
 						<ng-template let-option pTemplate="item">
 							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 						</ng-template>

@@ -16,7 +16,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="pi pi-money-bill"></i>
-					<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currencyKeyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="uuid" placeholder="Moneda">
+					<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currencyKeyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
 						<ng-template let-option pTemplate="item">
 							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 						</ng-template>

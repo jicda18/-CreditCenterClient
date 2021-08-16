@@ -20,7 +20,7 @@ export class GuarantorsFormComponent implements OnInit, OnChanges {
 
   public form: FormGroup;
   public loading = false;
-  public provinceOptions: { value: number | string; label: string; uuid: string; }[] = [];
+  public provinceOptions: { value: number | string; label: string; }[] = [];
 
   public get name(): AbstractControl | null {
     return this.form.get('name');

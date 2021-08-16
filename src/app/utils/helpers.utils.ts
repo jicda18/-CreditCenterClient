@@ -371,8 +371,8 @@ export function userNavs(navs: NavItem[], admin: boolean, permissions: string[])
   return answer;
 }
 
-export async function selectOption(route: string, api: ApiService): Promise<{ value: number | string; label: string; uuid: string }[]> {
-  const response = await api.get<{ value: number; label: string; uuid: string }[]>(route);
+export async function selectOption(route: string, api: ApiService): Promise<{ value: number | string; label: string; }[]> {
+  const response = await api.get<{ value: number; label: string; }[]>(route);
 
   if (response === undefined || response.data === undefined) {
     return [];
