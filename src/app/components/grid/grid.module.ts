@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DropdownModule } from 'primeng/dropdown';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
     DropdownModule,
     TriStateCheckboxModule,
     FormsModule,
+    AvatarModule,
   ],
   exports: [GridComponent],
 })

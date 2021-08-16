@@ -8,7 +8,7 @@ import { GridModule } from 'src/app/components/grid/grid.module';
 import { BanksModalComponent } from './banks-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { BanksFormModule } from 'src/app/forms/banks-form/banks-form.module';
-
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { BanksFormModule } from 'src/app/forms/banks-form/banks-form.module';
     GridModule,
     ModalModule,
     BanksFormModule,
+    TabViewModule,
   ],
   entryComponents: [
     BanksModalComponent

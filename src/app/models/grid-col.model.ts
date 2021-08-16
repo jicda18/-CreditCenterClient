@@ -8,4 +8,6 @@ export interface GridCol {
   suffix?: string;
   options?: { value: number | string; label: string }[];
   enableOptions?: boolean;
+  image?: boolean;
+  disableSort?: boolean;
 }

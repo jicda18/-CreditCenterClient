@@ -393,7 +393,7 @@ export async function getModel<T>(key: string, route: string, api: ApiService, r
     return model;
   }
 
-  model = (await api.get<T>(route)).data;
+  model = (await api.get<T>(`${route}/${key}`)).data;
 
   if (model !== undefined && model !== null) {
     return model;

@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('modal', { static: false }) private _modal?: ModalComponent;
 
   public cols: GridCol[] = [
-    { key: 'avatar', label: 'Avatar', type: 'text', filter: false }, // Todo: add image field
+    { key: 'avatar', label: 'Avatar', type: 'text', filter: false, image: true, disableSort: true }, // Todo: add image field
     { key: 'name', label: 'Nombre', type: 'text', filter: true },
     { key: 'user', label: 'Usuario', type: 'text', filter: true },
     { key: 'mail', label: 'Email', type: 'text', filter: true },

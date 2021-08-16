@@ -8,6 +8,7 @@ import { GridModule } from 'src/app/components/grid/grid.module';
 import { BusinessModalComponent } from './business-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { BusinessFormModule } from 'src/app/forms/business-form/business-form.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BusinessFormModule } from 'src/app/forms/business-form/business-form.mo
     GridModule,
     ModalModule,
     BusinessFormModule,
+    TabViewModule,
   ],
   entryComponents: [
     BusinessModalComponent

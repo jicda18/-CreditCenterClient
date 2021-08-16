@@ -8,6 +8,7 @@ import { GridModule } from 'src/app/components/grid/grid.module';
 import { GuarantorsModalComponent } from './guarantors-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { GuarantorsFormModule } from 'src/app/forms/guarantors-form/guarantors-form.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GuarantorsFormModule } from 'src/app/forms/guarantors-form/guarantors-f
     GuarantorsRoutingModule,
     GridModule,
     ModalModule,
-    GuarantorsFormModule
+    GuarantorsFormModule,
+    TabViewModule,
   ],
   entryComponents: [
     GuarantorsModalComponent

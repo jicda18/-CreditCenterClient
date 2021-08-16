@@ -6,6 +6,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 
@@ -21,6 +24,10 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ButtonModule,
     InputNumberModule,
     ProgressBarModule,
+    DropdownModule,
+    InputNumberModule,
+    InputMaskModule,
+    RadioButtonModule
   ],
   exports: [
     GuarantorsFormComponent

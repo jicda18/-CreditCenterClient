@@ -23,7 +23,7 @@
 
 				<th *ngFor="let col of cols" [pSortableColumn]="col.key">
 					{{ col.label }}
-					<p-sortIcon [field]="col.key"></p-sortIcon>
+					<p-sortIcon [field]="col.key" *ngIf="!col.disableSort"></p-sortIcon>
 					<p-columnFilter #filter [type]="col.type" [field]="col.key" display="menu" class="p-ml-auto" *ngIf="col.filter" [showApplyButton]="!col.enableOptions" [showMatchModes]="!col.enableOptions" matchMode="equals" [showAddButton]="false" [showOperator]="false" [minFractionDigits]="col.minFractionDigits ?? 0" [prefix]="col.prefix ?? ''" [suffix]="col.suffix ?? ''">
 						<ng-template pTemplate="filter" let-value let-filter="filterCallback" *ngIf="col.enableOptions">
 							<p-dropdown [ngModel]="value" [options]="col.options ?? []" (onChange)="filter($event.value)" placeholder="Cualquiera" optionLabel="label" optionValue="value">
@@ -47,9 +47,11 @@
 				</td>
 
 				<td *ngFor="let col of cols">
-					<div class="col" *ngIf="col.type !== 'boolean'">{{item[col.key]}}</div>
+					<p-avatar [image]="item[col.key]" size="xlarge" shape="square" *ngIf="col.image"></p-avatar>
 
-					<p-triStateCheckbox [ngModel]="item[col.key]" [readonly]="true" *ngIf="col.type === 'boolean'" [styleClass]="item[col.key] ? 'p-checkbox-true' : 'p-checkbox-false'"></p-triStateCheckbox>
+					<div class="col" *ngIf="!col.image && col.type !== 'boolean'">{{item[col.key]}}</div>
+
+					<p-triStateCheckbox [ngModel]="item[col.key]" [readonly]="true" *ngIf="!col.image && col.type === 'boolean'" [styleClass]="item[col.key] ? 'p-checkbox-true' : 'p-checkbox-false'"></p-triStateCheckbox>
 				</td>
 			</tr>
 		</ng-template>

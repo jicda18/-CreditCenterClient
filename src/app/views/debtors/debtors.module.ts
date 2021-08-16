@@ -8,6 +8,7 @@ import { GridModule } from 'src/app/components/grid/grid.module';
 import { DebtorsModalComponent } from './debtors-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { DeborsFormModule } from 'src/app/forms/debors-form/debors-form.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DeborsFormModule } from 'src/app/forms/debors-form/debors-form.module';
     GridModule,
     ModalModule,
     DeborsFormModule,
+    TabViewModule,
   ],
   entryComponents: [
     DebtorsModalComponent

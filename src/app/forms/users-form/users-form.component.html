@@ -1,4 +1,47 @@
 <div class="p-grid m-0 p-0">
 	<form [formGroup]="form" (ngSubmit)="submit()">
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (usernameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="username" pInputText>
+					<label for="float-input">Usuario*</label>
+				</span>
+
+				<small class="p-error" *ngIf="usernameInvalid">Usuario es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<label for="float-input">Nombre*</label>
+				</span>
+
+				<small class="p-error" *ngIf="nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<input type="email" [class]="'w-100' + (mailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="mail" pInputText>
+					<label for="float-input">Email*</label>
+				</span>
+
+				<small class="p-error" *ngIf="mailInvalid && (mail?.errors?.required ?? true)">Email es requerido.</small>
+				<small class="p-error" *ngIf="mailInvalid && (mail?.errors?.required ?? false)">Email no es valido.</small>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+		</div>
 	</form>
 </div>

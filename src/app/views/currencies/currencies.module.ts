@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { CurrencyModalComponent } from './currency-modal.component';
 import { CurrencyFormModule } from 'src/app/forms/currency-form/currency-form.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CurrencyFormModule } from 'src/app/forms/currency-form/currency-form.mo
     FormsModule,
     ReactiveFormsModule,
     ModalModule,
-    CurrencyFormModule
+    CurrencyFormModule,
+    TabViewModule,
   ],
   entryComponents: [
     CurrencyModalComponent

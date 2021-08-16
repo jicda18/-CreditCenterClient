@@ -1,2 +1,13 @@
-<p>users-view works!</p>
-{{user | json}}
+<div style="background-color: var(--surface-e); min-height: 100%;">
+	<p-tabView>
+		<p-tabPanel header="Información" leftIcon="pi pi-bell" [selected]="true">
+			<app-users-form [user]="user"></app-users-form>
+		</p-tabPanel>
+		<p-tabPanel header="Permisos" leftIcon="pi pi-bell">
+			Content 2
+		</p-tabPanel>
+		<p-tabPanel header="Configuraciones" leftIcon="pi pi-bell">
+			Content 2
+		</p-tabPanel>
+	</p-tabView>
+</div>
