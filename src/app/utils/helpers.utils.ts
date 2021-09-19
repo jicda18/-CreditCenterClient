@@ -535,3 +535,27 @@ export async function updateResource<T>(api: ApiService, route: string, form: Ht
 
   return item;
 }
+
+export function getViewAreaSize(): { width: number, height: number } {
+  const elements = document.getElementsByClassName('view-area');
+  const answer = { width: -1, height: -1 };
+
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements.item(i);
+
+    if (element !== null) {
+      const width = element.clientWidth;
+      const height = element.clientHeight;
+
+      if (width > answer.width) {
+        answer.width = width;
+      }
+
+      if (height > answer.height) {
+        answer.height = height;
+      }
+    }
+  }
+
+  return answer;
+}

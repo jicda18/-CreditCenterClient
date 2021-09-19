@@ -1,5 +1,5 @@
 <div class="p-3" style="overflow-x: auto;">
-	<h2 class="text-primary">{{ header }}</h2>
+	<h2 class="text-primary sticky-left">{{ header }}</h2>
 	<p-table #dt [value]="data" [lazy]="true" (onLazyLoad)="load($event)" [paginator]="true" [rows]="rows"
 		[totalRecords]="totalRecords" [loading]="loading" [dataKey]="idKey" [rowsPerPageOptions]="rowsPerPageOptions"
 		currentPageReportTemplate="{first} - {last} de {totalRecords}" [filterDelay]="500" [sortField]="idKey"
@@ -7,14 +7,16 @@
 
 		<ng-template pTemplate="caption">
 			<div class="table-header">
-				<button pButton class="p-button-outlined p-button-success mx-2" icon="pi pi-plus" (click)="addClick.emit()" *ngIf="add"></button>
+				<div class="flex sticky-left" [ngStyle]="{'width': width}">
+					<button pButton class="p-button-outlined p-button-success mx-2" icon="pi pi-plus" (click)="addClick.emit()" *ngIf="add"></button>
 
-				<button pButton class="p-button-outlined p-button-primary ml-2 mr-auto" icon="pi pi-filter-slash" (click)="dt.clear()" *ngIf="filter"></button>
+					<button pButton class="p-button-outlined p-button-primary ml-2 mr-auto" icon="pi pi-filter-slash" (click)="dt.clear()" *ngIf="filter"></button>
 
-				<span class="p-input-icon-left ml-auto mr-2" *ngIf="filter && globalFilter !== undefined">
-					<i class="pi pi-search" style="color: var(--surface-100);"></i>
-					<input #search pInputText type="text" (input)="dt.filterGlobal(search.value, 'contains')" placeholder="Buscar" />
-				</span>
+					<span class="p-input-icon-left ml-auto mr-2" *ngIf="filter && globalFilter !== undefined">
+						<i class="pi pi-search" style="color: var(--surface-100);"></i>
+						<input #search pInputText type="text" (input)="dt.filterGlobal(search.value, 'contains')" placeholder="Buscar" />
+					</span>
+				</div>
 			</div>
 		</ng-template>
 
@@ -61,6 +63,15 @@
 			<tr>
 				<td [attr.colspan]="cols.length + (show || edit || delete ? 1 : 0)">No se encontró ningún resultado.</td>
 			</tr>
+		</ng-template>
+
+
+		<ng-template pTemplate="paginatorleft" let-state>
+
+		</ng-template>
+
+		<ng-template pTemplate="paginatorright" let-state>
+			{{state.first + 1}} - {{(state.first + state.rows < state.totalRecords ? (state.first + state.rows) : state.totalRecords)}} de {{state.totalRecords}}
 		</ng-template>
 	</p-table>
 </div>

@@ -94,6 +94,52 @@ body {
 	}
 }
 
+.p-datatable {
+	width: fit-content;
+
+	table {
+		width: auto !important;
+		min-width: 100%;
+
+		th,
+		td {
+			white-space: nowrap;
+		}
+	}
+}
+
+.sticky-left {
+	position: sticky;
+	left: 0px;
+}
+
+.sticky-top {
+	position: sticky;
+	top: 0px;
+}
+
+.sticky-right {
+	position: sticky;
+	right: 0px;
+}
+
+.sticky-bottom {
+	position: sticky;
+	bottom: 0px;
+}
+
+.p-paginator {
+	display: block !important;
+	width: 100% !important;
+
+	.p-paginator-right-content,
+	.p-paginator-left-content {
+		width: fit-content !important;
+		margin: 0 !important;
+		display: contents !important;
+	}
+}
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
 	body {

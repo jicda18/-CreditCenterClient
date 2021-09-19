@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FilterMetadata, LazyLoadEvent } from 'primeng/api';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { ApiService } from 'src/app/services/api.service';
-import { dateFormat } from 'src/app/utils/helpers.utils';
+import { dateFormat, getViewAreaSize } from 'src/app/utils/helpers.utils';
 import { ConfirmationService } from 'primeng/api';
 import { CustomFilterMode } from 'src/app/class/custom-filter-mode.class';
 
@@ -12,7 +12,7 @@ import { CustomFilterMode } from 'src/app/class/custom-filter-mode.class';
   styleUrls: ['./grid.component.scss'],
   providers: [ConfirmationService],
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
   @Input() rows = 16;
   @Input() cols: GridCol[] = [];
   @Input() endpoint = '';
@@ -37,9 +37,13 @@ export class GridComponent implements OnInit {
   @Output() editClick = new EventEmitter<any>();
   @Output() deleteClick = new EventEmitter<any>();
 
+  private _interval: any;
+
   public data: any[] = [];
   public totalRecords = 0;
   public loading = false;
+
+  public width = 'auto';
 
   @Input() deleteQuestion: ((item: { [key: string]: any }) => string) = () => '¿Esta Seguro de eliminar este item?';
 
@@ -61,6 +65,20 @@ export class GridComponent implements OnInit {
     if (this.autoLoad) {
       this.getFromApi(this.getRoute(1, this.idKey, 'asc'));
     }
+
+    this._interval = setInterval(() => {
+      if (this.loading) {
+        this.width = 'auto';
+      }
+
+      const width = getViewAreaSize().width;
+
+      this.width = `${width - 32}px`;
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this._interval);
   }
 
   public remove(item: { [key: string]: any }): void {
