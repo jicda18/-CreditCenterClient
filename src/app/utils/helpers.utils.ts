@@ -504,14 +504,14 @@ export function objectToHttpParams(data: { [key: string]: string | number | bool
   return form;
 }
 
-export async function createResource<T>(api: ApiService, route: string, form: FormData, ms: MessageService, event: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
+export async function createResource<T>(api: ApiService, route: string, form: FormData, ms: MessageService, event?: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
   const item = (await api.post<T>(route, form)).data ?? false;
 
   if (item !== false) {
     const msg = success === undefined ? 'Elemento creado.' : success(item);
     ms.add({ summary: 'Creado', detail: msg, icon: 'pi-check-circle', severity: 'success' });
 
-    event.emit(item);
+    event?.emit(item);
   } else if (withFail) {
     const msg = fail === undefined ? 'Elemento no creado.' : fail();
     ms.add({ summary: 'Error', detail: msg, icon: 'pi-times-circle', severity: 'error' });

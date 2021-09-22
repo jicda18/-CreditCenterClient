@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   api: 'http://creditcenter.cruz/',
   client: 1,
-  secret: 'a6QBFjwr0LI6I7tljktMlnUy54aEBdnIJMhQat5mXLxR4tVZeamG4h5jWm8zONGd',
+  secret: 'EEQ1x6qUcYKcIBapl7XECj9TsNSr3Dvy6pZt2dCwCdeJHmuiBrXgIumjCgOgrrDf',
   grant: 'password',
   version: '0.1.0',
   company: '0fc7a51e-3227-4ab0-ac25-647dc3f8f163',

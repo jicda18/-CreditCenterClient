@@ -10,6 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ButtonModule } from 'primeng/button';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ButtonModule } from 'primeng/button';
     InputNumberModule,
     ProgressBarModule,
     ButtonModule,
+    InputTextareaModule,
   ]
 })
 export class TransactionsModule { }
