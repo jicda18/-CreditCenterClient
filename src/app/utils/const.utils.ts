@@ -66,21 +66,9 @@ export const navs: NavItem[] = [
     permission: [], // set permissions
   },
   {
-    label: 'Garantes',
-    icon: 'fas fa-people-arrows',
-    href: '/guarantors',
-    permission: [], // set permissions
-  },
-  {
     label: 'Monedas',
     icon: 'fas fa-money-bill-alt',
     href: '/currencies',
-    permission: [], // set permissions
-  },
-  {
-    label: 'Negocios',
-    icon: 'fas fa-building',
-    href: '/businesses',
     permission: [], // set permissions
   },
   {

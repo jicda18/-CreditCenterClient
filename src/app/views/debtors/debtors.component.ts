@@ -24,8 +24,8 @@ export class DebtorsComponent implements OnInit {
     { key: 'personal_id', label: 'Documento', type: 'text', filter: true },
     { key: 'name', label: 'Nombre', type: 'text', filter: true },
     { key: 'nick_name', label: 'Apodo', type: 'text', filter: true },
-    { key: 'guarantor_key', label: 'Garante', type: 'text', filter: true },
-    { key: 'business_key', label: 'Negocio', type: 'text', filter: true },
+    { key: 'guarantor', label: 'Garante', type: 'text', filter: false },
+    { key: 'business', label: 'Negocio', type: 'text', filter: false },
     { key: 'province_key', label: 'Provincia', type: 'text', filter: true, enableOptions: true },
     { key: 'gender', label: 'Genero', type: 'text', filter: true, enableOptions: true, options: genderOptions },
     { key: 'street', label: 'Dirrección', type: 'text', filter: true },
@@ -39,7 +39,7 @@ export class DebtorsComponent implements OnInit {
     { key: 'edited_at', label: 'Actualización', type: 'date', filter: false },
   ];
   public endpoint = 'debtors';
-  public includes = ['guarantor', 'business', 'province'];
+  public includes = ['province'];
 
   constructor(private api: ApiService, private router: Router, private ms: MessageService) { }
 
@@ -48,13 +48,11 @@ export class DebtorsComponent implements OnInit {
   }
 
   public mapper(debtor: Debtor): { [key: string]: any } {
-    const guarantor = debtor.guarantor;
-    const business = debtor.business;
     const province = debtor.province;
     return {
       key: debtor.key,
-      guarantor_key: guarantor?.name,
-      business_key: business?.business,
+      guarantor: debtor.guarantor,
+      business: debtor.business,
       province_key: province?.province,
       name: debtor.name,
       nick_name: debtor.nick_name,
@@ -66,7 +64,6 @@ export class DebtorsComponent implements OnInit {
       marital_status: debtor.marital_status,
       occupation: debtor.occupation,
       income: debtor.income,
-      other_income: debtor.other_income,
       inserted_at: dateTimeStandardFormat(debtor.inserted_at),
       edited_at: dateTimeStandardFormat(debtor.edited_at),
     };

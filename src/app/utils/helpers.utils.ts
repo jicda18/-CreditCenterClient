@@ -231,7 +231,11 @@ export function timeStandardFormat(dte: string | Date | DateTime): string {
   return dateFormat(dte, 'hh:mm a');
 }
 
-export function dateTimeStandardFormat(dte: string | Date | DateTime): string {
+export function dateTimeStandardFormat(dte?: string | Date | DateTime): string {
+  if (dte === undefined || dte === null) {
+    return '';
+  }
+
   return dateFormat(dte, 'LL/dd/yyyy hh:mm a');
 }
 
@@ -462,14 +466,15 @@ export function basicTypeToString(value: string | number | boolean | Date, forma
   return dateFormat(value, format);
 }
 
-export function objectToFormData(data: { [key: string]: Blob | string | number | boolean | Date | Array<string | number | boolean | Date> }): FormData {
+export function objectToFormData(data: { [key: string]: Blob | string | number | boolean | Date | Array<string | number | boolean | Date> | null }): FormData {
   const form = new FormData();
 
   for (const key in data) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const item = data[key];
-
-      if (Array.isArray(item)) {
+      if (item === undefined || item === null) {
+        form.append(key, '');
+      } else if (Array.isArray(item)) {
         for (const i of item) {
           form.append(`${key}[]`, basicTypeToString(i));
         }

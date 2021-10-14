@@ -26,11 +26,6 @@ const routes: Routes = [
         // Todo: set Permission guard and data
       },
       {
-        path: 'businesses',
-        loadChildren: () => import('./views/business/business.module').then(m => m.BusinessModule),
-        // Todo: set Permission guard and data
-      },
-      {
         path: 'currencies',
         loadChildren: () => import('./views/currencies/currencies.module').then(m => m.CurrenciesModule),
         // Todo: set Permission guard and data
@@ -38,11 +33,6 @@ const routes: Routes = [
       {
         path: 'debtors',
         loadChildren: () => import('./views/debtors/debtors.module').then(m => m.DebtorsModule),
-        // Todo: set Permission guard and data
-      },
-      {
-        path: 'guarantors',
-        loadChildren: () => import('./views/guarantors/guarantors.module').then(m => m.GuarantorsModule),
         // Todo: set Permission guard and data
       },
       {

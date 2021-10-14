@@ -1,6 +1,5 @@
 import { Bank } from './bank.model';
 import { Debtor } from './debtor.model';
-import { Guarantor } from './guarantor.model';
 import { User } from './user.model';
 
 export interface Company {
@@ -14,6 +13,5 @@ export interface Company {
   removed_at: string;
   users?: User[];
   banks?: Bank[];
-  guarantors?: Guarantor[];
   debtors?: Debtor[];
 }

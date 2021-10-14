@@ -21,19 +21,17 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   public form: FormGroup;
   public loading = false;
   public Options: { value: number | string; label: string; }[] = [];
-  public guarantorOptions: { value: number | string; label: string; }[] = [];
-  public businessOptions: { value: number | string; label: string; }[] = [];
   public provinceOptions: { value: number | string; label: string; }[] = [];
   public currencyOptions: { value: number | string; label: string; }[] = [];
   public frequencyOptions: { value: number | string; label: string; }[] = [];
   public bankOptions: { value: number | string; label: string; }[] = [];
 
-  public get guarantor_key(): AbstractControl | null {
-    return this.form.get('guarantor_key');
+  public get guarantor(): AbstractControl | null {
+    return this.form.get('guarantor');
   }
 
-  public get business_key(): AbstractControl | null {
-    return this.form.get('business_key');
+  public get business(): AbstractControl | null {
+    return this.form.get('business');
   }
 
   public get name(): AbstractControl | null {
@@ -80,10 +78,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return this.form.get('income');
   }
 
-  public get other_income(): AbstractControl | null {
-    return this.form.get('other_income');
-  }
-
   public get bank_key(): AbstractControl | null {
     return this.form.get('bank_key');
   }
@@ -112,12 +106,12 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return this.form.get('thanks_days');
   }
 
-  public get guarantor_keyInvalid(): boolean {
-    return (this.guarantor_key?.invalid && (this.guarantor_key?.touched || this.guarantor_key?.dirty)) ?? false;
+  public get guarantorInvalid(): boolean {
+    return (this.guarantor?.invalid && (this.guarantor?.touched || this.guarantor?.dirty)) ?? false;
   }
 
-  public get business_keyInvalid(): boolean {
-    return (this.business_key?.invalid && (this.business_key?.touched || this.business_key?.dirty)) ?? false;
+  public get businessInvalid(): boolean {
+    return (this.business?.invalid && (this.business?.touched || this.business?.dirty)) ?? false;
   }
 
   public get nameInvalid(): boolean {
@@ -164,10 +158,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return (this.income?.invalid && (this.income?.touched || this.income?.dirty)) ?? false;
   }
 
-  public get other_incomeInvalid(): boolean {
-    return (this.other_income?.invalid && (this.other_income?.touched || this.other_income?.dirty)) ?? false;
-  }
-
   public get bank_keyInvalid(): boolean {
     return (this.bank_key?.invalid && (this.bank_key?.touched || this.bank_key?.dirty)) ?? false;
   }
@@ -205,8 +195,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    selectOption('guarantors/select', this.api).then((options) => this.guarantorOptions = options);
-    selectOption('businesses/select', this.api).then((options) => this.businessOptions = options);
     selectOption('provinces/select', this.api).then((options) => this.provinceOptions = options);
     selectOption('currencies/select', this.api).then((options) => this.currencyOptions = options);
     selectOption('frequencies/select', this.api).then((options) => this.frequencyOptions = options);
@@ -216,8 +204,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.debtor === undefined) {
       this.form = this.fb.group({
-        guarantor_key: [null, [Validators.required]],
-        business_key: [null, [Validators.required]],
+        guarantor: [null, []],
+        business: [null, []],
         name: [null, [Validators.required]],
         nick_name: [null, []],
         personal_id: [null, [Validators.required]],
@@ -227,9 +215,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
         phone_number: [null, []],
         dob: [null, []],
         marital_status: [null, [Validators.required]],
-        occupation: [null, [Validators.required]],
+        occupation: [null, []],
         income: [null, [Validators.required]],
-        other_income: [null, []],
         bank_key: [null, [Validators.required]],
         currency_key: [null, [Validators.required]],
         balance: [null, [Validators.required, Validators.min(0)]],
@@ -240,8 +227,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       });
     } else {
       this.form = this.fb.group({
-        guarantor_key: [null, [Validators.required]],
-        business_key: [null, [Validators.required]],
+        guarantor: [null, []],
+        business: [null, []],
         name: [null, [Validators.required]],
         nick_name: [null, []],
         personal_id: [null, [Validators.required]],
@@ -253,11 +240,10 @@ export class DeborsFormComponent implements OnInit, OnChanges {
         marital_status: [null, [Validators.required]],
         occupation: [null, [Validators.required]],
         income: [null, [Validators.required]],
-        other_income: [null, []],
       });
 
-      const guarantor_key = this.guarantor_key;
-      const business_key = this.business_key;
+      const guarantor = this.guarantor;
+      const business = this.business;
       const name = this.name;
       const nick_name = this.nick_name;
       const personal_id = this.personal_id;
@@ -269,14 +255,13 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       const marital_status = this.marital_status;
       const occupation = this.occupation;
       const income = this.income;
-      const other_income = this.other_income;
 
-      if (guarantor_key !== null) {
-        guarantor_key.setValue(this.debtor.guarantor_key);
+      if (guarantor !== null) {
+        guarantor.setValue(this.debtor.guarantor);
       }
 
-      if (business_key !== null) {
-        business_key.setValue(this.debtor.business_key);
+      if (business !== null) {
+        business.setValue(this.debtor.business);
       }
 
       if (name !== null) {
@@ -307,7 +292,7 @@ export class DeborsFormComponent implements OnInit, OnChanges {
         phone_number.setValue(this.debtor.phone_number);
       }
 
-      if (dob !== null) {
+      if (dob !== null && this.debtor.dob !== undefined) {
         dob.setValue(convertToDate(this.debtor.dob));
       }
 
@@ -322,10 +307,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       if (income !== null) {
         income.setValue(this.debtor.income);
       }
-
-      if (other_income !== null) {
-        other_income.setValue(this.debtor.other_income);
-      }
     }
   }
 
@@ -333,8 +314,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     this.loading = true;
 
     if (this.form.valid) {
-      const guarantor_key = this.guarantor_key?.value as string;
-      const business_key = this.business_key?.value as string;
+      const guarantor = this.guarantor?.value as string;
+      const business = this.business?.value as string;
       const name = this.name?.value as string;
       const nick_name = this.nick_name?.value as string;
       const personal_id = this.personal_id?.value as string;
@@ -346,7 +327,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       const marital_status = this.marital_status?.value as string;
       const occupation = this.occupation?.value as string;
       const income = this.income?.value as number;
-      const other_income = this.other_income?.value as number;
       const bank_key = this.bank_key?.value as string;
       const currency_key = this.currency_key?.value as string;
       const balance = this.balance?.value as number;
@@ -355,18 +335,18 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       const start_at = this.start_at?.value as Date;
       const thanks_days = this.thanks_days?.value as number;
 
-      if (phone_number !== undefined && phone_number !== '') {
+      if (phone_number !== undefined && phone_number !== null && phone_number !== '') {
         phone_number = phone_number.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
       }
 
       if (this.debtor === undefined) {
-        const form = objectToFormData({ guarantor_key, business_key, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, other_income, bank_key, currency_key, balance, frequency_key, fee_amount, start_at, thanks_days });
+        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, currency_key, balance, frequency_key, fee_amount, start_at, thanks_days });
 
-        await createResource<Debtor>(this.api, 'debtors?include=guarantor,business,province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
+        await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
       } else {
-        const form = objectToHttpParams({ guarantor_key, business_key, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, other_income });
+        const form = objectToHttpParams({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income });
 
-        await updateResource<Debtor>(this.api, `debtors/${this.debtor.key}?guarantor,business,province`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
+        await updateResource<Debtor>(this.api, `debtors/${this.debtor.key}?province`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
       }
     } else {
       this.form.markAllAsTouched();
