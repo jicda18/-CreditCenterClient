@@ -52,6 +52,18 @@
 			</div>
 		</div>
 
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Balance*</label>
+				</span>
+
+				<small class="p-error" *ngIf="balanceInvalid">Balance es requerido.</small>
+			</div>
+		</div>
+
 		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">

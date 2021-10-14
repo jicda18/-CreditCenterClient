@@ -38,6 +38,10 @@ export class BanksFormComponent implements OnInit, OnChanges {
     return this.form.get('currency_key');
   }
 
+  public get balance(): AbstractControl | null {
+    return this.form.get('balance');
+  }
+
   public get nameInvalid(): boolean {
     return (this.name?.invalid && (this.name?.touched || this.name?.dirty)) ?? false;
   }
@@ -54,12 +58,17 @@ export class BanksFormComponent implements OnInit, OnChanges {
     return (this.currency_key?.invalid && (this.currency_key?.touched || this.currency_key?.dirty)) ?? false;
   }
 
+  public get balanceInvalid(): boolean {
+    return (this.balance?.invalid && (this.balance?.touched || this.balance?.dirty)) ?? false;
+  }
+
   constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
     this.form = this.fb.group({
       name: [null, [Validators.required]],
       nickname: [null, [Validators.required]],
       account: [null, [Validators.required]],
       currency_key: [null, [Validators.required]],
+      balance: [null, [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -73,6 +82,7 @@ export class BanksFormComponent implements OnInit, OnChanges {
       const nickname = this.nickname;
       const account = this.account;
       const currencyKey = this.currency_key;
+      const balance = this.balance;
 
       if (name !== null) {
         name.setValue(this.bank.bank);
@@ -89,6 +99,10 @@ export class BanksFormComponent implements OnInit, OnChanges {
       if (currencyKey !== null) {
         currencyKey.setValue(this.bank.currency_key);
       }
+
+      if (balance !== null) {
+        balance.setValue(this.bank.summary);
+      }
     }
   }
 
@@ -100,9 +114,10 @@ export class BanksFormComponent implements OnInit, OnChanges {
       const nickname = this.nickname?.value as string;
       const account = this.account?.value as string;
       const currencyKey = this.currency_key?.value as string;
+      const balance = this.balance?.value as string;
 
       if (this.bank === undefined) {
-        const form = objectToFormData({ bank: name, nickname, account, currency_key: currencyKey });
+        const form = objectToFormData({ bank: name, nickname, account, currency_key: currencyKey, summary: balance });
 
         await createResource<Bank>(this.api, 'banks?include=currency', form, this.ms, this.inserted, (item) => `${item.bank} fue agregado exitosamente.`);
       } else {

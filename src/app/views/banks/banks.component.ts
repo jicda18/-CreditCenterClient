@@ -24,7 +24,7 @@ export class BanksComponent implements OnInit {
     { key: 'account', label: '# Cuenta', type: 'text', filter: true },
     { key: 'nickname', label: 'Apodo', type: 'text', filter: true },
     { key: 'currency_key', label: 'Moneda', type: 'text', filter: true, enableOptions: true },
-    { key: 'summary', label: 'Tasa', type: 'numeric', filter: true, minFractionDigits: 2, prefix: '$' },
+    { key: 'summary', label: 'Balance', type: 'numeric', filter: true, minFractionDigits: 2, prefix: '$' },
     { key: 'inserted_at', label: 'Creación', type: 'date', filter: false },
     { key: 'edited_at', label: 'Actualización', type: 'date', filter: false },
   ];

@@ -5,9 +5,9 @@
 	[mapper]="mapper"
 	[globalFilter]="globalFilter"
 	[includes]="includes"
+	[edit]="false"
+	[delete]="false"
 	(showClick)="show($event)"
-	(addClick)="add()"
-	(editClick)="edit($event)"
-	(deleteClick)="delete($event)"></app-grid>
+	(addClick)="add()"></app-grid>
 
 <app-modal #modal></app-modal>
