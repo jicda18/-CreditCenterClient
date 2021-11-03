@@ -25,6 +25,7 @@ $royal-blue: #4169e1;
 $purple-pink: #BA55D3;
 $gray: #c6c5c3;
 $light-gray: invert($gray);
+$dark-gray: darken($gray, 10%);
 
 $theme-colors: () !default;
 $theme-colors: map-merge(("blue": $blue,

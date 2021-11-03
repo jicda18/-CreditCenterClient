@@ -1,0 +1,46 @@
+@mixin dark-datepicker-body($name, $color) {
+	.dark.theme-#{$name} {
+		.bs-datepicker-body table td {
+			color: $color !important;
+		}
+
+		.bs-datepicker-body table td.week span {
+			color: darken($color, 10%) !important;
+		}
+	}
+}
+
+
+@each $color,
+$value in $theme-colors {
+	.datepicker-today-#{$color} {
+		color: $value;
+		font-weight: 600;
+	}
+}
+
+.datepicker-today {
+	color: $dark-gray;
+	font-weight: 700;
+	background-color: transparentize($color: $light-gray, $amount: 0.5);
+	border-radius: 0 !important;
+
+	&.selected {
+		border-radius: 50% !important;
+	}
+}
+
+.bs-datepicker.dark {
+	background-color: var(--surface-e);
+
+	.bs-datepicker-body table td {
+		span.is-other-month {
+			color: rgba(255, 255, 255, 0.25);
+		}
+	}
+}
+
+@each $name,
+$color in $theme-list {
+	@include dark-datepicker-body($name, $color);
+}

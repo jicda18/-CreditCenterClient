@@ -7,4 +7,5 @@ export interface Environment {
   version: string;
   company: string;
   name: string;
+  biweekly: string;
 }

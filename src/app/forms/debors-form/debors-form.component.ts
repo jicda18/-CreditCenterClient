@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { Debtor } from 'src/app/models/debtor.model';
 import { ApiService } from 'src/app/services/api.service';
-import { convertToDate, createResource, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
+import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-debors-form',
@@ -22,7 +23,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   public loading = false;
   public Options: { value: number | string; label: string; }[] = [];
   public provinceOptions: { value: number | string; label: string; }[] = [];
-  public currencyOptions: { value: number | string; label: string; }[] = [];
   public frequencyOptions: { value: number | string; label: string; }[] = [];
   public bankOptions: { value: number | string; label: string; }[] = [];
 
@@ -80,10 +80,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
 
   public get bank_key(): AbstractControl | null {
     return this.form.get('bank_key');
-  }
-
-  public get currency_key(): AbstractControl | null {
-    return this.form.get('currency_key');
   }
 
   public get balance(): AbstractControl | null {
@@ -162,10 +158,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return (this.bank_key?.invalid && (this.bank_key?.touched || this.bank_key?.dirty)) ?? false;
   }
 
-  public get currency_keyInvalid(): boolean {
-    return (this.currency_key?.invalid && (this.currency_key?.touched || this.currency_key?.dirty)) ?? false;
-  }
-
   public get balanceInvalid(): boolean {
     return (this.balance?.invalid && (this.balance?.touched || this.balance?.dirty)) ?? false;
   }
@@ -190,13 +182,22 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return this.debtor === undefined;
   }
 
+  public get maxDob(): Date {
+    const today = convertToDateTime(new Date());
+
+    return convertToDate(today.plus({ years: -18 }));
+  }
+
+  public get minStartDay(): Date {
+    return new Date();
+  }
+
   constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
     this.form = this.fb.group({});
   }
 
   ngOnInit(): void {
     selectOption('provinces/select', this.api).then((options) => this.provinceOptions = options);
-    selectOption('currencies/select', this.api).then((options) => this.currencyOptions = options);
     selectOption('frequencies/select', this.api).then((options) => this.frequencyOptions = options);
     selectOption('banks/select', this.api).then((options) => this.bankOptions = options);
   }
@@ -218,7 +219,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
         occupation: [null, []],
         income: [null, [Validators.required]],
         bank_key: [null, [Validators.required]],
-        currency_key: [null, [Validators.required]],
         balance: [null, [Validators.required, Validators.min(0)]],
         frequency_key: [null, [Validators.required]],
         fee_amount: [null, [Validators.required]],
@@ -310,6 +310,33 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     }
   }
 
+  public biweekly(): void {
+    const frequency_key = this.frequency_key?.value as null | string;
+    const start_at = this.start_at?.value as null | Date;
+
+    if (frequency_key !== undefined && start_at !== undefined && frequency_key !== null && start_at !== null) {
+      if (frequency_key === environment.biweekly) {
+        if (start_at.getDate() !== 15 && start_at.getDate() !== 30) {
+          const format = dateFormat(start_at, 'yyyy-LL');
+          if (start_at.getDate() < 15) {
+            this.start_at?.setValue(convertToDate(`${format}-15`));
+          } else {
+            if (start_at.getMonth() === 1) {
+              const luxon = convertToDateTime(start_at);
+              if (luxon.isInLeapYear) {
+                this.start_at?.setValue(convertToDate(`${format}-29`));
+              } else {
+                this.start_at?.setValue(convertToDate(`${format}-28`));
+              }
+            } else {
+              this.start_at?.setValue(convertToDate(`${format}-30`));
+            }
+          }
+        }
+      }
+    }
+  }
+
   public async submit(): Promise<void> {
     this.loading = true;
 
@@ -328,7 +355,6 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       const occupation = this.occupation?.value as string;
       const income = this.income?.value as number;
       const bank_key = this.bank_key?.value as string;
-      const currency_key = this.currency_key?.value as string;
       const balance = this.balance?.value as number;
       const frequency_key = this.frequency_key?.value as string;
       const fee_amount = this.fee_amount?.value as number;
@@ -340,7 +366,7 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       }
 
       if (this.debtor === undefined) {
-        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, currency_key, balance, frequency_key, fee_amount, start_at, thanks_days });
+        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, balance, frequency_key, fee_amount, start_at, thanks_days });
 
         await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
       } else {

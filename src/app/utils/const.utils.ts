@@ -78,11 +78,31 @@ export const navs: NavItem[] = [
     permission: [],
     admin: true,
   },
+  // {
+  //   label: 'Transacciones',
+  //   icon: 'fas fa-cash-register',
+  //   href: '/transactions',
+  //   permission: [], // set permissions
+  // },
   {
-    label: 'Transacciones',
-    icon: 'fas fa-cash-register',
-    href: '/transactions',
-    permission: [], // set permissions
+    label: 'Prestamos',
+    icon: 'fas fa-wallet',
+    href: '/loans',
+    permission: [],
+    children: [
+      {
+        label: 'Listar',
+        icon: 'fas fa-money-check-alt',
+        href: '/loans/grid',
+        permission: [], // set permissions
+      },
+      {
+        label: 'Crear',
+        icon: 'fas fa-receipt',
+        href: '/loans/form',
+        permission: [], // set permissions
+      },
+    ]
   },
 ];
 

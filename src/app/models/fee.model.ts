@@ -8,7 +8,7 @@ export interface Fee {
   payment_at: string;
   amount: number;
   limit_at: string;
-  paid_at: string;
+  paid_at: null | string;
   inserted_at: string;
   edited_at: string;
   removed_at: string;

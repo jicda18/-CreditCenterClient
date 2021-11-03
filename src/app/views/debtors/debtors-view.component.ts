@@ -6,7 +6,7 @@ import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
 import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
-import { dateTimeStandardFormat, getModel } from 'src/app/utils/helpers.utils';
+import { dateStandardFormat, dateTimeStandardFormat, getModel, toCurrency } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-debtors-view',
@@ -16,20 +16,19 @@ import { dateTimeStandardFormat, getModel } from 'src/app/utils/helpers.utils';
 })
 export class DebtorsViewComponent implements OnInit {
   public debtor?: Debtor;
-  public loan?: Loan;
-  public transactions?: Transaction[];
 
   @ViewChild('grid', { static: false }) private _grid?: GridComponent;
 
   public cols: GridCol[] = [
-    { key: 'was_at', label: 'Fecha', type: 'date', filter: false },
-    { key: 'bank_key', label: 'Banco', type: 'text', filter: false, disableSort: true },
-    { key: 'register_key', label: 'Usuario', type: 'text', filter: false, disableSort: true },
-    { key: 'loan_amount', label: 'Monto', type: 'numeric', filter: false, disableSort: true },
-    { key: 'loan_balance', label: 'Balance', type: 'numeric', filter: false, disableSort: true },
+    { key: 'inserted_at', label: 'Fecha', type: 'date', filter: false },
+    { key: 'summary', label: 'Balance', type: 'numeric', filter: false },
+    { key: 'frequency_key', label: 'Frecuency', type: 'text', filter: false },
+    { key: 'currency_key', label: 'Moneda', type: 'text', filter: false },
+    { key: 'fee_amount', label: 'Cuotas', type: 'numeric', filter: false },
+    { key: 'thanks_days', label: 'Dia de Gracias', type: 'numeric', filter: false },
   ];
   public endpoint?: string;
-  public includes = ['bank', 'register'];
+  public includes = ['currency', 'frequency'];
 
   constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) { }
 
@@ -39,26 +38,22 @@ export class DebtorsViewComponent implements OnInit {
     getModel<Debtor>(key, 'debtors', this.api, this.router, '/debtors').then((debtor) => this.debtor = debtor);
 
     if (key !== '') {
-      this.api.get<Loan[]>(`debtors/${key}/loans`).then((loans) => {
-        if (loans.data !== undefined && loans.data.length > 0) {
-          this.loan = loans.data[0];
-
-          this.endpoint = `loans/${this.loan.key}/transactions`;
-        }
-      });
+      this.endpoint = `debtors/${key}/loans`;
     }
   }
 
-  public mapper(transaction: Transaction): { [key: string]: any } {
-    const bank = transaction.bank;
-    const register = transaction.register;
+  public mapper(loan: Loan): { [key: string]: any } {
+    const currency = loan.currency;
+    const frequency = loan.frequency;
 
     return {
-      bank_key: bank?.bank,
-      register_key: register?.name,
-      was_at: dateTimeStandardFormat(transaction?.was_at),
-      loan_amount: transaction.loan_amount,
-      loan_balance: transaction.loan_balance,
+      key: loan.key,
+      inserted_at: dateStandardFormat(loan.inserted_at),
+      summary: toCurrency(loan.summary ?? 0),
+      frequency_key: frequency?.title,
+      currency_key: currency?.currency,
+      fee_amount: toCurrency(loan.fee_amount),
+      thanks_days: loan.thanks_days,
     };
   }
 }

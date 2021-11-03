@@ -60,7 +60,8 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<p-calendar [styleClass]="'w-100' + (next_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="next_at"></p-calendar>
+					<input type="text" [class]="'w-100' + (next_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="next_at" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false }">
+
 					<label for="float-input">Proximo Pago</label>
 				</span>
 

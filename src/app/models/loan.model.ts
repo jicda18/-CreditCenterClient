@@ -14,6 +14,7 @@ export interface Loan {
   thanks_days: number;
   next_at: string;
   status: 'active' | 'settled' | 'paused' | 'canceled';
+  summary: number;
   inserted_at: string;
   edited_at: string;
   removed_at: string;
@@ -21,5 +22,5 @@ export interface Loan {
   currency?: Currency;
   frequency?: Frequency;
   transactions?: Transaction[];
-  fees?: Fee;
+  fees?: Fee[];
 }

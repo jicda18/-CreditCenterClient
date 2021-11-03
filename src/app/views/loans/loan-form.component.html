@@ -1,0 +1,110 @@
+<div class="p-3" style="overflow-x: auto;">
+	<h2 class="text-primary sticky-left">Crear Prestamos</h2>
+	<div style="background-color: var(--surface-e);" class="p-2">
+		<div class="p-grid m-0 p-0">
+			<form [formGroup]="form" (ngSubmit)="submit()">
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-dropdown [options]="debtorOptions" [styleClass]="'w-100' + (debtor_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="debtor_key" optionLabel="label" optionValue="value" placeholder="Cliente">
+								<ng-template let-option pTemplate="item">
+									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+								</ng-template>
+							</p-dropdown>
+							<label for="float-input">Cliente*</label>
+						</span>
+
+						<small class="p-error" *ngIf="debtor_keyInvalid">Cliente es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+							<label for="float-input">Monto*</label>
+						</span>
+
+						<small class="p-error" *ngIf="balanceInvalid">Monto es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (fee_amountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fee_amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+							<label for="float-input">Cuota*</label>
+						</span>
+
+						<small class="p-error" *ngIf="fee_amountInvalid">Cuota es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-dropdown [options]="bankOptions" [styleClass]="'w-100' + (bank_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco">
+								<ng-template let-option pTemplate="item">
+									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+								</ng-template>
+							</p-dropdown>
+							<label for="float-input">Banco*</label>
+						</span>
+
+						<small class="p-error" *ngIf="bank_keyInvalid">Banco es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+								<ng-template let-option pTemplate="item">
+									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+								</ng-template>
+							</p-dropdown>
+							<label for="float-input">Frecuencia*</label>
+						</span>
+
+						<small class="p-error" *ngIf="frequency_keyInvalid">Frecuencia es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<input type="text" [class]="'w-100' + (start_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="start_at" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, minDate: minStartDay }" (bsValueChange)="biweekly()">
+							<label for="float-input">Primer Pago*</label>
+						</span>
+
+						<small class="p-error" *ngIf="start_atInvalid">Primer Pago es requerido.</small>
+					</div>
+				</div>
+
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
+							<label for="float-input">Dias de Gracias*</label>
+						</span>
+
+						<small class="p-error" *ngIf="thanks_daysInvalid">Dias de Gracias es requerido.</small>
+					</div>
+				</div>
+
+				<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+				<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+					<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Crear" pButton pRipple></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

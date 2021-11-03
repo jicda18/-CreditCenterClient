@@ -90,7 +90,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<p-calendar [styleClass]="'w-100' + (dobInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="dob"></p-calendar>
+					<input type="text" [class]="'w-100' + (dobInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="dob" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, maxDate: maxDob}">
 					<label for="float-input">Fecha Nacimiento</label>
 				</span>
 
@@ -181,22 +181,6 @@
 				<div class="col">
 					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 						<i class="fa fa-university"></i>
-						<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
-							<ng-template let-option pTemplate="item">
-								<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
-							</ng-template>
-						</p-dropdown>
-						<label for="float-input">Moneda*</label>
-					</span>
-
-					<small class="p-error" *ngIf="currency_keyInvalid">Moneda es requerido.</small>
-				</div>
-			</div>
-
-			<div class="flex my-1">
-				<div class="col">
-					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-						<i class="fa fa-university"></i>
 						<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
 						<label for="float-input">Monto*</label>
 					</span>
@@ -209,7 +193,7 @@
 				<div class="col">
 					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 						<i class="fa fa-university"></i>
-						<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+						<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia" (onChange)="biweekly()">
 							<ng-template let-option pTemplate="item">
 								<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 							</ng-template>
@@ -237,7 +221,7 @@
 				<div class="col">
 					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 						<i class="fa fa-university"></i>
-						<p-calendar [styleClass]="'w-100' + (start_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="start_at"></p-calendar>
+						<input type="text" [class]="'w-100' + (start_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="start_at" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, minDate: minStartDay }" (bsValueChange)="biweekly()">
 						<label for="float-input">Primer Pago*</label>
 					</span>
 

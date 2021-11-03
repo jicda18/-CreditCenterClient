@@ -1,0 +1,11 @@
+<app-grid #grid
+	[cols]="cols"
+	[endpoint]="endpoint"
+	header="Lista de Prestamos"
+	[mapper]="mapper"
+	[globalFilter]="globalFilter"
+	[includes]="includes"
+	[edit]="false"
+	[delete]="false"
+	[add]="false"
+	(showClick)="show($event)"></app-grid>

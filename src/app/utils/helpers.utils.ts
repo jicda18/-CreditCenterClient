@@ -564,3 +564,7 @@ export function getViewAreaSize(): { width: number, height: number } {
 
   return answer;
 }
+
+export function toCurrency(value: number): string {
+  return value.toLocaleString('es-US', { style: 'currency', currency: 'USD' });
+}

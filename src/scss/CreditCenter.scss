@@ -17,9 +17,10 @@
 // @import "~bootstrap/scss/bootstrap";
 
 // ngx-bootstrap
-// $theme-list: () !default;
-// $theme-list: map-merge($theme-colors, $theme-list);
-// @import '~ngx-bootstrap/datepicker/bs-datepicker.scss';
+$theme-list: () !default;
+$theme-list: map-merge($theme-colors, $theme-list);
+@import 'datepicker-custom';
+@import '~ngx-bootstrap/datepicker/bs-datepicker.scss';
 
 // Import PrimeNg styles
 @import '~primeflex/primeflex';

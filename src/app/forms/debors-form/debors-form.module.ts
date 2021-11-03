@@ -10,12 +10,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
     DeborsFormComponent
   ],
   imports: [
+    // BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -27,6 +29,7 @@ import { CalendarModule } from 'primeng/calendar';
     InputMaskModule,
     RadioButtonModule,
     CalendarModule,
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     DeborsFormComponent

@@ -6,7 +6,7 @@ import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { Bank } from 'src/app/models/bank.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { ApiService } from 'src/app/services/api.service';
-import { apiDelete, dateTimeStandardFormat, selectOption } from 'src/app/utils/helpers.utils';
+import { apiDelete, dateTimeStandardFormat, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 import { BanksModalComponent } from './banks-modal.component';
 
 @Component({
@@ -46,7 +46,7 @@ export class BanksComponent implements OnInit {
       account: bank.account,
       nickname: bank.nickname,
       currency_key: currency?.currency,
-      summary: currency?.prefix + bank.summary.toFixed(2),
+      summary: toCurrency(bank.summary ?? 0),
       inserted_at: dateTimeStandardFormat(bank.inserted_at),
       edited_at: dateTimeStandardFormat(bank.edited_at),
     };

@@ -9,6 +9,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     DropdownModule,
     CalendarModule,
     RadioButtonModule,
+    BsDatepickerModule,
   ],
   exports: [
     LoansFormComponent

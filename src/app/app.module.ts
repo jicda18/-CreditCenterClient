@@ -21,6 +21,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { TieredMenuModule } from 'primeng/tieredmenu';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     AvatarModule,
     BadgeModule,
     TieredMenuModule,
+    PanelMenuModule,
   ],
   providers: [{
     provide: LocationStrategy,
