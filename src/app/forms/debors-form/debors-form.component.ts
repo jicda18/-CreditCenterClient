@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Currency } from 'src/app/models/currency.model';
 import { Debtor } from 'src/app/models/debtor.model';
 import { ApiService } from 'src/app/services/api.service';
 import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
@@ -24,7 +25,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   public Options: { value: number | string; label: string; }[] = [];
   public provinceOptions: { value: number | string; label: string; }[] = [];
   public frequencyOptions: { value: number | string; label: string; }[] = [];
-  public bankOptions: { value: number | string; label: string; }[] = [];
+  public currencyOptions: { value: number | string; label: string; }[] = [];
+  public bankOptions: { value: number | string; label: string; custom?: Currency; }[] = [];
 
   public get guarantor(): AbstractControl | null {
     return this.form.get('guarantor');
@@ -86,12 +88,20 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return this.form.get('balance');
   }
 
+  public get fees(): AbstractControl | null {
+    return this.form.get('fees');
+  }
+
+  public get interest(): AbstractControl | null {
+    return this.form.get('interest');
+  }
+
   public get frequency_key(): AbstractControl | null {
     return this.form.get('frequency_key');
   }
 
-  public get fee_amount(): AbstractControl | null {
-    return this.form.get('fee_amount');
+  public get type(): AbstractControl | null {
+    return this.form.get('type');
   }
 
   public get start_at(): AbstractControl | null {
@@ -162,12 +172,20 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     return (this.balance?.invalid && (this.balance?.touched || this.balance?.dirty)) ?? false;
   }
 
+  public get feesInvalid(): boolean {
+    return (this.fees?.invalid && (this.fees?.touched || this.fees?.dirty)) ?? false;
+  }
+
+  public get interestInvalid(): boolean {
+    return (this.interest?.invalid && (this.interest?.touched || this.interest?.dirty)) ?? false;
+  }
+
   public get frequency_keyInvalid(): boolean {
     return (this.frequency_key?.invalid && (this.frequency_key?.touched || this.frequency_key?.dirty)) ?? false;
   }
 
-  public get fee_amountInvalid(): boolean {
-    return (this.fee_amount?.invalid && (this.fee_amount?.touched || this.fee_amount?.dirty)) ?? false;
+  public get typeInvalid(): boolean {
+    return (this.type?.invalid && (this.type?.touched || this.type?.dirty)) ?? false;
   }
 
   public get start_atInvalid(): boolean {
@@ -199,7 +217,8 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     selectOption('provinces/select', this.api).then((options) => this.provinceOptions = options);
     selectOption('frequencies/select', this.api).then((options) => this.frequencyOptions = options);
-    selectOption('banks/select', this.api).then((options) => this.bankOptions = options);
+    selectOption('currencies/select', this.api).then((options) => this.currencyOptions = options);
+    selectOption<Currency>('banks/select', this.api).then((options) => this.bankOptions = options);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -220,8 +239,10 @@ export class DeborsFormComponent implements OnInit, OnChanges {
         income: [null, [Validators.required]],
         bank_key: [null, [Validators.required]],
         balance: [null, [Validators.required, Validators.min(0)]],
+        interest: [null, [Validators.required, Validators.min(0)]],
+        fees: [null, [Validators.min(1)]],
         frequency_key: [null, [Validators.required]],
-        fee_amount: [null, [Validators.required]],
+        type: [null, [Validators.required]],
         start_at: [null, [Validators.required]],
         thanks_days: [null, []],
       });
@@ -356,17 +377,19 @@ export class DeborsFormComponent implements OnInit, OnChanges {
       const income = this.income?.value as number;
       const bank_key = this.bank_key?.value as string;
       const balance = this.balance?.value as number;
+      const interest = this.interest?.value as number;
       const frequency_key = this.frequency_key?.value as string;
-      const fee_amount = this.fee_amount?.value as number;
+      const type = this.type?.value as number;
       const start_at = this.start_at?.value as Date;
       const thanks_days = this.thanks_days?.value as number;
+      const fees = this.fees?.value as number;
 
       if (phone_number !== undefined && phone_number !== null && phone_number !== '') {
         phone_number = phone_number.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
       }
 
       if (this.debtor === undefined) {
-        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, balance, frequency_key, fee_amount, start_at, thanks_days });
+        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, balance, interest: (interest / 100), frequency_key, type, start_at, thanks_days, fees: (fees ?? 1) });
 
         await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
       } else {

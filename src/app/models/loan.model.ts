@@ -15,6 +15,10 @@ export interface Loan {
   next_at: string;
   status: 'active' | 'settled' | 'paused' | 'canceled';
   summary: number;
+  interest_summary: number;
+  amount: number;
+  type: 'fixed_interest' | 'interest_capital';
+  interest: number;
   inserted_at: string;
   edited_at: string;
   removed_at: string;

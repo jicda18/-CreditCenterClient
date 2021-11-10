@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Currency } from 'src/app/models/currency.model';
 import { Debtor } from 'src/app/models/debtor.model';
 import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -19,7 +20,7 @@ export class TransactionsComponent implements OnInit {
     { value: -1, label: 'Cobro' },
     { value: 1, label: 'Prestar' },
   ];
-  public bankOptions: { value: string | number, label: string }[] = [];
+  public bankOptions: { value: number | string; label: string; custom?: Currency; }[] = [];
   public debtorOptions: { value: string | number, label: string }[] = [];
   public currencyOptions: { value: string | number, label: string }[] = [];
 

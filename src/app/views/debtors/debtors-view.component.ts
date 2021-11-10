@@ -21,7 +21,10 @@ export class DebtorsViewComponent implements OnInit {
 
   public cols: GridCol[] = [
     { key: 'inserted_at', label: 'Fecha', type: 'date', filter: false },
-    { key: 'summary', label: 'Balance', type: 'numeric', filter: false },
+    { key: 'amount', label: 'Monto', type: 'numeric', filter: false },
+    { key: 'interest', label: 'Interes', type: 'text', filter: false },
+    { key: 'type', label: 'Tipo', type: 'text', filter: false },
+    { key: 'summary', label: 'Capital', type: 'numeric', filter: false },
     { key: 'frequency_key', label: 'Frecuency', type: 'text', filter: false },
     { key: 'currency_key', label: 'Moneda', type: 'text', filter: false },
     { key: 'fee_amount', label: 'Cuotas', type: 'numeric', filter: false },
@@ -49,6 +52,9 @@ export class DebtorsViewComponent implements OnInit {
     return {
       key: loan.key,
       inserted_at: dateStandardFormat(loan.inserted_at),
+      amount: toCurrency(loan.amount ?? 0),
+      interest: (loan.interest * 100) + '%',
+      type: loan.type === 'interest_capital' ? 'Interes más Capital' : 'Interes Fijo',
       summary: toCurrency(loan.summary ?? 0),
       frequency_key: frequency?.title,
       currency_key: currency?.currency,

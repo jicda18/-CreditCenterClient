@@ -26,6 +26,7 @@ $purple-pink: #BA55D3;
 $gray: #c6c5c3;
 $light-gray: invert($gray);
 $dark-gray: darken($gray, 10%);
+$form-color: rgba(255, 255, 255, 0.87);
 
 $theme-colors: () !default;
 $theme-colors: map-merge(("blue": $blue,
@@ -48,6 +49,7 @@ $theme-colors: map-merge(("blue": $blue,
 		"gray": $gray,
 		"light-gray": $light-gray,
 		"ghost-white": $ghostwhite,
+		"form": $form-color,
 	), $theme-colors);
 
 $headings-font-family: "Playfair Display', serif";

@@ -21,8 +21,9 @@ export class LoansComponent implements OnInit {
   public cols: GridCol[] = [
     { key: 'debtor_key', label: 'Cliente', type: 'text', filter: true, enableOptions: true },
     { key: 'amount', label: 'Monto', type: 'text', filter: false },
-    { key: 'currency_key', label: 'Moneda', type: 'text', filter: true, enableOptions: true },
     { key: 'interest', label: 'Interes', type: 'text', filter: false },
+    { key: 'summary', label: 'Capital', type: 'numeric', filter: false },
+    { key: 'currency_key', label: 'Moneda', type: 'text', filter: true, enableOptions: true },
     { key: 'next_fee', label: 'Proxima Cuota', type: 'date', filter: false },
     { key: 'overdue', label: 'Cuotas Atrasadas', type: 'numeric', filter: false },
     { key: 'pending', label: 'Monto Pendiente', type: 'date', filter: false },
@@ -73,33 +74,21 @@ export class LoansComponent implements OnInit {
       return array.map((fee) => fee.amount).reduce((previous, current) => previous + current);
     };
 
-    const loanAmount = (array?: Transaction[]): number => {
-      if (array === undefined || array === null || array.length === 0) {
-        return 0;
-      }
-
-      return array.map((transaction) => transaction.loan_amount).reduce((previous, current) => {
-        const p = previous < 0 ? 0 : previous;
-
-        return current > 0 ? p + current : p;
-      });
-    };
-
     const debtor = loan.debtor;
     const currency = loan.currency;
     const transactions = loan.transactions;
     const fees = loan.fees;
 
-    const amount = loanAmount(transactions);
     const overdue = overdueFee(fees);
     const nextFee = next(fees);
 
     return {
       debtor_key: debtor?.name,
-      amount: toCurrency(amount ?? 0),
+      amount: toCurrency(loan.amount ?? 0),
+      interest: (loan.interest * 100) + '%',
+      summary: toCurrency(loan.summary ?? 0),
       currency_key: currency?.currency,
-      interest: 0,
-      next_fee: nextFee?.payment_at,
+      next_fee: dateTimeStandardFormat(nextFee?.payment_at ?? loan.next_at),
       overdue: overdue.length,
       pending: toCurrency(pending(overdue)),
       inserted_at: dateTimeStandardFormat(loan.inserted_at),

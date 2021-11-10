@@ -8,24 +8,24 @@ import { Environment } from 'src/app/models/environment.model';
 //   production: false,
 //   api: 'http://creditcenter.cruz/',
 //   client: 1,
-//   secret: 'EEQ1x6qUcYKcIBapl7XECj9TsNSr3Dvy6pZt2dCwCdeJHmuiBrXgIumjCgOgrrDf',
+//   secret: 'uprzthSl5DA0uC0SUzyzPMwAryo5mABudFY20r6JfI925LafzsOFd3pJve7Y9p1i',
 //   grant: 'password',
 //   version: '0.1.0',
-//   company: '0fc7a51e-3227-4ab0-ac25-647dc3f8f163',
+//   company: '26c61870-cf8c-4729-89eb-5962228d7a90',
 //   name: 'Credit Center',
-//   biweekly: 'd3fc52de-0688-4eac-8eab-9cdeff6a8764',
+//   biweekly: '342c37fe-ef2f-4094-b123-2ec8a00176af',
 // };
 
 export const environment: Environment = {
   production: true,
   api: 'https://api.credit-center.net/',
   client: 1,
-  secret: 's1MA2b2bOhd0TBjBipo6QvsFU6rnsBr1Pb6J5WFznbcffhGfyUpq6LWhruBZDuH2',
+  secret: '7V6fC4gWb7Y9y6DZXvki2sGDJTarsRl1gR9ubQBrTHbZArhJPXNFhN9S7repNcCO',
   grant: 'password',
-  version: '0.1.0',
-  company: '9de94eeb-df56-4d85-b7e8-895eb65c022f',
+  version: '0.8.0-alfa',
+  company: '03155138-e07f-4f74-bb94-b59fdc696efa',
   name: 'Credit Center',
-  biweekly: 'aae6f1b1-d5c3-4559-9aeb-25c7d4dfe1e5',
+  biweekly: 'a3980945-3ae5-4cd6-8898-5ce69f088f59',
 };
 
 /*

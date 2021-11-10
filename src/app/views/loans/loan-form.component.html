@@ -3,6 +3,7 @@
 	<div style="background-color: var(--surface-e);" class="p-2">
 		<div class="p-grid m-0 p-0">
 			<form [formGroup]="form" (ngSubmit)="submit()">
+				<!-- Cliente -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -19,30 +20,7 @@
 					</div>
 				</div>
 
-				<div class="flex my-1">
-					<div class="col">
-						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
-							<label for="float-input">Monto*</label>
-						</span>
-
-						<small class="p-error" *ngIf="balanceInvalid">Monto es requerido.</small>
-					</div>
-				</div>
-
-				<div class="flex my-1">
-					<div class="col">
-						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (fee_amountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fee_amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
-							<label for="float-input">Cuota*</label>
-						</span>
-
-						<small class="p-error" *ngIf="fee_amountInvalid">Cuota es requerido.</small>
-					</div>
-				</div>
-
+				<!-- Banco -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -59,6 +37,46 @@
 					</div>
 				</div>
 
+				<!-- Todo: add currency -->
+
+				<!-- Monto -->
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+							<label for="float-input">Monto*</label>
+						</span>
+
+						<small class="p-error" *ngIf="balanceInvalid">Monto es requerido.</small>
+					</div>
+				</div>
+
+				<!-- Interes -->
+				<div class="flex my-1">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="interest" [showButtons]="true" suffix="%" [min]="0"></p-inputNumber>
+							<label for="float-input">Interes*</label>
+						</span>
+
+						<small class="p-error" *ngIf="interestInvalid">Interes es requerido.</small>
+					</div>
+				</div>
+
+				<!-- Tipo -->
+				<div class="flex my-1">
+					<div class="col">
+						<label for="float-input" class="mx-2 text-form">Tipo*: </label>
+						<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="fixed_interest" label="Interes Fijo" formControlName="type"></p-radioButton>
+						<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="interest_capital" label="Interes más Capital" formControlName="type"></p-radioButton>
+
+						<small class="p-error" *ngIf="typeInvalid">Tipo es requerido.</small>
+					</div>
+				</div>
+
+				<!-- Frecuencia -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -75,6 +93,20 @@
 					</div>
 				</div>
 
+				<!-- Cantidad de cuotas -->
+				<div class="flex my-1" *ngIf="type?.value === 'interest_capital'">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fa fa-university"></i>
+							<p-inputNumber [styleClass]="'w-100' + (feesInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fees" [showButtons]="true" [min]="1"></p-inputNumber>
+							<label for="float-input">Cantidad de Cuotas*</label>
+						</span>
+
+						<small class="p-error" *ngIf="feesInvalid">Cantidad de Cuotas es requerido.</small>
+					</div>
+				</div>
+
+				<!-- Primer Pago -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -87,6 +119,7 @@
 					</div>
 				</div>
 
+				<!-- Dias de Gracias -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">

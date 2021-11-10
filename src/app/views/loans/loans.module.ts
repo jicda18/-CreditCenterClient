@@ -12,6 +12,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     InputNumberModule,
     ProgressBarModule,
     DropdownModule,
+    RadioButtonModule,
     BsDatepickerModule.forRoot(),
   ]
 })
