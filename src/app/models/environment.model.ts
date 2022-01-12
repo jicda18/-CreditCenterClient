@@ -5,7 +5,6 @@ export interface Environment {
   secret: string;
   grant: string;
   version: string;
-  company: string;
   name: string;
   biweekly: string;
 }

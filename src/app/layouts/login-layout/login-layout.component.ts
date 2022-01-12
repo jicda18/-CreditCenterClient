@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/services/session.service';
-import { getLogoUrl } from 'src/app/utils/helpers.utils';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -29,10 +28,6 @@ export class LoginLayoutComponent implements OnInit {
 
   public get passwordInvalid(): boolean {
     return (this.password?.invalid && (this.password?.touched || this.password?.dirty)) ?? false;
-  }
-
-  public get logo(): string {
-    return getLogoUrl();
   }
 
   public get name(): string {

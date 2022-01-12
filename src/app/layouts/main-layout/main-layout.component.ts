@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SessionService } from 'src/app/services/session.service';
-import { getLogoUrl, sleep, userNavs } from 'src/app/utils/helpers.utils';
+import { sleep, userNavs } from 'src/app/utils/helpers.utils';
 import { navs as menuItems } from 'src/app/utils/const.utils';
 
 @Component({
@@ -42,10 +42,6 @@ export class MainLayoutComponent implements OnInit {
     return this.ss.user?.avatar ?? 'assets/images/no-user.png';
   }
 
-  public get logo(): string {
-    return getLogoUrl();
-  }
-
   constructor(private ss: SessionService, private ms: MessageService) { }
 
   ngOnInit(): void {
@@ -62,7 +58,8 @@ export class MainLayoutComponent implements OnInit {
       await sleep(250);
     }
 
-    this.navs = userNavs(menuItems, this.ss.user.administrator, this.ss.user.permissions.map((permission) => permission.key));
+    // Todo: add Permissions
+    this.navs = userNavs(menuItems, this.ss.user.administrator, []);
   }
 
   // capture when closing the windows

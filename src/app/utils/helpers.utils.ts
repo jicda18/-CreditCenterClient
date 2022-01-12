@@ -96,7 +96,7 @@ async function blobError(blob: Blob): Promise<string> {
 }
 
 function downloadBlob(response?: HttpResponse<Blob>, defaultName = 'temp'): void {
-  if (response === undefined || response === null) {
+  if (response === undefined || response === null || response.body === undefined || response.body === null) {
     return;
   }
 
@@ -280,14 +280,6 @@ export async function downloadApi(url: string, api: ApiService): Promise<void> {
   const response = await api.download(url);
 
   downloadBlob(response);
-}
-
-export function getLogoUrl(): string {
-  return `${environment.api}companies/${environment.company}/logo`;
-}
-
-export function getIcoUrl(): string {
-  return `${environment.api}companies/${environment.company}/ico`;
 }
 
 export function hasAll<T>(self: T[], required: T[]): boolean {

@@ -1,4 +1,3 @@
-import { Company } from './company.model';
 import { Permission } from './permission.model';
 
 export interface User {
@@ -11,6 +10,5 @@ export interface User {
   inserted_at: string;
   edited_at: string;
   removed_at: string;
-  companies?: Company[];
   permissions: Permission[];
 }
