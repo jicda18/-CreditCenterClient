@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Currency } from 'src/app/models/currency.model';
@@ -11,7 +11,7 @@ import { createResource, objectToFormData, objectToHttpParams, updateResource } 
   styles: [
   ]
 })
-export class CurrencyFormComponent implements OnInit, OnChanges {
+export class CurrencyFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currency?: Currency;
 
   @Output() cancel = new EventEmitter<void>();
@@ -99,5 +99,10 @@ export class CurrencyFormComponent implements OnInit, OnChanges {
     }
 
     this.loading = false;
+  }
+
+  ngOnDestroy(): void {
+    delete this.currency;
+    this.form.reset();
   }
 }

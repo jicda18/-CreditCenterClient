@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Loan } from 'src/app/models/loan.model';
@@ -11,7 +11,7 @@ import { convertToDate, objectToHttpParams, selectOption, updateResource } from 
   styles: [
   ]
 })
-export class LoansFormComponent implements OnInit, OnChanges {
+export class LoansFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() loan?: Loan;
 
   @Output() cancel = new EventEmitter<void>();
@@ -140,5 +140,10 @@ export class LoansFormComponent implements OnInit, OnChanges {
     }
 
     this.loading = false;
+  }
+
+  ngOnDestroy(): void {
+    delete this.loan;
+    this.form.reset();
   }
 }

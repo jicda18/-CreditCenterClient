@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Bank } from 'src/app/models/bank.model';
@@ -11,7 +11,7 @@ import { createResource, objectToFormData, objectToHttpParams, selectOption, upd
   styles: [
   ]
 })
-export class BanksFormComponent implements OnInit, OnChanges {
+export class BanksFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bank?: Bank;
 
   @Output() cancel = new EventEmitter<void>();
@@ -78,31 +78,17 @@ export class BanksFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.bank !== undefined) {
-      const name = this.name;
-      const nickname = this.nickname;
-      const account = this.account;
-      const currencyKey = this.currency_key;
-      const balance = this.balance;
+      this.name?.setValue(this.bank.bank);
+      this.nickname?.setValue(this.bank.nickname);
+      this.account?.setValue(this.bank.account);
+      this.currency_key?.setValue(this.bank.currency_key);
+      this.balance?.setValue(this.bank.summary);
 
-      if (name !== null) {
-        name.setValue(this.bank.bank);
-      }
-
-      if (nickname !== null) {
-        nickname.setValue(this.bank.nickname);
-      }
-
-      if (account !== null) {
-        account.setValue(this.bank.account);
-      }
-
-      if (currencyKey !== null) {
-        currencyKey.setValue(this.bank.currency_key);
-      }
-
-      if (balance !== null) {
-        balance.setValue(this.bank.summary);
-      }
+      this.balance?.disable();
+      this.currency_key?.disable();
+    } else {
+      this.balance?.enable();
+      this.currency_key?.enable();
     }
   }
 
@@ -130,5 +116,10 @@ export class BanksFormComponent implements OnInit, OnChanges {
     }
 
     this.loading = false;
+  }
+
+  ngOnDestroy(): void {
+    delete this.bank;
+    this.form.reset();
   }
 }

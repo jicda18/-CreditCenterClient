@@ -160,7 +160,7 @@
 		</div>
 
 		<!-- Only if insert -->
-		<div [ngStyle]="{'display': isInsert ? 'block' : 'none'}">
+		<div *ngIf="isInsert">
 			<!-- Banco -->
 			<div class="flex my-1">
 				<div class="col">

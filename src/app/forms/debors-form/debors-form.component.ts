@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Currency } from 'src/app/models/currency.model';
@@ -13,12 +13,15 @@ import { environment } from 'src/environments/environment';
   styles: [
   ]
 })
-export class DeborsFormComponent implements OnInit, OnChanges {
+export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() debtor?: Debtor;
 
   @Output() cancel = new EventEmitter<void>();
   @Output() inserted = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
+
+  private _edit: FormGroup;
+  private _insert: FormGroup;
 
   public form: FormGroup;
   public loading = false;
@@ -211,7 +214,47 @@ export class DeborsFormComponent implements OnInit, OnChanges {
   }
 
   constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
-    this.form = this.fb.group({});
+    this._edit = this.fb.group({
+      guarantor: [null, []],
+      business: [null, []],
+      name: [null, [Validators.required]],
+      nick_name: [null, []],
+      personal_id: [null, [Validators.required]],
+      gender: [null, [Validators.required]],
+      province_key: [null, [Validators.required]],
+      street: [null, [Validators.required]],
+      phone_number: [null, []],
+      dob: [null, []],
+      marital_status: [null, [Validators.required]],
+      occupation: [null, [Validators.required]],
+      income: [null, [Validators.required]],
+    });
+
+    this._insert = this.fb.group({
+      guarantor: [null, []],
+      business: [null, []],
+      name: [null, [Validators.required]],
+      nick_name: [null, []],
+      personal_id: [null, [Validators.required]],
+      gender: [null, [Validators.required]],
+      province_key: [null, [Validators.required]],
+      street: [null, [Validators.required]],
+      phone_number: [null, []],
+      dob: [null, []],
+      marital_status: [null, [Validators.required]],
+      occupation: [null, []],
+      income: [null, [Validators.required]],
+      bank_key: [null, [Validators.required]],
+      balance: [null, [Validators.required, Validators.min(0)]],
+      interest: [null, [Validators.required, Validators.min(0)]],
+      fees: [null, [Validators.min(1)]],
+      frequency_key: [null, [Validators.required]],
+      type: [null, [Validators.required]],
+      start_at: [null, [Validators.required]],
+      thanks_days: [null, []],
+    });
+
+    this.form = this._edit;
   }
 
   ngOnInit(): void {
@@ -223,110 +266,25 @@ export class DeborsFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.debtor === undefined) {
-      this.form = this.fb.group({
-        guarantor: [null, []],
-        business: [null, []],
-        name: [null, [Validators.required]],
-        nick_name: [null, []],
-        personal_id: [null, [Validators.required]],
-        gender: [null, [Validators.required]],
-        province_key: [null, [Validators.required]],
-        street: [null, [Validators.required]],
-        phone_number: [null, []],
-        dob: [null, []],
-        marital_status: [null, [Validators.required]],
-        occupation: [null, []],
-        income: [null, [Validators.required]],
-        bank_key: [null, [Validators.required]],
-        balance: [null, [Validators.required, Validators.min(0)]],
-        interest: [null, [Validators.required, Validators.min(0)]],
-        fees: [null, [Validators.min(1)]],
-        frequency_key: [null, [Validators.required]],
-        type: [null, [Validators.required]],
-        start_at: [null, [Validators.required]],
-        thanks_days: [null, []],
-      });
+      this.form = this._insert;
     } else {
-      this.form = this.fb.group({
-        guarantor: [null, []],
-        business: [null, []],
-        name: [null, [Validators.required]],
-        nick_name: [null, []],
-        personal_id: [null, [Validators.required]],
-        gender: [null, [Validators.required]],
-        province_key: [null, [Validators.required]],
-        street: [null, [Validators.required]],
-        phone_number: [null, []],
-        dob: [null, []],
-        marital_status: [null, [Validators.required]],
-        occupation: [null, [Validators.required]],
-        income: [null, [Validators.required]],
-      });
+      this.form = this._edit;
 
-      const guarantor = this.guarantor;
-      const business = this.business;
-      const name = this.name;
-      const nick_name = this.nick_name;
-      const personal_id = this.personal_id;
-      const gender = this.gender;
-      const province_key = this.province_key;
-      const street = this.street;
-      const phone_number = this.phone_number;
-      const dob = this.dob;
-      const marital_status = this.marital_status;
-      const occupation = this.occupation;
-      const income = this.income;
+      this.guarantor?.setValue(this.debtor.guarantor);
+      this.business?.setValue(this.debtor.business);
+      this.name?.setValue(this.debtor.name);
+      this.nick_name?.setValue(this.debtor.nick_name);
+      this.personal_id?.setValue(this.debtor.personal_id);
+      this.gender?.setValue(this.debtor.gender);
+      this.province_key?.setValue(this.debtor.province_key);
+      this.street?.setValue(this.debtor.street);
+      this.phone_number?.setValue(this.debtor.phone_number);
+      this.marital_status?.setValue(this.debtor.marital_status);
+      this.occupation?.setValue(this.debtor.occupation);
+      this.income?.setValue(this.debtor.income);
 
-      if (guarantor !== null) {
-        guarantor.setValue(this.debtor.guarantor);
-      }
-
-      if (business !== null) {
-        business.setValue(this.debtor.business);
-      }
-
-      if (name !== null) {
-        name.setValue(this.debtor.name);
-      }
-
-      if (nick_name !== null) {
-        nick_name.setValue(this.debtor.nick_name);
-      }
-
-      if (personal_id !== null) {
-        personal_id.setValue(this.debtor.personal_id);
-      }
-
-      if (gender !== null) {
-        gender.setValue(this.debtor.gender);
-      }
-
-      if (province_key !== null) {
-        province_key.setValue(this.debtor.province_key);
-      }
-
-      if (street !== null) {
-        street.setValue(this.debtor.street);
-      }
-
-      if (phone_number !== null) {
-        phone_number.setValue(this.debtor.phone_number);
-      }
-
-      if (dob !== null && this.debtor.dob !== undefined) {
-        dob.setValue(convertToDate(this.debtor.dob));
-      }
-
-      if (marital_status !== null) {
-        marital_status.setValue(this.debtor.marital_status);
-      }
-
-      if (occupation !== null) {
-        occupation.setValue(this.debtor.occupation);
-      }
-
-      if (income !== null) {
-        income.setValue(this.debtor.income);
+      if (this.debtor.dob !== undefined) {
+        this.dob?.setValue(convertToDate(this.debtor.dob));
       }
     }
   }
@@ -402,5 +360,10 @@ export class DeborsFormComponent implements OnInit, OnChanges {
     }
 
     this.loading = false;
+  }
+
+  ngOnDestroy(): void {
+    delete this.debtor;
+    this.form.reset();
   }
 }

@@ -4,7 +4,6 @@ import { GridComponent } from 'src/app/components/grid/grid.component';
 import { Debtor } from 'src/app/models/debtor.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
-import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
 import { dateStandardFormat, dateTimeStandardFormat, getModel, toCurrency } from 'src/app/utils/helpers.utils';
 

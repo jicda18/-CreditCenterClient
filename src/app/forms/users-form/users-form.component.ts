@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { User } from 'src/app/models/user.model';
@@ -11,7 +11,7 @@ import { createResource, objectToFormData, objectToHttpParams, updateResource } 
   styles: [
   ]
 })
-export class UsersFormComponent implements OnInit, OnChanges {
+export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
   private _defaultPassword = 'Password1*';
 
   @Input() user?: User;
@@ -98,5 +98,10 @@ export class UsersFormComponent implements OnInit, OnChanges {
     }
 
     this.loading = false;
+  }
+
+  ngOnDestroy(): void {
+    delete this.user;
+    this.form.reset();
   }
 }
