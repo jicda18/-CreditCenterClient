@@ -67,6 +67,10 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return this.form.get('phone_number');
   }
 
+  public get mail(): AbstractControl | null {
+    return this.form.get('mail');
+  }
+
   public get dob(): AbstractControl | null {
     return this.form.get('dob');
   }
@@ -151,6 +155,10 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return (this.phone_number?.invalid && (this.phone_number?.touched || this.phone_number?.dirty)) ?? false;
   }
 
+  public get mailInvalid(): boolean {
+    return (this.mail?.invalid && (this.mail?.touched || this.mail?.dirty)) ?? false;
+  }
+
   public get dobInvalid(): boolean {
     return (this.dob?.invalid && (this.dob?.touched || this.dob?.dirty)) ?? false;
   }
@@ -224,6 +232,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       province_key: [null, [Validators.required]],
       street: [null, [Validators.required]],
       phone_number: [null, []],
+      mail: [null, [Validators.email]],
       dob: [null, []],
       marital_status: [null, [Validators.required]],
       occupation: [null, [Validators.required]],
@@ -240,6 +249,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       province_key: [null, [Validators.required]],
       street: [null, [Validators.required]],
       phone_number: [null, []],
+      mail: [null, [Validators.email]],
       dob: [null, []],
       marital_status: [null, [Validators.required]],
       occupation: [null, []],
@@ -279,6 +289,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       this.province_key?.setValue(this.debtor.province_key);
       this.street?.setValue(this.debtor.street);
       this.phone_number?.setValue(this.debtor.phone_number);
+      this.mail?.setValue(this.debtor.mail);
       this.marital_status?.setValue(this.debtor.marital_status);
       this.occupation?.setValue(this.debtor.occupation);
       this.income?.setValue(this.debtor.income);
@@ -329,6 +340,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       const province_key = this.province_key?.value as string;
       const street = this.street?.value as string;
       let phone_number = this.phone_number?.value as string;
+      let mail = this.mail?.value as string;
       const dob = this.dob?.value as Date;
       const marital_status = this.marital_status?.value as string;
       const occupation = this.occupation?.value as string;
@@ -347,11 +359,11 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       if (this.debtor === undefined) {
-        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income, bank_key, balance, interest: (interest / 100), frequency_key, type, start_at, thanks_days, fees: (fees ?? 1) });
+        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, mail, dob, marital_status, occupation, income, bank_key, balance, interest: (interest / 100), frequency_key, type, start_at, thanks_days, fees: (fees ?? 1) });
 
         await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
       } else {
-        const form = objectToHttpParams({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, dob, marital_status, occupation, income });
+        const form = objectToHttpParams({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, mail, dob, marital_status, occupation, income });
 
         await updateResource<Debtor>(this.api, `debtors/${this.debtor.key}?province`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
       }

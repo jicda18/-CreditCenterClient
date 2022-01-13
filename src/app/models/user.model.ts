@@ -1,4 +1,5 @@
 import { Permission } from './permission.model';
+import { Role } from './role.model';
 
 export interface User {
   avatar: string;
@@ -11,4 +12,5 @@ export interface User {
   edited_at: string;
   removed_at: string;
   permissions: Permission[];
+  roles: Role[];
 }

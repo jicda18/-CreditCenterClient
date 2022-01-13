@@ -14,6 +14,7 @@ export interface Debtor {
   street: string;
   dob?: string;
   phone_number?: string;
+  mail?: string;
   marital_status: 'single' | 'married' | 'divorced' | 'widowed';
   occupation: string;
   income: number;
