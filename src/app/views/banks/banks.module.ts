@@ -11,21 +11,18 @@ import { BanksFormModule } from 'src/app/forms/banks-form/banks-form.module';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
-  declarations: [
-    BanksComponent,
-    ViewComponent,
-    BanksModalComponent
-  ],
-  imports: [
-    CommonModule,
-    BanksRoutingModule,
-    GridModule,
-    ModalModule,
-    BanksFormModule,
-    TabViewModule,
-  ],
-  entryComponents: [
-    BanksModalComponent
-  ]
+    declarations: [
+        BanksComponent,
+        ViewComponent,
+        BanksModalComponent
+    ],
+    imports: [
+        CommonModule,
+        BanksRoutingModule,
+        GridModule,
+        ModalModule,
+        BanksFormModule,
+        TabViewModule,
+    ]
 })
 export class BanksModule { }

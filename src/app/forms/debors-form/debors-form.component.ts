@@ -5,6 +5,7 @@ import { Currency } from 'src/app/models/currency.model';
 import { Debtor } from 'src/app/models/debtor.model';
 import { ApiService } from 'src/app/services/api.service';
 import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
+import { CustomValidations } from 'src/app/utils/validations.util';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,100 +24,107 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   private _edit: FormGroup;
   private _insert: FormGroup;
 
-  public form: FormGroup;
+  public form?: FormGroup;
   public loading = false;
-  public Options: { value: number | string; label: string; }[] = [];
-  public provinceOptions: { value: number | string; label: string; }[] = [];
-  public frequencyOptions: { value: number | string; label: string; }[] = [];
-  public currencyOptions: { value: number | string; label: string; }[] = [];
-  public bankOptions: { value: number | string; label: string; custom?: Currency; }[] = [];
+  public provinceOptions: { value: string; label: string; }[] = [];
+  public frequencyOptions: { value: string; label: string; }[] = [];
+  public bankOptions: { value: string; label: string; custom?: Currency; }[] = [];
+  public currencyOptions: { value: string; label: string; }[] = [];
 
   public get guarantor(): AbstractControl | null {
-    return this.form.get('guarantor');
+    return this.form?.get('guarantor') ?? null;
   }
 
   public get business(): AbstractControl | null {
-    return this.form.get('business');
+    return this.form?.get('business') ?? null;
   }
 
   public get name(): AbstractControl | null {
-    return this.form.get('name');
+    return this.form?.get('name') ?? null;
   }
 
   public get nick_name(): AbstractControl | null {
-    return this.form.get('nick_name');
+    return this.form?.get('nick_name') ?? null;
   }
 
   public get personal_id(): AbstractControl | null {
-    return this.form.get('personal_id');
+    return this.form?.get('personal_id') ?? null;
   }
 
   public get gender(): AbstractControl | null {
-    return this.form.get('gender');
+    return this.form?.get('gender') ?? null;
   }
 
   public get province_key(): AbstractControl | null {
-    return this.form.get('province_key');
+    return this.form?.get('province_key') ?? null;
   }
 
   public get street(): AbstractControl | null {
-    return this.form.get('street');
+    return this.form?.get('street') ?? null;
   }
 
   public get phone_number(): AbstractControl | null {
-    return this.form.get('phone_number');
+    return this.form?.get('phone_number') ?? null;
   }
 
   public get mail(): AbstractControl | null {
-    return this.form.get('mail');
+    return this.form?.get('mail') ?? null;
   }
 
   public get dob(): AbstractControl | null {
-    return this.form.get('dob');
+    return this.form?.get('dob') ?? null;
   }
 
   public get marital_status(): AbstractControl | null {
-    return this.form.get('marital_status');
+    return this.form?.get('marital_status') ?? null;
   }
 
   public get occupation(): AbstractControl | null {
-    return this.form.get('occupation');
+    return this.form?.get('occupation') ?? null;
   }
 
   public get income(): AbstractControl | null {
-    return this.form.get('income');
+    return this.form?.get('income') ?? null;
+  }
+
+  public get cash(): AbstractControl | null {
+    return this.form?.get('cash') ?? null;
   }
 
   public get bank_key(): AbstractControl | null {
-    return this.form.get('bank_key');
+    return this.form?.get('bank_key') ?? null ?? null;
+  }
+
+  public get currency_key(): AbstractControl | null {
+    return this.form?.get('currency_key') ?? null ?? null;
   }
 
   public get balance(): AbstractControl | null {
-    return this.form.get('balance');
+    return this.form?.get('balance') ?? null;
   }
 
   public get fees(): AbstractControl | null {
-    return this.form.get('fees');
+    return this.form?.get('fees') ?? null;
   }
 
   public get interest(): AbstractControl | null {
-    return this.form.get('interest');
+    return this.form?.get('interest') ?? null;
   }
 
   public get frequency_key(): AbstractControl | null {
-    return this.form.get('frequency_key');
+    return this.form?.get('frequency_key') ?? null;
   }
 
   public get type(): AbstractControl | null {
-    return this.form.get('type');
+    return this.form?.get('type') ?? null;
   }
 
   public get start_at(): AbstractControl | null {
-    return this.form.get('start_at');
+    return this.form?.get('start_at') ?? null;
   }
 
   public get thanks_days(): AbstractControl | null {
-    return this.form.get('thanks_days');
+    return this.form?.get('thanks_days') ?? null;
   }
 
   public get guarantorInvalid(): boolean {
@@ -175,8 +183,16 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return (this.income?.invalid && (this.income?.touched || this.income?.dirty)) ?? false;
   }
 
+  public get cashInvalid(): boolean {
+    return (this.cash?.invalid && (this.cash?.touched || this.cash?.dirty)) ?? false;
+  }
+
   public get bank_keyInvalid(): boolean {
     return (this.bank_key?.invalid && (this.bank_key?.touched || this.bank_key?.dirty)) ?? false;
+  }
+
+  public get currency_keyInvalid(): boolean {
+    return (this.currency_key?.invalid && (this.currency_key?.touched || this.currency_key?.dirty)) ?? false;
   }
 
   public get balanceInvalid(): boolean {
@@ -235,7 +251,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       mail: [null, [Validators.email]],
       dob: [null, []],
       marital_status: [null, [Validators.required]],
-      occupation: [null, [Validators.required]],
+      occupation: [null, []],
       income: [null, [Validators.required]],
     });
 
@@ -254,24 +270,30 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       marital_status: [null, [Validators.required]],
       occupation: [null, []],
       income: [null, [Validators.required]],
-      bank_key: [null, [Validators.required]],
+      cash: [false, [Validators.required]],
+      bank_key: [null, [CustomValidations.fn((value?: string) => this.cash?.value === false ? (value !== undefined && value !== null && value !== '') : true)]],
+      currency_key: [null, [CustomValidations.fn((value?: string) => this.cash?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
       balance: [null, [Validators.required, Validators.min(0)]],
       interest: [null, [Validators.required, Validators.min(0)]],
       fees: [null, [Validators.min(1)]],
       frequency_key: [null, [Validators.required]],
       type: [null, [Validators.required]],
       start_at: [null, [Validators.required]],
-      thanks_days: [null, []],
+      thanks_days: [null, [Validators.required, Validators.min(0)]],
     });
 
     this.form = this._edit;
   }
 
-  ngOnInit(): void {
-    selectOption('provinces/select', this.api).then((options) => this.provinceOptions = options);
-    selectOption('frequencies/select', this.api).then((options) => this.frequencyOptions = options);
-    selectOption('currencies/select', this.api).then((options) => this.currencyOptions = options);
-    selectOption<Currency>('banks/select', this.api).then((options) => this.bankOptions = options);
+  async ngOnInit(): Promise<void> {
+    this.loading = true;
+
+    this.provinceOptions = await selectOption('provinces/select', this.api);
+    this.frequencyOptions = await selectOption('frequencies/select', this.api);
+    this.bankOptions = await selectOption('banks/select', this.api);
+    this.currencyOptions = await selectOption('currencies/select', this.api);
+
+    this.loading = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -330,45 +352,35 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   public async submit(): Promise<void> {
     this.loading = true;
 
-    if (this.form.valid) {
-      const guarantor = this.guarantor?.value as string;
-      const business = this.business?.value as string;
-      const name = this.name?.value as string;
-      const nick_name = this.nick_name?.value as string;
-      const personal_id = this.personal_id?.value as string;
-      const gender = this.gender?.value as string;
-      const province_key = this.province_key?.value as string;
-      const street = this.street?.value as string;
-      let phone_number = this.phone_number?.value as string;
-      const mail = this.mail?.value as string;
-      const dob = this.dob?.value as Date;
-      const marital_status = this.marital_status?.value as string;
-      const occupation = this.occupation?.value as string;
-      const income = this.income?.value as number;
-      const bank_key = this.bank_key?.value as string;
-      const balance = this.balance?.value as number;
-      const interest = this.interest?.value as number;
-      const frequency_key = this.frequency_key?.value as string;
-      const type = this.type?.value as number;
-      const start_at = this.start_at?.value as Date;
-      const thanks_days = this.thanks_days?.value as number;
-      const fees = this.fees?.value as number;
+    for (const key in this.form?.controls) {
+      if (Object.prototype.hasOwnProperty.call(this.form?.controls, key)) {
+        const control = this.form?.controls[key];
 
-      if (phone_number !== undefined && phone_number !== null && phone_number !== '') {
-        phone_number = phone_number.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
+        control?.updateValueAndValidity();
+      }
+    }
+
+    if (this.form?.valid) {
+      const inputs = this.form?.value;
+
+      if (inputs.phone_number !== undefined && inputs.phone_number !== null && inputs.phone_number !== '') {
+        inputs.phone_number = inputs.phone_number.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
       }
 
       if (this.debtor === undefined) {
-        const form = objectToFormData({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, mail, dob, marital_status, occupation, income, bank_key, balance, interest: (interest / 100), frequency_key, type, start_at, thanks_days, fees: (fees ?? 1) });
+        inputs.interest /= 100;
+        inputs.fees = inputs.fees ?? 1;
+
+        const form = objectToFormData(inputs);
 
         await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
       } else {
-        const form = objectToHttpParams({ guarantor, business, name, nick_name, personal_id, gender, province_key, street, phone_number, mail, dob, marital_status, occupation, income });
+        const form = objectToHttpParams(inputs);
 
         await updateResource<Debtor>(this.api, `debtors/${this.debtor.key}?province`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
       }
     } else {
-      this.form.markAllAsTouched();
+      this.form?.markAllAsTouched();
     }
 
     this.loading = false;
@@ -376,6 +388,6 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     delete this.debtor;
-    this.form.reset();
+    this.form?.reset();
   }
 }

@@ -1,9 +1,10 @@
 <div class="p-grid m-0 p-0">
 	<form [formGroup]="form" (ngSubmit)="submit()">
+		<!-- Nombre -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-					<i class="pi pi-money-bill"></i>
+					<i class="fas fa-coins"></i>
 					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
 					<label for="float-input">Nombre*</label>
 				</span>
@@ -12,6 +13,7 @@
 			</div>
 		</div>
 
+		<!-- Simbolo -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -24,11 +26,12 @@
 			</div>
 		</div>
 
+		<!-- Tasa -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="pi pi-dollar"></i>
-					<p-inputNumber [styleClass]="'w-100' + (exchangeInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="exchange" [min]="0" [showButtons]="true" [minFractionDigits]="2"></p-inputNumber>
+					<p-inputNumber [class]="'w-100' + (exchangeInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="exchange" [min]="0" [showButtons]="true" [minFractionDigits]="2"></p-inputNumber>
 					<label for="float-input">Tasa*</label>
 				</span>
 
@@ -36,11 +39,11 @@
 			</div>
 		</div>
 
-		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+		<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
-			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
-			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple></button>
 		</div>
 	</form>
 </div>

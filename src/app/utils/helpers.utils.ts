@@ -367,8 +367,8 @@ export function userNavs(navs: NavItem[], admin: boolean, permissions: string[])
   return answer;
 }
 
-export async function selectOption<T>(route: string, api: ApiService): Promise<{ value: number | string; label: string; custom?: T; }[]> {
-  const response = await api.get<{ value: number; label: string; custom?: T; }[]>(route);
+export async function selectOption<E, T>(route: string, api: ApiService): Promise<{ value: E; label: string; custom?: T; }[]> {
+  const response = await api.get<{ value: E; label: string; custom?: T; }[]>(route);
 
   if (response === undefined || response.data === undefined) {
     return [];
@@ -464,6 +464,7 @@ export function objectToFormData(data: { [key: string]: Blob | string | number |
   for (const key in data) {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const item = data[key];
+
       if (item === undefined || item === null) {
         form.append(key, '');
       } else if (Array.isArray(item)) {
@@ -488,7 +489,9 @@ export function objectToHttpParams(data: { [key: string]: string | number | bool
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const item = data[key];
 
-      if (Array.isArray(item)) {
+      if (item === undefined || item === null) {
+        form.append(key, '');
+      } else if (Array.isArray(item)) {
         for (const i of item) {
           form = form.set(`${key}[]`, basicTypeToString(i));
         }

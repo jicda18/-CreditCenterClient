@@ -11,22 +11,19 @@ import { CurrencyFormModule } from 'src/app/forms/currency-form/currency-form.mo
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
-  declarations: [
-    CurrenciesComponent,
-    CurrencyModalComponent
-  ],
-  imports: [
-    CommonModule,
-    CurrenciesRoutingModule,
-    GridModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ModalModule,
-    CurrencyFormModule,
-    TabViewModule,
-  ],
-  entryComponents: [
-    CurrencyModalComponent
-  ]
+    declarations: [
+        CurrenciesComponent,
+        CurrencyModalComponent
+    ],
+    imports: [
+        CommonModule,
+        CurrenciesRoutingModule,
+        GridModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ModalModule,
+        CurrencyFormModule,
+        TabViewModule,
+    ]
 })
 export class CurrenciesModule { }

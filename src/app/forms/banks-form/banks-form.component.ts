@@ -20,7 +20,7 @@ export class BanksFormComponent implements OnInit, OnChanges, OnDestroy {
 
   public form: FormGroup;
   public loading = false;
-  public currencyOptions: { value: number | string; label: string }[] = [];
+  public currencyOptions: { value: string; label: string }[] = [];
 
   public get name(): AbstractControl | null {
     return this.form.get('name');
@@ -73,7 +73,7 @@ export class BanksFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    selectOption('currencies/select', this.api).then((options) => this.currencyOptions = options);
+    selectOption<string, undefined>('currencies/select', this.api).then((options) => this.currencyOptions = options);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

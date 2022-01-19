@@ -6,7 +6,7 @@ export interface GridCol {
   minFractionDigits?: number;
   prefix?: string;
   suffix?: string;
-  options?: { value: number | string; label: string }[];
+  options?: { value: any; label: string }[];
   enableOptions?: boolean;
   image?: boolean;
   disableSort?: boolean;

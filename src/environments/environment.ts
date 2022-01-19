@@ -10,7 +10,7 @@ export const environment: Environment = {
   client: 1,
   secret: 'nNxPvHKTkmyDwXwmv97UrjDpR5Mb96807UpiKbI8',
   grant: 'password',
-  version: '0.1.0',
+  version: '0.2.0',
   name: 'Credit Center',
   biweekly: 'ddc4b465-d23b-438b-b778-f8dc69a6e12c',
 };

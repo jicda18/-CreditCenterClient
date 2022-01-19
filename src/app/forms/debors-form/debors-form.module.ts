@@ -11,6 +11,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     DropdownModule,
     InputMaskModule,
     RadioButtonModule,
-    CalendarModule,
+    CheckboxModule,
+    // CalendarModule,
     BsDatepickerModule.forRoot(),
   ],
   exports: [

@@ -1,7 +1,7 @@
 // Extra small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
 body {
-	background-color: var(--surface-e);
+	background-color: var(--surface-b);
 	margin: 0;
 	padding: 0;
 }
@@ -14,6 +14,7 @@ body {
 	cursor: pointer;
 }
 
+// Todo: crearte mixin
 .progressbar-warning {
 	.p-progressbar {
 		background-color: rgba(255, 245, 157, 0.32);
@@ -21,6 +22,16 @@ body {
 
 	.p-progressbar-value {
 		background: rgb(255, 245, 157);
+	}
+}
+
+.progressbar-success {
+	.p-progressbar {
+		background-color: rgba(104, 159, 56, 0.32);
+	}
+
+	.p-progressbar-value {
+		background: rgb(104, 159, 56);
 	}
 }
 
@@ -148,26 +159,30 @@ body {
 	z-index: 100;
 }
 
-.text-form {
-	color: $form-color !important;
-}
+.p-toggleable-content {
+	padding-left: 1.25rem;
+	background-color: var(--surface-d);
 
-.text-form label {
-	color: $form-color !important;
-}
-
-// Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {
-	body {
-		background-color: var(--surface-700);
+	.p-panelmenu-content {
+		background-color: transparent;
 	}
 }
 
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {}
+form i.fa,
+form i.fas,
+form i.far {
+	z-index: 999;
+}
 
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {}
+bs-datepicker-container,
+bs-daterangepicker-container {
+	z-index: 9999;
+}
 
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {}
+@media (min-width: $sm) {}
+
+@media (min-width: $md) {}
+
+@media (min-width: $lg) {}
+
+@media (min-width: $xl) {}

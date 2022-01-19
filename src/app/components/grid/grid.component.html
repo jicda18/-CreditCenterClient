@@ -13,7 +13,7 @@
 					<button pButton class="p-button-outlined p-button-primary ml-2 mr-auto" icon="pi pi-filter-slash" (click)="dt.clear()" *ngIf="filter"></button>
 
 					<span class="p-input-icon-left ml-auto mr-2" *ngIf="filter && globalFilter !== undefined">
-						<i class="pi pi-search" style="color: var(--surface-100);"></i>
+						<i class="pi pi-search" style="color: var(--surface-700);"></i>
 						<input #search pInputText type="text" (input)="dt.filterGlobal(search.value, 'contains')" placeholder="Buscar" />
 					</span>
 				</div>

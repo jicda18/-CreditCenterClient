@@ -13,7 +13,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     ProgressBarModule,
     DropdownModule,
     RadioButtonModule,
+    CheckboxModule,
     BsDatepickerModule.forRoot(),
   ]
 })

@@ -1,5 +1,6 @@
 <div class="p-grid m-0 p-0">
 	<form [formGroup]="form" (ngSubmit)="submit()">
+		<!-- Nombre -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -12,11 +13,12 @@
 			</div>
 		</div>
 
+		<!-- Moneda -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-					<i class="pi pi-money-bill"></i>
-					<p-dropdown [options]="currencyOptions" [styleClass]="'w-100' + (currencyKeyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
+					<i class="fas fa-coins"></i>
+					<p-dropdown [options]="currencyOptions" [class]="currencyKeyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
 						<ng-template let-option pTemplate="item">
 							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 						</ng-template>
@@ -28,6 +30,7 @@
 			</div>
 		</div>
 
+		<!-- Apodo -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -36,10 +39,11 @@
 					<label for="float-input">Apodo*</label>
 				</span>
 
-				<small class="p-error" *ngIf="nameInvalid">Apodo es requerido.</small>
+				<small class="p-error" *ngIf="nicknameInvalid">Apodo es requerido.</small>
 			</div>
 		</div>
 
+		<!-- Cuenta -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
@@ -52,11 +56,12 @@
 			</div>
 		</div>
 
+		<!-- Balance -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<p-inputNumber [class]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
 					<label for="float-input">Balance*</label>
 				</span>
 
@@ -64,11 +69,12 @@
 			</div>
 		</div>
 
-		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+		<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
-			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
-			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+			<!-- Todo; remove cancel if update -->
+			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple></button>
 		</div>
 	</form>
 </div>

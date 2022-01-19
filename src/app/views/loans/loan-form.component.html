@@ -2,13 +2,13 @@
 	<h2 class="text-primary sticky-left">Crear Prestamos</h2>
 	<div style="background-color: var(--surface-e);" class="p-2">
 		<div class="p-grid m-0 p-0">
-			<form [formGroup]="form" (ngSubmit)="submit()">
+			<form [formGroup]="form!" (ngSubmit)="submit()">
 				<!-- Cliente -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-dropdown [options]="debtorOptions" [styleClass]="'w-100' + (debtor_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="debtor_key" optionLabel="label" optionValue="value" placeholder="Cliente">
+							<i class="fa fa-user"></i>
+							<p-dropdown [options]="debtorOptions" [class]="debtor_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="debtor_key" optionLabel="label" optionValue="value" placeholder="Cliente">
 								<ng-template let-option pTemplate="item">
 									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 								</ng-template>
@@ -20,12 +20,22 @@
 					</div>
 				</div>
 
-				<!-- Banco -->
+				<!-- cash -->
 				<div class="flex my-1">
+					<div class="col">
+						<label for="float-input" class="mx-2 text-form">Efectivo: </label>
+						<p-checkbox [styleClass]="'mx-2 text-form' + (cashInvalid ? ' ng-invalid ng-dirty' : '')" [binary]="true" formControlName="cash"></p-checkbox>
+
+						<small class="p-error" *ngIf="cashInvalid"><br />Efectivo es requerido.</small>
+					</div>
+				</div>
+
+				<!-- Banco -->
+				<div class="flex my-1" *ngIf="cash?.value === false">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 							<i class="fa fa-university"></i>
-							<p-dropdown [options]="bankOptions" [styleClass]="'w-100' + (bank_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco">
+							<p-dropdown [options]="bankOptions" [class]="bank_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco">
 								<ng-template let-option pTemplate="item">
 									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 								</ng-template>
@@ -37,14 +47,29 @@
 					</div>
 				</div>
 
-				<!-- Todo: add currency -->
+				<!-- currency -->
+				<div class="flex my-1" *ngIf="cash?.value === true">
+					<div class="col">
+						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+							<i class="fas fa-coins"></i>
+							<p-dropdown [options]="currencyOptions" [class]="currency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
+								<ng-template let-option pTemplate="item">
+									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+								</ng-template>
+							</p-dropdown>
+							<label for="float-input">Moneda*</label>
+						</span>
+
+						<small class="p-error" *ngIf="currency_keyInvalid">Banco es requerido.</small>
+					</div>
+				</div>
 
 				<!-- Monto -->
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+							<i class="far fa-money-bill-alt"></i>
+							<p-inputNumber [class]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
 							<label for="float-input">Monto*</label>
 						</span>
 
@@ -56,8 +81,8 @@
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="interest" [showButtons]="true" suffix="%" [min]="0"></p-inputNumber>
+							<i class="fas fa-percent"></i>
+							<p-inputNumber [class]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="interest" [showButtons]="true" suffix="%" [min]="0"></p-inputNumber>
 							<label for="float-input">Interes*</label>
 						</span>
 
@@ -72,7 +97,7 @@
 						<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="fixed_interest" label="Interes Fijo" formControlName="type"></p-radioButton>
 						<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="interest_capital" label="Interes más Capital" formControlName="type"></p-radioButton>
 
-						<small class="p-error" *ngIf="typeInvalid">Tipo es requerido.</small>
+						<small class="p-error" *ngIf="typeInvalid"><br />Tipo es requerido.</small>
 					</div>
 				</div>
 
@@ -80,8 +105,8 @@
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-dropdown [options]="frequencyOptions" [styleClass]="'w-100' + (frequency_keyInvalid ? ' ng-invalid ng-dirty' : '')" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+							<i class="fas fa-sync-alt"></i>
+							<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
 								<ng-template let-option pTemplate="item">
 									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 								</ng-template>
@@ -97,8 +122,8 @@
 				<div class="flex my-1" *ngIf="type?.value === 'interest_capital'">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (feesInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="fees" [showButtons]="true" [min]="1"></p-inputNumber>
+							<i class="fas fa-hashtag"></i>
+							<p-inputNumber [class]="'w-100' + (feesInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="fees" [showButtons]="true" [min]="1"></p-inputNumber>
 							<label for="float-input">Cantidad de Cuotas*</label>
 						</span>
 
@@ -110,7 +135,7 @@
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
+							<i class="fas fa-calendar"></i>
 							<input type="text" [class]="'w-100' + (start_atInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="start_at" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, minDate: minStartDay }" (bsValueChange)="biweekly()">
 							<label for="float-input">Primer Pago*</label>
 						</span>
@@ -123,8 +148,8 @@
 				<div class="flex my-1">
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
-							<i class="fa fa-university"></i>
-							<p-inputNumber [styleClass]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
+							<i class="far fa-check-circle"></i>
+							<p-inputNumber [class]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
 							<label for="float-input">Dias de Gracias*</label>
 						</span>
 
@@ -132,10 +157,10 @@
 					</div>
 				</div>
 
-				<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+				<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 				<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
-					<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Crear" pButton pRipple></button>
+					<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Crear" pButton pRipple></button>
 				</div>
 			</form>
 		</div>

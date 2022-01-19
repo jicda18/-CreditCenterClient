@@ -6,6 +6,7 @@ import { Loan } from 'src/app/models/loan.model';
 import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, selectOption } from 'src/app/utils/helpers.utils';
 import { environment } from 'src/environments/environment';
 import { Currency } from 'src/app/models/currency.model';
+import { CustomValidations } from 'src/app/utils/validations.util';
 
 @Component({
   selector: 'app-loan-form',
@@ -14,46 +15,55 @@ import { Currency } from 'src/app/models/currency.model';
   ]
 })
 export class LoanFormComponent implements OnInit {
-  public form: FormGroup;
+  public form?: FormGroup;
   public loading = false;
-  public frequencyOptions: { value: number | string; label: string; }[] = [];
-  public debtorOptions: { value: number | string; label: string; }[] = [];
-  public bankOptions: { value: number | string; label: string; custom?: Currency; }[] = [];
+  public frequencyOptions: { value: string; label: string; }[] = [];
+  public debtorOptions: { value: string; label: string; }[] = [];
+  public bankOptions: { value: string; label: string; custom?: Currency; }[] = [];
+  public currencyOptions: { value: string; label: string; }[] = [];
 
   public get debtor_key(): AbstractControl | null {
-    return this.form.get('debtor_key');
+    return this.form?.get('debtor_key') ?? null;
   }
 
   public get balance(): AbstractControl | null {
-    return this.form.get('balance');
+    return this.form?.get('balance') ?? null;
+  }
+
+  public get cash(): AbstractControl | null {
+    return this.form?.get('cash') ?? null;
   }
 
   public get bank_key(): AbstractControl | null {
-    return this.form.get('bank_key');
+    return this.form?.get('bank_key') ?? null;
+  }
+
+  public get currency_key(): AbstractControl | null {
+    return this.form?.get('currency_key') ?? null;
   }
 
   public get frequency_key(): AbstractControl | null {
-    return this.form.get('frequency_key');
+    return this.form?.get('frequency_key') ?? null;
   }
 
   public get start_at(): AbstractControl | null {
-    return this.form.get('start_at');
+    return this.form?.get('start_at') ?? null;
   }
 
   public get thanks_days(): AbstractControl | null {
-    return this.form.get('thanks_days');
+    return this.form?.get('thanks_days') ?? null;
   }
 
   public get fees(): AbstractControl | null {
-    return this.form.get('fees');
+    return this.form?.get('fees') ?? null;
   }
 
   public get interest(): AbstractControl | null {
-    return this.form.get('interest');
+    return this.form?.get('interest') ?? null;
   }
 
   public get type(): AbstractControl | null {
-    return this.form.get('type');
+    return this.form?.get('type') ?? null;
   }
 
   public get debtor_keyInvalid(): boolean {
@@ -64,8 +74,16 @@ export class LoanFormComponent implements OnInit {
     return (this.balance?.invalid && (this.balance?.touched || this.balance?.dirty)) ?? false;
   }
 
+  public get cashInvalid(): boolean {
+    return (this.cash?.invalid && (this.cash?.touched || this.cash?.dirty)) ?? false;
+  }
+
   public get bank_keyInvalid(): boolean {
     return (this.bank_key?.invalid && (this.bank_key?.touched || this.bank_key?.dirty)) ?? false;
+  }
+
+  public get currency_keyInvalid(): boolean {
+    return (this.currency_key?.invalid && (this.currency_key?.touched || this.currency_key?.dirty)) ?? false;
   }
 
   public get frequency_keyInvalid(): boolean {
@@ -100,7 +118,9 @@ export class LoanFormComponent implements OnInit {
     this.form = this.fb.group({
       debtor_key: [null, [Validators.required]],
       balance: [null, [Validators.required, Validators.min(0)]],
-      bank_key: [null, [Validators.required]],
+      cash: [false, [Validators.required]],
+      bank_key: [null, [CustomValidations.fn((value?: string) => this.cash?.value === false ? (value !== undefined && value !== null && value !== '') : true)]],
+      currency_key: [null, [CustomValidations.fn((value?: string) => this.cash?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
       frequency_key: [null, [Validators.required]],
       start_at: [null, [Validators.required]],
       thanks_days: [null, [Validators.required, Validators.min(0)]],
@@ -116,35 +136,37 @@ export class LoanFormComponent implements OnInit {
     this.frequencyOptions = await selectOption('frequencies/select', this.api);
     this.debtorOptions = await selectOption('debtors/select', this.api);
     this.bankOptions = await selectOption('banks/select', this.api);
+    this.currencyOptions = await selectOption('currencies/select', this.api);
 
     this.loading = false;
   }
 
-
   public async submit(): Promise<void> {
     this.loading = true;
 
-    if (this.form.valid) {
-      const debtor_key = this.debtor_key?.value as string;
-      const balance = this.balance?.value as number;
-      const bank_key = this.bank_key?.value as string;
-      const frequency_key = this.frequency_key?.value as string;
-      const start_at = this.start_at?.value as Date;
-      const thanks_days = this.thanks_days?.value as number;
-      const interest = this.interest?.value as number;
-      const type = this.type?.value as number;
-      const fees = this.fees?.value as number;
+    for (const key in this.form?.controls) {
+      if (Object.prototype.hasOwnProperty.call(this.form?.controls, key)) {
+        const control = this.form?.controls[key];
 
+        control?.updateValueAndValidity();
+      }
+    }
 
-      const form = objectToFormData({ interest: (interest / 100), debtor_key, balance, type, fees: (fees ?? 1), bank_key, frequency_key, start_at, thanks_days });
+    if (this.form?.valid) {
+      const inputs = this.form?.value;
+
+      inputs.interest /= 100;
+      inputs.fees = inputs.fees ?? 1;
+
+      const form = objectToFormData(inputs);
 
       const loan = await createResource<Loan>(this.api, `loans`, form, this.ms, undefined, (item) => `Deuda fue creada exitosamente.`);
 
       if (loan !== false) {
-        this.form.reset();
+        this.form?.reset();
       }
     } else {
-      this.form.markAllAsTouched();
+      this.form?.markAllAsTouched();
     }
 
     this.loading = false;

@@ -1,20 +1,20 @@
 <div class="w-100 main-box p-0 m-0">
-	<p-toolbar styleClass="bg-white">
+	<p-toolbar styleClass="bg-primary">
 		<div class="p-toolbar-group-left">
 			<a class="navbar-brand" ng-reflect-router-link="/" href="#/">
 				<img src="assets/images/logo.png" height="50" alt="Logo" class="navbar-brand-full">
 			</a>
 
-			<button pButton pRipple type="button" icon="fas fa-bars" class="p-button-rounded p-button-primary p-button-text toggler-icon" (click)="visibleSidebar = !visibleSidebar"></button>
+			<button pButton pRipple type="button" icon="fas fa-bars" class="p-button-rounded p-button-secondary p-button-text toggler-icon" (click)="visibleSidebar = !visibleSidebar"></button>
 		</div>
 
-		<div class="p-toolbar-group-right">
+		<div class="p-toolbar-group-right ml-auto">
 			<p-avatar [image]="image" styleClass="mr-2" size="large" shape="circle"></p-avatar>
 
 			<!-- Todo: use notification count to badge-->
-			<h2 class="text-primary cursor-pointer m-0" pBadge [value]="badgeCount.toString()" (click)="menuToggle.click()">{{ name }}</h2>
+			<h2 class="text-white cursor-pointer m-0" pBadge [value]="badgeCount.toString()" (click)="menuToggle.click()" severity="secondary">{{ name }}</h2>
 
-			<i #menuToggle class="pi pi-angle-down px-2 text-primary cursor-pointer" style="font-size: 1.5em;" (click)="menu.toggle($event)"></i>
+			<i #menuToggle class="pi pi-angle-down px-2 text-white cursor-pointer" style="font-size: 1.5em;" (click)="menu.toggle($event)"></i>
 
 			<p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
 		</div>

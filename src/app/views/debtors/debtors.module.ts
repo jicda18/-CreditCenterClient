@@ -9,7 +9,6 @@ import { DebtorsModalComponent } from './debtors-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { DeborsFormModule } from 'src/app/forms/debors-form/debors-form.module';
 import { TabViewModule } from 'primeng/tabview';
-import { LoansFormModule } from 'src/app/forms/loans-form/loans-form.module';
 
 @NgModule({
   declarations: [
@@ -24,10 +23,6 @@ import { LoansFormModule } from 'src/app/forms/loans-form/loans-form.module';
     ModalModule,
     DeborsFormModule,
     TabViewModule,
-    LoansFormModule,
-  ],
-  entryComponents: [
-    DebtorsModalComponent
   ]
 })
 export class DebtorsModule { }

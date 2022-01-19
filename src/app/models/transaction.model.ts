@@ -7,6 +7,7 @@ export interface Transaction {
   key: string;
   loan_key: string;
   bank_key: string;
+  cash: boolean;
   register_key: string;
   was_at: string;
   amount: number;

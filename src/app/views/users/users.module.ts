@@ -11,21 +11,18 @@ import { UsersFormModule } from 'src/app/forms/users-form/users-form.module';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
-  declarations: [
-    UsersComponent,
-    UsersViewComponent,
-    UsersModalComponent
-  ],
-  imports: [
-    CommonModule,
-    UsersRoutingModule,
-    GridModule,
-    ModalModule,
-    UsersFormModule,
-    TabViewModule,
-  ],
-  entryComponents: [
-    UsersModalComponent
-  ]
+    declarations: [
+        UsersComponent,
+        UsersViewComponent,
+        UsersModalComponent
+    ],
+    imports: [
+        CommonModule,
+        UsersRoutingModule,
+        GridModule,
+        ModalModule,
+        UsersFormModule,
+        TabViewModule,
+    ]
 })
 export class UsersModule { }

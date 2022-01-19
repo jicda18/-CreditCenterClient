@@ -67,7 +67,7 @@ export const navs: NavItem[] = [
   },
   {
     label: 'Monedas',
-    icon: 'fas fa-money-bill-alt',
+    icon: 'fas fa-coins',
     href: '/currencies',
     permission: [], // set permissions
   },
