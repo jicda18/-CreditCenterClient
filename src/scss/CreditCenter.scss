@@ -24,7 +24,7 @@ $theme-list: map-merge($theme-colors, $theme-list);
 
 // Import PrimeNg styles
 @import '~primeflex/primeflex';
-@import 'primeNgCustom';
+@import 'primeNgCustomLight';
 @import '~primeng/resources/primeng.min.css';
 
 // custom

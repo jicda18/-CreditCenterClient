@@ -340,7 +340,7 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       const province_key = this.province_key?.value as string;
       const street = this.street?.value as string;
       let phone_number = this.phone_number?.value as string;
-      let mail = this.mail?.value as string;
+      const mail = this.mail?.value as string;
       const dob = this.dob?.value as Date;
       const marital_status = this.marital_status?.value as string;
       const occupation = this.occupation?.value as string;
