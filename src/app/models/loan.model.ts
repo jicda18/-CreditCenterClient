@@ -6,6 +6,7 @@ import { Transaction } from './transaction.model';
 
 export interface Loan {
   key: string;
+  label: string;
   debtor_key: string;
   currency_key: string;
   frequency_key: string;

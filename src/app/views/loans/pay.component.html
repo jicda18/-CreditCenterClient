@@ -1,0 +1,96 @@
+<div class="p-grid m-0 p-0">
+	<form [formGroup]="form!" (ngSubmit)="submit()">
+		<!-- Cliente -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-user"></i>
+					<p-dropdown [options]="debtorOptions" [class]="debtor_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" [showClear]="true" formControlName="debtor_key" optionLabel="label" optionValue="value" placeholder="Cliente">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Cliente*</label>
+				</span>
+
+				<small class="p-error" *ngIf="debtor_keyInvalid">Cliente es requerido.</small>
+			</div>
+		</div>
+
+		<!-- deuda -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fab fa-leanpub"></i>
+					<p-dropdown [options]="loanOptions" [class]="loan_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" [showClear]="true" formControlName="loan_key" optionLabel="label" optionValue="value" placeholder="Deuda">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Deuda*</label>
+				</span>
+
+				<small class="p-error" *ngIf="loan_keyInvalid">Deuda es requerido.</small>
+			</div>
+		</div>
+
+		<!-- cash -->
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2 text-form">Efectivo: </label>
+				<p-checkbox [styleClass]="'mx-2 text-form' + (cashInvalid ? ' ng-invalid ng-dirty' : '')" [binary]="true" formControlName="cash"></p-checkbox>
+
+				<small class="p-error" *ngIf="cashInvalid"><br />Efectivo es requerido.</small>
+			</div>
+		</div>
+
+		<!-- Banco -->
+		<div class="flex my-1" *ngIf="cash?.value === false">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fa fa-university"></i>
+					<p-dropdown [options]="bankOptions" [class]="bank_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Banco*</label>
+				</span>
+
+				<small class="p-error" *ngIf="bank_keyInvalid">Banco es requerido.</small>
+			</div>
+		</div>
+
+		<!-- Monto -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="far fa-money-bill-alt"></i>
+					<p-inputNumber [class]="'w-100' + (amountInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Monto*</label>
+				</span>
+
+				<small class="p-error" *ngIf="amountInvalid">Monto es requerido.</small>
+			</div>
+		</div>
+
+		<!-- Comentario -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-comment"></i>
+					<textarea type="text" [class]="'w-100' + (commentsInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="comments" [autoResize]="true" pInputTextarea></textarea>
+					<label for="float-input">Comentario*</label>
+				</span>
+
+				<small class="p-error" *ngIf="commentsInvalid">Comentario es requerido.</small>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 ml-auto mr-1" label="Guardar" pButton pRipple></button>
+		</div>
+	</form>
+</div>

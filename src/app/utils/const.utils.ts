@@ -102,6 +102,12 @@ export const navs: NavItem[] = [
         href: '/loans/form',
         permission: [], // set permissions
       },
+      {
+        label: 'Pagos',
+        icon: 'fas fa-money-bill-wave',
+        href: '/loans/pay',
+        permission: [], // set permissions
+      },
     ]
   },
 ];

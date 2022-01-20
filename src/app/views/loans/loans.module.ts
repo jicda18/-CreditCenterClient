@@ -14,11 +14,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { PayComponent } from './pay.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
     LoansComponent,
-    LoanFormComponent
+    LoanFormComponent,
+    PayComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +36,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     DropdownModule,
     RadioButtonModule,
     CheckboxModule,
+    InputTextareaModule,
     BsDatepickerModule.forRoot(),
   ]
 })
