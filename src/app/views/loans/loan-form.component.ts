@@ -163,7 +163,7 @@ export class LoanFormComponent implements OnInit {
       const loan = await createResource<Loan>(this.api, `loans`, form, this.ms, undefined, (item) => `Deuda fue creada exitosamente.`);
 
       if (loan !== false) {
-        this.form?.reset();
+        this.reset();
       }
     } else {
       this.form?.markAllAsTouched();
@@ -197,5 +197,11 @@ export class LoanFormComponent implements OnInit {
         }
       }
     }
+  }
+
+  private reset(): void {
+    this.form?.reset();
+
+    this.cash?.setValue(false);
   }
 }

@@ -8,22 +8,22 @@ export const environment: Environment = {
   production: false,
   api: 'http://creditcenter.cruz/',
   client: 1,
-  secret: 'nNxPvHKTkmyDwXwmv97UrjDpR5Mb96807UpiKbI8',
+  secret: '92jHl8RbHeQ6ncJPV97IDQSwgHKLq1hOAXfq6iUx',
   grant: 'password',
   version: '0.2.0',
   name: 'Credit Center',
-  biweekly: 'ddc4b465-d23b-438b-b778-f8dc69a6e12c',
+  biweekly: 'ca559255-1848-407d-9144-8e249441a855',
 };
 
 // export const environment: Environment = {
 //   production: true,
 //   api: 'https://api.credit-center.net/',
 //   client: 1,
-//   secret: '7V6fC4gWb7Y9y6DZXvki2sGDJTarsRl1gR9ubQBrTHbZArhJPXNFhN9S7repNcCO',
+//   secret: '64QbYrwXz1Gp912BF6Zf8zOxetXdlboBYdJJrLCG',
 //   grant: 'password',
-//   version: '0.8.0-alfa',
+//   version: '0.2.0-alfa',
 //   name: 'Credit Center',
-//   biweekly: 'a3980945-3ae5-4cd6-8898-5ce69f088f59',
+//   biweekly: '9b23d87f-fa16-4f8a-a475-404c51ded61b',
 // };
 
 /*

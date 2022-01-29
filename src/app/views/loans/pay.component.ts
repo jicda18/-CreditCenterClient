@@ -143,7 +143,7 @@ export class PayComponent implements OnInit, OnDestroy {
       const transaction = await createResource<Transaction>(this.api, 'transactions', form, this.ms, undefined, (item) => `El pago fue agregado exitosamente.`);
 
       if (transaction !== false) {
-        this.form?.reset();
+        this.reset();
         this.init();
       }
     } else {
@@ -153,8 +153,14 @@ export class PayComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
+  private reset(): void {
+    this.form?.reset();
+
+    this.cash?.setValue(false);
+  }
+
   ngOnDestroy(): void {
     delete this._loan;
-    this.form?.reset();
+    this.reset();
   }
 }

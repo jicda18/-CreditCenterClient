@@ -78,12 +78,6 @@ export const navs: NavItem[] = [
     permission: [],
     admin: true,
   },
-  // {
-  //   label: 'Transacciones',
-  //   icon: 'fas fa-cash-register',
-  //   href: '/transactions',
-  //   permission: [], // set permissions
-  // },
   {
     label: 'Prestamos',
     icon: 'fas fa-wallet',
@@ -109,6 +103,12 @@ export const navs: NavItem[] = [
         permission: [], // set permissions
       },
     ]
+  },
+  {
+    label: 'CxC',
+    icon: 'fas fa-book-reader',
+    href: '/cxc',
+    permission: [], // set permissions
   },
 ];
 

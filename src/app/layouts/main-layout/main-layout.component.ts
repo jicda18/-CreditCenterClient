@@ -19,6 +19,7 @@ export class MainLayoutComponent implements OnInit {
   public items: MenuItem[] = [
     // Todo: redirect to notification views
     { label: 'Notificaciones', icon: 'pi pi-envelope', badge: '0', badgeStyleClass: 'p-badge-primary' },
+    { label: 'Change Password', icon: 'fas fa-key', command: () => null },
     // Todo: add other element
     { separator: true },
     { label: 'Cerrar Sección', icon: 'pi pi-sign-out', command: () => this.ss.logout() },

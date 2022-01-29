@@ -262,20 +262,6 @@ export function run<T>(f: () => T): Promise<T> {
   return new Promise<T>(resolve => setTimeout(() => resolve(f())));
 }
 
-// ----- api ----
-// export async function apiDelete<T>(api: ApiService, ap: AlertProvider, url: string, question = 'Are you sure yo want to delete it?', comment = ''): Promise<T | false> {
-//   const alert = ap.yesNoQuestion('danger', 'Deletion', question, comment, 'fa-trash');
-//   const answer = await alert.promise.catch<false>(() => false);
-//   let item: undefined | T | false;
-
-//   if (answer) {
-//     item = (await api.delete<T>(url)).data;
-//   }
-
-//   alert.close();
-//   return item ?? false;
-// }
-
 export async function downloadApi(url: string, api: ApiService): Promise<void> {
   const response = await api.download(url);
 
@@ -562,4 +548,20 @@ export function getViewAreaSize(): { width: number, height: number } {
 
 export function toCurrency(value: number): string {
   return value.toLocaleString('es-US', { style: 'currency', currency: 'USD' });
+}
+
+export function groupBy<T extends { [key: string]: any }>(array: T[], prop: string): { [key: string]: T[] } {
+  const group: { [key: string]: T[] } = {};
+
+  for (const item of array) {
+    const key = item[prop];
+
+    if (Object.prototype.hasOwnProperty.call(group, key)) {
+      group[key].push(item);
+    } else {
+      group[key] = [item];
+    }
+  }
+
+  return group;
 }

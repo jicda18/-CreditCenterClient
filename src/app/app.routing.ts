@@ -50,6 +50,11 @@ const routes: Routes = [
         loadChildren: () => import('./views/loans/loans.module').then(m => m.LoansModule),
         // Todo: set Permission guard and data
       },
+      {
+        path: 'cxc',
+        loadChildren: () => import('./views/cxc/cxc.module').then(m => m.CxcModule),
+        // Todo: set Permission guard and data
+      },
     ],
   },
   {

@@ -1,11 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { GridComponent } from 'src/app/components/grid/grid.component';
+import { Component, OnInit } from '@angular/core';
 import { Fee } from 'src/app/models/fee.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
-import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
 import { convertToDate, dateTimeStandardFormat, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 
@@ -16,8 +12,6 @@ import { convertToDate, dateTimeStandardFormat, selectOption, toCurrency } from 
   ]
 })
 export class LoansComponent implements OnInit {
-  // @ViewChild('grid', { static: false }) private _grid?: GridComponent;
-
   public cols: GridCol[] = [
     { key: 'debtor_key', label: 'Cliente', type: 'text', filter: true, enableOptions: true },
     { key: 'amount', label: 'Monto', type: 'text', filter: false },
@@ -32,20 +26,17 @@ export class LoansComponent implements OnInit {
   public endpoint = 'loans';
   public includes = ['debtor', 'currency', 'fees', 'transactions'];
 
-  constructor(private api: ApiService, private router: Router, private ms: MessageService) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     selectOption('debtors/select', this.api).then((options) => this.cols[0].options = options);
-    selectOption('currencies/select', this.api).then((options) => this.cols[2].options = options);
+    selectOption('currencies/select', this.api).then((options) => this.cols[4].options = options);
   }
 
   public mapper(loan: Loan): { [key: string]: any } {
     const overdueFee = (array?: Fee[]): Fee[] => {
       return array?.filter((fee) => {
-        const now = new Date();
-        const payment = convertToDate(fee.payment_at);
-
-        return fee.paid_at === null && payment < now;
+        return fee.status === 'overdue' || fee.status === 'in-thanks';
       }) ?? [];
     };
 
@@ -76,7 +67,6 @@ export class LoansComponent implements OnInit {
 
     const debtor = loan.debtor;
     const currency = loan.currency;
-    const transactions = loan.transactions;
     const fees = loan.fees;
 
     const overdue = overdueFee(fees);

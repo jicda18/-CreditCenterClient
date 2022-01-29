@@ -23,6 +23,20 @@ $theme-list: map-merge($theme-colors, $theme-list);
 @import '~ngx-bootstrap/datepicker/bs-datepicker.scss';
 
 // Import PrimeNg styles
+// $colors: map-merge(("red", "brown"), $theme-list);
+$colors: "blue",
+"green",
+"yellow",
+"cyan",
+"pink",
+"indigo",
+"teal",
+"orange",
+"bluegray",
+"purple",
+"gray",
+"red",
+"brown";
 @import '~primeflex/primeflex';
 @import 'primeNgCustomLight';
 @import '~primeng/resources/primeng.min.css';

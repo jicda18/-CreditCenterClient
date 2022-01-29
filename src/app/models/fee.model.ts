@@ -9,6 +9,7 @@ export interface Fee {
   amount: number;
   limit_at: string;
   paid_at: null | string;
+  status: 'paid' | 'in-time' | 'in-thanks' | 'overdue';
   inserted_at: string;
   edited_at: string;
   removed_at: string;
