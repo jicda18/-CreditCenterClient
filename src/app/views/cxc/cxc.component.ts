@@ -114,10 +114,16 @@ export class CxcComponent implements OnInit {
       pending: toCurrency(pending(overdue)),
       inserted_at: dateTimeStandardFormat(loan?.inserted_at),
       bg_color: bgColorLoan(loan?.fees ?? []),
+      phone: debtor?.phone_number,
       fees: fees.map((fee) => {
         return {
           key: fee.key,
           amount: toCurrency(fee.amount),
+          capital: toCurrency(fee.capital),
+          interest: toCurrency(fee.interest),
+          pending: toCurrency(fee.pending),
+          pending_capital: toCurrency(fee.pending_capital),
+          pending_interest: toCurrency(fee.pending_interest),
           payment_at: dateStandardFormat(fee.payment_at),
           limit_at: dateStandardFormat(fee.limit_at),
           paid_at: fee.paid_at === null ? null : dateStandardFormat(fee.paid_at),

@@ -4,6 +4,7 @@
 			<th></th>
 			<th>Label</th>
 			<th>Cliente</th>
+			<th>Contacto</th>
 			<th>Monto</th>
 			<th>Capital</th>
 			<th>Interes</th>
@@ -21,6 +22,7 @@
 			</td>
 			<td>{{loan.loan_label}}</td>
 			<td>{{loan.debtor_key}}</td>
+			<td>{{loan.phone}}</td>
 			<td>{{loan.amount}}</td>
 			<td>{{loan.summary}}</td>
 			<td>{{loan.interest}}</td>
@@ -39,7 +41,14 @@
 						<ng-template pTemplate="header">
 			<th>Fecha Pago</th>
 			<th>Fecha Limite</th>
+
 			<th>Monto</th>
+			<th>Capital</th>
+			<th>Interes</th>
+
+			<th>Pendiente</th>
+			<th>P. Capital</th>
+			<th>P. Interes</th>
 			<!-- <th>Status</th> -->
 			<!-- <th *ngIf="false">Pagado </th> -->
 	</ng-template>
@@ -49,6 +58,11 @@
 			<td>{{fee.payment_at}}</td>
 			<td>{{fee.limit_at}}</td>
 			<td>{{fee.amount}}</td>
+			<td>{{fee.capital}}</td>
+			<td>{{fee.interest}}</td>
+			<td>{{fee.pending}}</td>
+			<td>{{fee.pending_capital}}</td>
+			<td>{{fee.pending_interest}}</td>
 			<!-- <td>{{fee.status}}</td> -->
 			<!-- <td>{{fee.paid_at}}</td> -->
 		</tr>
