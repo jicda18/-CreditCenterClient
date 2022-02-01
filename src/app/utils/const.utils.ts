@@ -46,6 +46,50 @@ export const languagePrimeNg = {
   emptyFilterMessage: 'No se encontró ningún resultado'
 };
 
+export const permissions = {
+  country_view: 1,
+  country_store: 2,
+  country_update: 3,
+  country_delete: 4,
+  province_view: 5,
+  province_store: 6,
+  province_update: 7,
+  province_delete: 8,
+  debtor_view: 9,
+  debtor_store: 10,
+  debtor_update: 11,
+  debtor_delete: 12,
+  permision_view: 13,
+  role_view: 14,
+  role_store: 15,
+  role_update: 16,
+  role_delete: 17,
+  user_view: 18,
+  user_store: 19,
+  user_update: 20,
+  user_delete: 21,
+  bank_view: 22,
+  bank_store: 23,
+  bank_update: 24,
+  bank_delete: 25,
+  loan_view: 26,
+  loan_store: 27,
+  loan_update: 28,
+  loan_delete: 29,
+  fee_view: 30,
+  frecuency_view: 31,
+  transantions_view: 32,
+  transantions_store: 33,
+  currency_view: 34,
+  currency_store: 35,
+  currency_update: 36,
+  currency_delete: 37,
+  logtype_view: 38,
+  log_view: 39,
+  securitylog_view: 40,
+  accesslist_view: 41,
+};
+
 export const navs: NavItem[] = [
   {
     label: 'Dashboard',
@@ -57,26 +101,25 @@ export const navs: NavItem[] = [
     label: 'Bancos',
     icon: 'fas fa-university',
     href: '/banks',
-    permission: [], // set permissions
+    permission: [permissions.bank_view],
   },
   {
     label: 'Clientes',
     icon: 'fas fa-id-card-alt',
     href: '/debtors',
-    permission: [], // set permissions
+    permission: [permissions.debtor_view],
   },
   {
     label: 'Monedas',
     icon: 'fas fa-coins',
     href: '/currencies',
-    permission: [], // set permissions
+    permission: [permissions.currency_view],
   },
   {
     label: 'Usuarios',
     icon: 'fas fa-users',
     href: '/users',
-    permission: [],
-    admin: true,
+    permission: [permissions.user_view],
   },
   {
     label: 'Prestamos',
@@ -88,19 +131,19 @@ export const navs: NavItem[] = [
         label: 'Listar',
         icon: 'fas fa-money-check-alt',
         href: '/loans/grid',
-        permission: [], // set permissions
+        permission: [permissions.loan_view],
       },
       {
         label: 'Crear',
         icon: 'fas fa-receipt',
         href: '/loans/form',
-        permission: [], // set permissions
+        permission: [permissions.loan_store],
       },
       {
         label: 'Pagos',
         icon: 'fas fa-money-bill-wave',
         href: '/loans/pay',
-        permission: [], // set permissions
+        permission: [permissions.transantions_store],
       },
     ]
   },
@@ -108,7 +151,7 @@ export const navs: NavItem[] = [
     label: 'CxC',
     icon: 'fas fa-book-reader',
     href: '/cxc',
-    permission: [], // set permissions
+    permission: [permissions.loan_view],
   },
 ];
 

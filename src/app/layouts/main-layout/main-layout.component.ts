@@ -59,8 +59,7 @@ export class MainLayoutComponent implements OnInit {
       await sleep(250);
     }
 
-    // Todo: add Permissions
-    this.navs = userNavs(menuItems, this.ss.user.administrator, []);
+    this.navs = userNavs(menuItems, this.ss.user.administrator, this.ss.user.permissions.map((permission) => permission.id));
   }
 
   // capture when closing the windows

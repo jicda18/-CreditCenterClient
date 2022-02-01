@@ -4,9 +4,9 @@ export const environment: Environment = {
   production: true,
   api: 'https://api.credit-center.net/',
   client: 1,
-  secret: '64QbYrwXz1Gp912BF6Zf8zOxetXdlboBYdJJrLCG',
+  secret: 'fzd7Kt96NM6otIyaih0XwVeE9c9Tylmhhn0h0XvS',
   grant: 'password',
-  version: '0.2.0-alfa',
+  version: '0.3.0-alfa',
   name: 'Credit Center',
-  biweekly: '9b23d87f-fa16-4f8a-a475-404c51ded61b',
+  biweekly: '742a7832-849c-4656-bde3-3e43f25850ea',
 };

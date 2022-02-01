@@ -36,6 +36,10 @@ export class SessionService {
     this._ms = value;
   }
 
+  public get waiting_user(): boolean {
+    return this._userWaiting;
+  }
+
   public get lastUrl(): string {
     if (this._lastUrl === undefined) {
       this._lastUrl = this._defaultPath;
@@ -176,7 +180,7 @@ export class SessionService {
     this._userWaiting = true;
 
     if (this._user === undefined) {
-      this._user = (await this.api.get<User>('users/me'))?.data;
+      this._user = (await this.api.get<User>('users/me?include=permissions'))?.data;
     }
 
     this._userWaiting = false;

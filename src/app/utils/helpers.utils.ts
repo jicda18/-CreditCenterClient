@@ -311,7 +311,7 @@ export function mapNavItemsToMenuItems(nav: NavItem): MenuItem {
   return item;
 }
 
-export function userNavs(navs: NavItem[], admin: boolean, permissions: string[]): MenuItem[] {
+export function userNavs(navs: NavItem[], admin: boolean, permissions: number[]): MenuItem[] {
   if (navs.length === 0) {
     return [];
   }

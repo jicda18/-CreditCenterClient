@@ -8,23 +8,12 @@ export const environment: Environment = {
   production: false,
   api: 'http://creditcenter.cruz/',
   client: 1,
-  secret: '92jHl8RbHeQ6ncJPV97IDQSwgHKLq1hOAXfq6iUx',
+  secret: 'tJW274xXDKrkrmiNuu33MOboJq2OYSg8FQx40Syo',
   grant: 'password',
-  version: '0.2.0',
+  version: '0.3.0',
   name: 'Credit Center',
-  biweekly: 'ca559255-1848-407d-9144-8e249441a855',
+  biweekly: '65548c5c-698c-4877-8e1c-89e6d9ef9132',
 };
-
-// export const environment: Environment = {
-//   production: true,
-//   api: 'https://api.credit-center.net/',
-//   client: 1,
-//   secret: '64QbYrwXz1Gp912BF6Zf8zOxetXdlboBYdJJrLCG',
-//   grant: 'password',
-//   version: '0.2.0-alfa',
-//   name: 'Credit Center',
-//   biweekly: '9b23d87f-fa16-4f8a-a475-404c51ded61b',
-// };
 
 /*
  * For easier debugging in development mode, you can import the following file
