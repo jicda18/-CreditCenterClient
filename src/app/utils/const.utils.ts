@@ -153,6 +153,12 @@ export const navs: NavItem[] = [
     href: '/cxc',
     permission: [permissions.loan_view],
   },
+  {
+    label: 'Calculadora',
+    icon: 'fas fa-calculator',
+    href: '/calculator',
+    permission: [],
+  },
 ];
 
 export const genderOptions: { value: string; label: string }[] = [

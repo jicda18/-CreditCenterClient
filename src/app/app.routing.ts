@@ -96,6 +96,16 @@ const routes: Routes = [
           permission: [],
         },
       },
+      {
+        path: 'calculator',
+        loadChildren: () => import('./views/calculator/calculator.module').then(m => m.CalculatorModule),
+        canActivate: [PolicyGuard],
+        canActivateChild: [PolicyGuard],
+        canLoad: [PolicyGuard],
+        data: {
+          permission: [],
+        },
+      },
     ],
   },
   {
