@@ -20,6 +20,7 @@ export interface Loan {
   amount: number;
   type: 'fixed_interest' | 'interest_capital';
   interest: number;
+  number_fees: number;
   inserted_at: string;
   edited_at: string;
   removed_at: string;

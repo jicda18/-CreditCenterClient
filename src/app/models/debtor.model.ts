@@ -5,6 +5,9 @@ import { Province } from './province.model';
 export interface Debtor {
   key: string;
   guarantor?: string;
+  guarantor_email?: string;
+  guarantor_phone?: string;
+  guarantor_personal_id?: string;
   business?: string;
   province_key: string;
   name: string;

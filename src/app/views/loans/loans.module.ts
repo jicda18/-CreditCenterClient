@@ -16,12 +16,18 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PayComponent } from './pay.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { LoanViewComponent } from './loan-view.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TabViewModule } from 'primeng/tabview';
+import { FeesModule } from 'src/app/components/fees/fees.module';
+import { TransactionsModule } from 'src/app/components/transactions/transactions.module';
 
 @NgModule({
   declarations: [
     LoansComponent,
     LoanFormComponent,
-    PayComponent
+    PayComponent,
+    LoanViewComponent
   ],
   imports: [
     CommonModule,
@@ -33,11 +39,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ButtonModule,
     InputNumberModule,
     ProgressBarModule,
+    ProgressSpinnerModule,
     DropdownModule,
     RadioButtonModule,
     CheckboxModule,
     InputTextareaModule,
+    TabViewModule,
     BsDatepickerModule.forRoot(),
+    FeesModule,
+    TransactionsModule
   ]
 })
 export class LoansModule { }

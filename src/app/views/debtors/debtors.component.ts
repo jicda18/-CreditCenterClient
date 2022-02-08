@@ -24,7 +24,6 @@ export class DebtorsComponent implements OnInit {
     { key: 'personal_id', label: 'Documento', type: 'text', filter: true },
     { key: 'name', label: 'Nombre', type: 'text', filter: true },
     { key: 'nick_name', label: 'Apodo', type: 'text', filter: true },
-    { key: 'guarantor', label: 'Garante', type: 'text', filter: false },
     { key: 'business', label: 'Negocio', type: 'text', filter: false },
     { key: 'province_key', label: 'Provincia', type: 'text', filter: true, enableOptions: true },
     { key: 'gender', label: 'Genero', type: 'text', filter: true, enableOptions: true, options: genderOptions },
@@ -35,6 +34,10 @@ export class DebtorsComponent implements OnInit {
     { key: 'occupation', label: 'Trabajo', type: 'text', filter: true },
     { key: 'income', label: 'Ingresos', type: 'numeric', filter: true },
     { key: 'other_income', label: 'Otros Ingresos', type: 'numeric', filter: true },
+    { key: 'guarantor', label: 'Garante', type: 'text', filter: false },
+    { key: 'guarantor_email', label: 'Email Garante', type: 'text', filter: false },
+    { key: 'guarantor_phone', label: 'Telefono Garante', type: 'text', filter: false },
+    { key: 'guarantor_personal_id', label: 'Cedula Garante', type: 'text', filter: false },
     { key: 'inserted_at', label: 'Creación', type: 'date', filter: false },
     { key: 'edited_at', label: 'Actualización', type: 'date', filter: false },
   ];
@@ -52,6 +55,9 @@ export class DebtorsComponent implements OnInit {
     return {
       key: debtor.key,
       guarantor: debtor.guarantor,
+      guarantor_email: debtor.guarantor_email,
+      guarantor_phone: debtor.guarantor_phone,
+      guarantor_personal_id: debtor.guarantor_personal_id,
       business: debtor.business,
       province_key: province?.province,
       name: debtor.name,

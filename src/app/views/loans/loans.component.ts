@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Fee } from 'src/app/models/fee.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
@@ -26,7 +27,7 @@ export class LoansComponent implements OnInit {
   public endpoint = 'loans';
   public includes = ['debtor', 'currency', 'fees', 'transactions'];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     selectOption('debtors/select', this.api).then((options) => this.cols[0].options = options);
@@ -90,7 +91,6 @@ export class LoansComponent implements OnInit {
   }
 
   public show(loan: Loan): void {
-    // this.router.navigate(['/users/', user.key], { state: { data: user } });
-    // Todo: implement
+    this.router.navigate([`loans/${loan.key}`]);
   }
 }

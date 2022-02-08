@@ -31,8 +31,24 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   public bankOptions: { value: string; label: string; custom?: Currency; }[] = [];
   public currencyOptions: { value: string; label: string; }[] = [];
 
+  public get with_guarantor(): AbstractControl | null {
+    return this.form?.get('with_guarantor') ?? null;
+  }
+
   public get guarantor(): AbstractControl | null {
     return this.form?.get('guarantor') ?? null;
+  }
+
+  public get guarantor_email(): AbstractControl | null {
+    return this.form?.get('guarantor_email') ?? null;
+  }
+
+  public get guarantor_phone(): AbstractControl | null {
+    return this.form?.get('guarantor_phone') ?? null;
+  }
+
+  public get guarantor_personal_id(): AbstractControl | null {
+    return this.form?.get('guarantor_personal_id') ?? null;
   }
 
   public get business(): AbstractControl | null {
@@ -127,8 +143,24 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return this.form?.get('thanks_days') ?? null;
   }
 
+  public get with_guarantorInvalid(): boolean {
+    return (this.with_guarantor?.invalid && (this.with_guarantor?.touched || this.with_guarantor?.dirty)) ?? false;
+  }
+
   public get guarantorInvalid(): boolean {
     return (this.guarantor?.invalid && (this.guarantor?.touched || this.guarantor?.dirty)) ?? false;
+  }
+
+  public get guarantor_emailInvalid(): boolean {
+    return (this.guarantor_email?.invalid && (this.guarantor_email?.touched || this.guarantor_email?.dirty)) ?? false;
+  }
+
+  public get guarantor_phoneInvalid(): boolean {
+    return (this.guarantor_phone?.invalid && (this.guarantor_phone?.touched || this.guarantor_phone?.dirty)) ?? false;
+  }
+
+  public get guarantor_personal_idInvalid(): boolean {
+    return (this.guarantor_personal_id?.invalid && (this.guarantor_personal_id?.touched || this.guarantor_personal_id?.dirty)) ?? false;
   }
 
   public get businessInvalid(): boolean {
@@ -239,7 +271,11 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
     this._edit = this.fb.group({
-      guarantor: [null, []],
+      with_guarantor: [null, []],
+      guarantor: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
+      guarantor_email: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true), Validators.email]],
+      guarantor_phone: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
+      guarantor_personal_id: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
       business: [null, []],
       name: [null, [Validators.required]],
       nick_name: [null, []],
@@ -256,7 +292,11 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     this._insert = this.fb.group({
-      guarantor: [null, []],
+      with_guarantor: [false, [Validators.required]],
+      guarantor: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
+      guarantor_email: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true), Validators.email]],
+      guarantor_phone: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
+      guarantor_personal_id: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
       business: [null, []],
       name: [null, [Validators.required]],
       nick_name: [null, []],
@@ -302,7 +342,11 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       this.form = this._edit;
 
+      this.with_guarantor?.setValue(this.debtor.guarantor !== null);
       this.guarantor?.setValue(this.debtor.guarantor);
+      this.guarantor_email?.setValue(this.debtor.guarantor_email);
+      this.guarantor_phone?.setValue(this.debtor.guarantor_phone);
+      this.guarantor_personal_id?.setValue(this.debtor.guarantor_personal_id);
       this.business?.setValue(this.debtor.business);
       this.name?.setValue(this.debtor.name);
       this.nick_name?.setValue(this.debtor.nick_name);

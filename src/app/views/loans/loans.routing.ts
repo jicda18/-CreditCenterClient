@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { permissions } from 'src/app/utils/const.utils';
 import { LoanFormComponent } from './loan-form.component';
+import { LoanViewComponent } from './loan-view.component';
 import { LoansComponent } from './loans.component';
 import { PayComponent } from './pay.component';
 
@@ -32,6 +33,13 @@ const routes: Routes = [
     component: PayComponent,
     data: {
       permission: [permissions.transantions_store],
+    },
+  },
+  {
+    path: ':loan_key',
+    component: LoanViewComponent,
+    data: {
+      permission: [permissions.loan_view],
     },
   }
 ];

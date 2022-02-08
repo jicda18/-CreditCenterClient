@@ -179,6 +179,14 @@ bs-daterangepicker-container {
 	z-index: 9999;
 }
 
+.as-enable {
+	opacity: 1 !important;
+
+	input {
+		opacity: 1 !important;
+	}
+}
+
 @media (min-width: $sm) {}
 
 @media (min-width: $md) {}

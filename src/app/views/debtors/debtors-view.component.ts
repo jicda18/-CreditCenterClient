@@ -61,4 +61,8 @@ export class DebtorsViewComponent implements OnInit {
       thanks_days: loan.thanks_days,
     };
   }
+
+  public viewLoan(loan: Loan): void {
+    this.router.navigate([`loans/${loan.key}`]);
+  }
 }

@@ -506,14 +506,14 @@ export async function createResource<T>(api: ApiService, route: string, form: Fo
   return item;
 }
 
-export async function updateResource<T>(api: ApiService, route: string, form: HttpParams, ms: MessageService, event: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
+export async function updateResource<T>(api: ApiService, route: string, form: HttpParams, ms: MessageService, event?: EventEmitter<T>, success?: (item: T) => string, fail?: () => string, withFail = true): Promise<T | false> {
   const item = (await api.put<T>(route, form)).data ?? false;
 
   if (item !== false) {
     const msg = success === undefined ? 'Elemento actualizado.' : success(item);
     ms.add({ summary: 'Actualizado', detail: msg, icon: 'pi-check-circle', severity: 'success' });
 
-    event.emit(item);
+    event?.emit(item);
   } else if (withFail) {
     const msg = fail === undefined ? 'Elemento no actualizado.' : fail();
     ms.add({ summary: 'Error', detail: msg, icon: 'pi-times-circle', severity: 'error' });

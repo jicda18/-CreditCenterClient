@@ -1,0 +1,164 @@
+<div class="flex">
+	<p-progressSpinner mode="indeterminate" class="my-3 mx-auto p-0 mb-0" *ngIf="mainLoading"></p-progressSpinner>
+</div>
+
+<div class="p-3" style="overflow-x: auto;" *ngIf="!mainLoading">
+	<p-tabView>
+		<p-tabPanel header="Prestamo" leftIcon="pi pi-bell" [selected]="true">
+			<div style="background-color: var(--surface-e);" class="p-2">
+				<div class="p-grid m-0 p-0">
+					<!-- Cliente -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-user"></i>
+								<input type="text" class="w-100 as-enable" pInputText [disabled]="true" [ngModel]="debtor">
+								<label for="float-input">Cliente</label>
+							</span>
+						</div>
+					</div>
+
+					<!-- Fecha de creación -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-calendar"></i>
+								<input type="text" class="w-100 as-enable" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false }" [disabled]="true" [ngModel]="inserted_at">
+								<label for="float-input">Fecha de Creación</label>
+							</span>
+						</div>
+					</div>
+
+					<!-- Moneda -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-coins"></i>
+								<input type="text" class="w-100 as-enable" pInputText [disabled]="true" [ngModel]="currency">
+								<label for="float-input">Moneda</label>
+							</span>
+						</div>
+					</div>
+
+					<!-- monto -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-money-bill-alt"></i>
+								<input type="text" class="w-100 as-enable" pInputText [disabled]="true" [ngModel]="amount">
+								<label for="float-input">Monto</label>
+							</span>
+						</div>
+					</div>
+
+					<!-- capital -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-money-bill"></i>
+								<input type="text" class="w-100 as-enable" pInputText [disabled]="true" [ngModel]="capital">
+								<label for="float-input">Capital</label>
+							</span>
+						</div>
+					</div>
+
+					<!-- Monto Coutas -->
+					<div class="flex my-1">
+						<div class="col">
+							<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+								<i class="fa fa-money-bill"></i>
+								<input type="text" class="w-100 as-enable" pInputText [disabled]="true" [ngModel]="fee_amount">
+								<label for="float-input">Coutas</label>
+							</span>
+						</div>
+					</div>
+
+					<hr />
+
+					<form [formGroup]="form!" (ngSubmit)="submit()">
+						<!-- interes -->
+						<div class="flex my-1">
+							<div class="col">
+								<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+									<i class="fas fa-percent"></i>
+									<p-inputNumber [class]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="interest" [showButtons]="true" suffix="%" [min]="0" [step]="0.01"></p-inputNumber>
+									<label for="float-input">Interes*</label>
+								</span>
+
+								<small class="p-error" *ngIf="interestInvalid">Interes es requerido.</small>
+							</div>
+						</div>
+
+						<!-- Tipo -->
+						<div class="flex my-1">
+							<div class="col">
+								<label for="float-input" class="mx-2 text-form">Tipo*: </label>
+								<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="fixed_interest" label="Interes Fijo" formControlName="type"></p-radioButton>
+								<p-radioButton [styleClass]="'mx-2 text-form' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" value="interest_capital" label="Interes más Capital" formControlName="type"></p-radioButton>
+
+								<small class="p-error" *ngIf="typeInvalid"><br />Tipo es requerido.</small>
+							</div>
+						</div>
+
+						<!-- Cantidad de cuotas -->
+						<div class="flex my-1" *ngIf="type?.value === 'interest_capital'">
+							<div class="col">
+								<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+									<i class="fas fa-hashtag"></i>
+									<p-inputNumber [class]="'w-100' + (feesInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="fees" [showButtons]="true" [min]="1"></p-inputNumber>
+									<label for="float-input">Cantidad de Cuotas*</label>
+								</span>
+
+								<small class="p-error" *ngIf="feesInvalid">Cantidad de Cuotas es requerido.</small>
+							</div>
+						</div>
+
+						<!-- frecuency -->
+						<div class="flex my-1">
+							<div class="col">
+								<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+									<i class="fas fa-sync-alt"></i>
+									<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+										<ng-template let-option pTemplate="item">
+											<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+										</ng-template>
+									</p-dropdown>
+									<label for="float-input">Frecuencia*</label>
+								</span>
+
+								<small class="p-error" *ngIf="frequency_keyInvalid">Frecuencia es requerido.</small>
+							</div>
+						</div>
+
+						<!-- dia de Gracias -->
+						<div class="flex my-1">
+							<div class="col">
+								<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+									<i class="far fa-check-circle"></i>
+									<p-inputNumber [class]="'w-100' + (thanks_daysInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="thanks_days" [showButtons]="true" [min]="0"></p-inputNumber>
+									<label for="float-input">Dias de Gracias*</label>
+								</span>
+
+								<small class="p-error" *ngIf="thanks_daysInvalid">Dias de Gracias es requerido.</small>
+							</div>
+						</div>
+
+						<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="secondaryLoading"></p-progressBar>
+
+						<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!secondaryLoading">
+							<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Salvar" pButton pRipple></button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</p-tabPanel>
+
+		<p-tabPanel header="Coutas" leftIcon="pi pi-book">
+			<app-fees [fees]="fees_array"></app-fees>
+		</p-tabPanel>
+
+		<p-tabPanel header="Transaciones" leftIcon="pi pi-database">
+			<app-transactions [transactions]="transactions" [for_loan]="true"></app-transactions>
+		</p-tabPanel>
+	</p-tabView>
+</div>

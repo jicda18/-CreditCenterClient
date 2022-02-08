@@ -12,8 +12,9 @@
 				[includes]="includes"
 				[show]="true"
 				[add]="false"
-				[edit]="true"
-				[delete]="false"></app-grid>
+				[edit]="false"
+				[delete]="false"
+				(showClick)="viewLoan($event)"></app-grid>
 		</p-tabPanel>
 	</p-tabView>
 </div>

@@ -1,0 +1,25 @@
+<div class="flex">
+	<p-table [value]="data" dataKey="key" class="mx-auto">
+		<ng-template pTemplate="header">
+			<tr>
+				<th class="text-center px-3">Fecha Pago</th>
+				<!-- <th class="text-center px-3">Efectivo</th> -->
+				<th class="text-center px-3">Monto</th>
+				<th class="text-center px-3">Balance</th>
+				<th class="text-center px-3">Usuario</th>
+				<th class="text-center px-3">Fecha Creación</th>
+			</tr>
+		</ng-template>
+
+		<ng-template pTemplate="body" let-transaction>
+			<tr>
+				<td class="text-center px-2">{{transaction.was_at}}</td>
+				<!-- <td class="text-center px-2">{{transaction.cash}}</td> -->
+				<td class="text-center px-2">{{transaction.amount}}</td>
+				<td class="text-center px-2">{{transaction.balance}}</td>
+				<td class="text-center px-2">{{transaction.register}}</td>
+				<td class="text-center px-2">{{transaction.inserted_at}}</td>
+			</tr>
+		</ng-template>
+	</p-table>
+</div>

@@ -172,18 +172,69 @@
 			</div>
 		</div>
 
-		<!-- guarantor -->
+		<hr />
+		<!-- with_guarantor -->
 		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2 text-form">Garante: </label>
+				<p-checkbox [styleClass]="'mx-2 text-form' + (with_guarantorInvalid ? ' ng-invalid ng-dirty' : '')" [binary]="true" formControlName="with_guarantor"></p-checkbox>
+
+				<small class="p-error" *ngIf="with_guarantorInvalid"><br />Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fas fa-user"></i>
 					<input type="text" [class]="'w-100' + (guarantorInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor" pInputText>
-					<label for="float-input">Garante</label>
+					<label for="float-input">Nombre Garente</label>
 				</span>
 
-				<small class="p-error" *ngIf="guarantorInvalid">Garante es requerido.</small>
+				<small class="p-error" *ngIf="guarantorInvalid">Nombre Garante es requerido.</small>
 			</div>
 		</div>
+
+		<!-- guarantor_email -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-envelope"></i>
+					<input type="text" [class]="'w-100' + (guarantor_emailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_email" pInputText>
+					<label for="float-input">Email Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_emailInvalid">Email Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor_phone -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-phone"></i>
+					<input type="text" [class]="'w-100' + (guarantor_phoneInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_phone" pInputText>
+					<label for="float-input">Telefono Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_phoneInvalid">Telefono Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor_personal_id -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-id-card"></i>
+					<input type="text" [class]="'w-100' + (guarantor_personal_idInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_personal_id" pInputText>
+					<label for="float-input">Cedula Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_personal_idInvalid">Cedula Garante es requerido.</small>
+			</div>
+		</div>
+		<hr *ngIf="isInsert" />
 
 		<!-- Only if insert -->
 		<div *ngIf="isInsert">
@@ -249,7 +300,7 @@
 				<div class="col">
 					<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 						<i class="fas fa-percent"></i>
-						<p-inputNumber [class]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="interest" [showButtons]="true" suffix="%" [min]="0"></p-inputNumber>
+						<p-inputNumber [class]="'w-100' + (interestInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="interest" [showButtons]="true" suffix="%" [min]="0" [step]="0.01"></p-inputNumber>
 						<label for="float-input">Interes*</label>
 					</span>
 
