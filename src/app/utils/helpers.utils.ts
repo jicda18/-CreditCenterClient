@@ -476,7 +476,7 @@ export function objectToHttpParams(data: { [key: string]: string | number | bool
       const item = data[key];
 
       if (item === undefined || item === null) {
-        form.append(key, '');
+        form = form.set(key, '');
       } else if (Array.isArray(item)) {
         for (const i of item) {
           form = form.set(`${key}[]`, basicTypeToString(i));

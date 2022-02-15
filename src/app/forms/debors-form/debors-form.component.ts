@@ -411,6 +411,13 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
         inputs.phone_number = inputs.phone_number.replace('(', '').replace(')', '').replace(' ', '').replace('-', '');
       }
 
+      if (!inputs.with_guarantor) {
+        inputs.guarantor = null;
+        inputs.guarantor_email = null;
+        inputs.guarantor_phone = null;
+        inputs.guarantor_personal_id = null;
+      }
+
       if (this.debtor === undefined) {
         inputs.interest /= 100;
         inputs.fees = inputs.fees ?? 1;
