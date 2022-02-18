@@ -8,6 +8,7 @@ import { NavItem } from '../models/nav-item.model';
 import { Router } from '@angular/router';
 import { GridComponent } from '../components/grid/grid.component';
 import { EventEmitter } from '@angular/core';
+import { SessionService } from '../services/session.service';
 
 // ----- Validations -----
 /**
@@ -564,4 +565,24 @@ export function groupBy<T extends { [key: string]: any }>(array: T[], prop: stri
   }
 
   return group;
+}
+
+export function canEditInsertAndDelete(ss: SessionService, insertPermission: number, editPermission: number, deletePermission: number): { [key: string]: boolean } {
+  const answer = {
+    insert: false,
+    edit: false,
+    delete: false,
+  };
+
+  const user = ss.user;
+  if (user !== undefined && user !== null) {
+    const permissions = user.permissions.map((permission) => permission.id);
+    const admin = user.administrator;
+
+    answer.insert = admin || hasAll(permissions, [insertPermission]);
+    answer.edit = admin || hasAll(permissions, [editPermission]);
+    answer.delete = admin || hasAll(permissions, [deletePermission]);
+  }
+
+  return answer;
 }

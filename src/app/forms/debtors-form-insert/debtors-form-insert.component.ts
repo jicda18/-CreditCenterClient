@@ -1,30 +1,28 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Currency } from 'src/app/models/currency.model';
 import { Debtor } from 'src/app/models/debtor.model';
 import { ApiService } from 'src/app/services/api.service';
-import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { permissions } from 'src/app/utils/const.utils';
+import { canEditInsertAndDelete, convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, objectToHttpParams, selectOption, updateResource } from 'src/app/utils/helpers.utils';
 import { CustomValidations } from 'src/app/utils/validations.util';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-debors-form',
-  templateUrl: './debors-form.component.html',
+  selector: 'app-debtors-form-insert',
+  templateUrl: './debtors-form-insert.component.html',
   styles: [
   ]
 })
-export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() debtor?: Debtor;
-
+export class DebtorsFormComponent implements OnInit, OnDestroy {
   @Output() cancel = new EventEmitter<void>();
   @Output() inserted = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
 
-  private _edit: FormGroup;
-  private _insert: FormGroup;
-
-  public form?: FormGroup;
+  public form: FormGroup;
+  public readonly = false;
   public loading = false;
   public provinceOptions: { value: string; label: string; }[] = [];
   public frequencyOptions: { value: string; label: string; }[] = [];
@@ -255,10 +253,6 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return (this.thanks_days?.invalid && (this.thanks_days?.touched || this.thanks_days?.dirty)) ?? false;
   }
 
-  public get isInsert(): boolean {
-    return this.debtor === undefined;
-  }
-
   public get maxDob(): Date {
     const today = convertToDateTime(new Date());
 
@@ -269,29 +263,12 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     return new Date();
   }
 
-  constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
-    this._edit = this.fb.group({
-      with_guarantor: [null, []],
-      guarantor: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
-      guarantor_email: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true), Validators.email]],
-      guarantor_phone: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
-      guarantor_personal_id: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
-      business: [null, []],
-      name: [null, [Validators.required]],
-      nick_name: [null, []],
-      personal_id: [null, [Validators.required]],
-      gender: [null, [Validators.required]],
-      province_key: [null, [Validators.required]],
-      street: [null, [Validators.required]],
-      phone_number: [null, []],
-      mail: [null, [Validators.email]],
-      dob: [null, []],
-      marital_status: [null, [Validators.required]],
-      occupation: [null, []],
-      income: [null, [Validators.required]],
-    });
+  public get canSubmit(): boolean {
+    return !this.readonly;
+  }
 
-    this._insert = this.fb.group({
+  constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService, private ss: SessionService) {
+    this.form = this.fb.group({
       with_guarantor: [false, [Validators.required]],
       guarantor: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true)]],
       guarantor_email: [null, [CustomValidations.fn((value?: string) => this.with_guarantor?.value === true ? (value !== undefined && value !== null && value !== '') : true), Validators.email]],
@@ -321,8 +298,6 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
       start_at: [null, [Validators.required]],
       thanks_days: [null, [Validators.required, Validators.min(0)]],
     });
-
-    this.form = this._edit;
   }
 
   async ngOnInit(): Promise<void> {
@@ -333,37 +308,71 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
     this.bankOptions = await selectOption('banks/select', this.api);
     this.currencyOptions = await selectOption('currencies/select', this.api);
 
-    this.loading = false;
-  }
+    const options = canEditInsertAndDelete(this.ss, permissions.debtor_store, permissions.debtor_update, permissions.debtor_delete);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.debtor === undefined) {
-      this.form = this._insert;
-    } else {
-      this.form = this._edit;
+    this.readonly = !options.insert;
 
-      this.with_guarantor?.setValue(this.debtor.guarantor !== null);
-      this.guarantor?.setValue(this.debtor.guarantor);
-      this.guarantor_email?.setValue(this.debtor.guarantor_email);
-      this.guarantor_phone?.setValue(this.debtor.guarantor_phone);
-      this.guarantor_personal_id?.setValue(this.debtor.guarantor_personal_id);
-      this.business?.setValue(this.debtor.business);
-      this.name?.setValue(this.debtor.name);
-      this.nick_name?.setValue(this.debtor.nick_name);
-      this.personal_id?.setValue(this.debtor.personal_id);
-      this.gender?.setValue(this.debtor.gender);
-      this.province_key?.setValue(this.debtor.province_key);
-      this.street?.setValue(this.debtor.street);
-      this.phone_number?.setValue(this.debtor.phone_number);
-      this.mail?.setValue(this.debtor.mail);
-      this.marital_status?.setValue(this.debtor.marital_status);
-      this.occupation?.setValue(this.debtor.occupation);
-      this.income?.setValue(this.debtor.income);
+    this.with_guarantor?.enable();
+    this.guarantor?.enable();
+    this.guarantor_email?.enable();
+    this.guarantor_phone?.enable();
+    this.guarantor_personal_id?.enable();
+    this.business?.enable();
+    this.name?.enable();
+    this.nick_name?.enable();
+    this.personal_id?.enable();
+    this.gender?.enable();
+    this.province_key?.enable();
+    this.street?.enable();
+    this.phone_number?.enable();
+    this.mail?.enable();
+    this.dob?.enable();
+    this.marital_status?.enable();
+    this.occupation?.enable();
+    this.income?.enable();
+    this.cash?.enable();
+    this.bank_key?.enable();
+    this.currency_key?.enable();
+    this.balance?.enable();
+    this.interest?.enable();
+    this.fees?.enable();
+    this.frequency_key?.enable();
+    this.type?.enable();
+    this.start_at?.enable();
+    this.thanks_days?.enable();
 
-      if (this.debtor.dob !== undefined) {
-        this.dob?.setValue(convertToDate(this.debtor.dob));
-      }
+    if (this.readonly) {
+      this.with_guarantor?.disable();
+      this.guarantor?.disable();
+      this.guarantor_email?.disable();
+      this.guarantor_phone?.disable();
+      this.guarantor_personal_id?.disable();
+      this.business?.disable();
+      this.name?.disable();
+      this.nick_name?.disable();
+      this.personal_id?.disable();
+      this.gender?.disable();
+      this.province_key?.disable();
+      this.street?.disable();
+      this.phone_number?.disable();
+      this.mail?.disable();
+      this.dob?.disable();
+      this.marital_status?.disable();
+      this.occupation?.disable();
+      this.income?.disable();
+      this.cash?.disable();
+      this.bank_key?.disable();
+      this.currency_key?.disable();
+      this.balance?.disable();
+      this.interest?.disable();
+      this.fees?.disable();
+      this.frequency_key?.disable();
+      this.type?.disable();
+      this.start_at?.disable();
+      this.thanks_days?.disable();
     }
+
+    this.loading = false;
   }
 
   public biweekly(): void {
@@ -394,6 +403,10 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public async submit(): Promise<void> {
+    if (this.readonly || !this.canSubmit) {
+      return;
+    }
+
     this.loading = true;
 
     for (const key in this.form?.controls) {
@@ -418,18 +431,12 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
         inputs.guarantor_personal_id = null;
       }
 
-      if (this.debtor === undefined) {
-        inputs.interest /= 100;
-        inputs.fees = inputs.fees ?? 1;
+      inputs.interest /= 100;
+      inputs.fees = inputs.fees ?? 1;
 
-        const form = objectToFormData(inputs);
+      const form = objectToFormData(inputs);
 
-        await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
-      } else {
-        const form = objectToHttpParams(inputs);
-
-        await updateResource<Debtor>(this.api, `debtors/${this.debtor.key}?province`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
-      }
+      await createResource<Debtor>(this.api, 'debtors?include=province', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente.`);
     } else {
       this.form?.markAllAsTouched();
     }
@@ -438,7 +445,6 @@ export class DeborsFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    delete this.debtor;
     this.form?.reset();
   }
 }

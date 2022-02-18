@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DeborsFormComponent } from './debors-form.component';
+import { DebtorsFormEditComponent } from './debtors-form-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -9,16 +9,14 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { CalendarModule } from 'primeng/calendar';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
-    DeborsFormComponent
+    DebtorsFormEditComponent
   ],
   imports: [
-    // BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -30,11 +28,10 @@ import { CheckboxModule } from 'primeng/checkbox';
     InputMaskModule,
     RadioButtonModule,
     CheckboxModule,
-    // CalendarModule,
     BsDatepickerModule.forRoot(),
   ],
   exports: [
-    DeborsFormComponent
+    DebtorsFormEditComponent
   ],
 })
-export class DeborsFormModule { }
+export class DebtorsFormEditModule { }

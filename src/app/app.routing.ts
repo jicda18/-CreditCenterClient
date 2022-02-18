@@ -67,16 +67,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'transactions',
-        loadChildren: () => import('./views/transactions/transactions.module').then(m => m.TransactionsModule),
-        canActivate: [PolicyGuard],
-        canActivateChild: [PolicyGuard],
-        canLoad: [PolicyGuard],
-        data: {
-          permission: [],
-        },
-      },
-      {
         path: 'loans',
         loadChildren: () => import('./views/loans/loans.module').then(m => m.LoansModule),
         canActivate: [PolicyGuard],

@@ -5,7 +5,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<input type="text" [class]="'w-100 as-enable' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
 					<label for="float-input">Nombre*</label>
 				</span>
 
@@ -18,7 +18,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fas fa-coins"></i>
-					<p-dropdown [options]="currencyOptions" [class]="currencyKeyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
+					<p-dropdown [options]="currencyOptions" [class]="currencyKeyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100 as-enable" [filter]="true" filterBy="label" [showClear]="true" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Moneda">
 						<ng-template let-option pTemplate="item">
 							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 						</ng-template>
@@ -35,7 +35,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="pi pi-tag"></i>
-					<input type="text" [class]="'w-100' + (nicknameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="nickname" pInputText>
+					<input type="text" [class]="'w-100 as-enable' + (nicknameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="nickname" pInputText>
 					<label for="float-input">Apodo*</label>
 				</span>
 
@@ -48,7 +48,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="pi pi-id-card"></i>
-					<input type="text" [class]="'w-100' + (accountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="account" pInputText>
+					<input type="text" [class]="'w-100 as-enable' + (accountInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="account" pInputText>
 					<label for="float-input">Cuenta*</label>
 				</span>
 
@@ -61,7 +61,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<p-inputNumber [class]="'w-100' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<p-inputNumber [class]="'w-100 as-enable' + (balanceInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="balance" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
 					<label for="float-input">Balance*</label>
 				</span>
 
@@ -72,9 +72,8 @@
 		<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
-			<!-- Todo; remove cancel if update -->
-			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
-			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple></button>
+			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()" *ngIf="isInsert"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple *ngIf="canSubmit"></button>
 		</div>
 	</form>
 </div>

@@ -1,0 +1,244 @@
+<div class="p-grid m-0 p-0">
+	<form [formGroup]="form!" (ngSubmit)="submit()">
+		<!-- full name -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-user"></i>
+					<input type="text" [class]="'w-100 as-enable' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<label for="float-input">Nombre y Apellido*</label>
+				</span>
+
+				<small class="p-error" *ngIf="nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<!-- nickname -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-tag"></i>
+					<input type="text" [class]="'w-100 as-enable' + (nick_nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="nick_name" pInputText>
+					<label for="float-input">Apodo</label>
+				</span>
+
+				<small class="p-error" *ngIf="nick_nameInvalid">Nombre es requerido.</small>
+			</div>
+		</div>
+
+		<!-- personal id -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-id-card"></i>
+					<input type="text" [class]="'w-100 as-enable' + (personal_idInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="personal_id" pInputText>
+					<label for="float-input">Cedula o pasaporte*</label>
+				</span>
+
+				<small class="p-error" *ngIf="personal_idInvalid">Cedula o pasaporte es requerido.</small>
+			</div>
+		</div>
+
+		<!-- gender -->
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Genero*: </label>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (genderInvalid ? ' ng-invalid ng-dirty' : '')" name="gender" value="male" label="Hombre" formControlName="gender"></p-radioButton>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (genderInvalid ? ' ng-invalid ng-dirty' : '')" name="gender" value="female" label="Mujer" formControlName="gender"></p-radioButton>
+
+				<small class="p-error" *ngIf="genderInvalid">Genero es requerido.</small>
+			</div>
+		</div>
+
+		<!-- province -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-map-signs"></i>
+					<p-dropdown [options]="provinceOptions" [class]="province_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100 as-enable" [filter]="true" filterBy="label" [showClear]="true" formControlName="province_key" optionLabel="label" optionValue="value" placeholder="Provincia">
+						<ng-template let-option pTemplate="item">
+							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+						</ng-template>
+					</p-dropdown>
+					<label for="float-input">Provincia*</label>
+				</span>
+
+				<small class="p-error" *ngIf="province_keyInvalid">Provincia es requerido.</small>
+			</div>
+		</div>
+
+		<!-- address -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-map-marked"></i>
+					<input type="text" [class]="'w-100 as-enable' + (streetInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="street" pInputText>
+					<label for="float-input">Dirrección*</label>
+				</span>
+
+				<small class="p-error" *ngIf="streetInvalid">Dirrección es requerido.</small>
+			</div>
+		</div>
+
+		<!-- phone -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-phone"></i>
+					<p-inputMask [styleClass]="'w-100 as-enable' + (phone_numberInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="phone_number" mask="(999) 999-9999"></p-inputMask>
+					<label for="float-input">Telefono</label>
+				</span>
+
+				<small class="p-error" *ngIf="phone_numberInvalid">Telefono es requerido.</small>
+			</div>
+		</div>
+
+		<!-- email -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-envelope"></i>
+					<input type="email" [class]="'w-100 as-enable' + (mailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="mail" pInputText>
+					<label for="float-input">Email</label>
+				</span>
+
+				<small class="p-error" *ngIf="mailInvalid">Email es requerido.</small>
+			</div>
+		</div>
+
+		<!-- dob -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="far fa-calendar"></i>
+					<input type="text" [class]="'w-100 as-enable' + (dobInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="dob" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, maxDate: maxDob}">
+					<label for="float-input">Fecha Nacimiento</label>
+				</span>
+
+				<small class="p-error" *ngIf="dobInvalid">Fecha Nacimiento es requerido.</small>
+			</div>
+		</div>
+
+		<!-- marital status -->
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Estado Civil*: </label>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="single" label="Soltero" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="married" label="Casado" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="divorced" label="Divorciado" formControlName="marital_status"></p-radioButton>
+				<p-radioButton [styleClass]="'as-enable mx-2' + (marital_statusInvalid ? ' ng-invalid ng-dirty' : '')" name="marital_status" value="widowed" label="Vuido" formControlName="marital_status"></p-radioButton>
+
+				<small class="p-error" *ngIf="marital_statusInvalid"><br />Estado Civil es requerido.</small>
+			</div>
+		</div>
+
+		<!-- business -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-building"></i>
+					<input type="text" [class]="'w-100 as-enable' + (businessInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="business" pInputText>
+
+					<label for="float-input">Negocio</label>
+				</span>
+
+				<small class="p-error" *ngIf="businessInvalid">Negocio es requerido.</small>
+			</div>
+		</div>
+
+		<!-- work -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-user-graduate"></i>
+					<input type="text" [class]="'w-100 as-enable' + (occupationInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="occupation" pInputText>
+					<label for="float-input">Ocupación</label>
+				</span>
+
+				<small class="p-error" *ngIf="occupationInvalid">Ocupación es requerido.</small>
+			</div>
+		</div>
+
+		<!-- income -->
+		<div class="flex my-1">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-dollar-sign"></i>
+					<p-inputNumber class="w-100" [class]="'w-100 as-enable' + (incomeInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="income" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<label for="float-input">Ingreso*</label>
+				</span>
+
+				<small class="p-error" *ngIf="incomeInvalid">Ingreso es requerido.</small>
+			</div>
+		</div>
+
+		<hr />
+		<!-- with_guarantor -->
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2 text-form">Garante: </label>
+				<p-checkbox [styleClass]="'mx-2 text-form' + (with_guarantorInvalid ? ' ng-invalid ng-dirty' : '')" [binary]="true" formControlName="with_guarantor"></p-checkbox>
+
+				<small class="p-error" *ngIf="with_guarantorInvalid"><br />Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-user"></i>
+					<input type="text" [class]="'w-100 as-enable' + (guarantorInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor" pInputText>
+					<label for="float-input">Nombre Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantorInvalid">Nombre Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor_email -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-envelope"></i>
+					<input type="text" [class]="'w-100 as-enable' + (guarantor_emailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_email" pInputText>
+					<label for="float-input">Email Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_emailInvalid">Email Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor_phone -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-phone"></i>
+					<input type="text" [class]="'w-100 as-enable' + (guarantor_phoneInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_phone" pInputText>
+					<label for="float-input">Telefono Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_phoneInvalid">Telefono Garante es requerido.</small>
+			</div>
+		</div>
+
+		<!-- guarantor_personal_id -->
+		<div class="flex my-1" *ngIf="with_guarantor?.value === true">
+			<div class="col">
+				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+					<i class="fas fa-id-card"></i>
+					<input type="text" [class]="'w-100 as-enable' + (guarantor_personal_idInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="guarantor_personal_id" pInputText>
+					<label for="float-input">Cedula Garente</label>
+				</span>
+
+				<small class="p-error" *ngIf="guarantor_personal_idInvalid">Cedula Garante es requerido.</small>
+			</div>
+		</div>
+
+		<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
+
+		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple *ngIf="canSubmit"></button>
+		</div>
+	</form>
+</div>

@@ -6,7 +6,9 @@ import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { Bank } from 'src/app/models/bank.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { ApiService } from 'src/app/services/api.service';
-import { apiDelete, dateTimeStandardFormat, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { permissions } from 'src/app/utils/const.utils';
+import { apiDelete, canEditInsertAndDelete, dateTimeStandardFormat, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 import { BanksModalComponent } from './banks-modal.component';
 
 @Component({
@@ -31,10 +33,16 @@ export class BanksComponent implements OnInit {
   public endpoint = 'banks';
   public includes = ['currency'];
 
-  constructor(private api: ApiService, private router: Router, private ms: MessageService) { }
+  public canInsert = false;
+
+  constructor(private api: ApiService, private router: Router, private ms: MessageService, private ss: SessionService) { }
 
   ngOnInit(): void {
     selectOption('currencies/select', this.api).then((options) => this.cols[3].options = options);
+
+    const config = canEditInsertAndDelete(this.ss, permissions.bank_store, permissions.bank_update, permissions.bank_delete);
+
+    this.canInsert = config.insert;
   }
 
   public mapper(bank: Bank): { [key: string]: any } {
@@ -62,10 +70,6 @@ export class BanksComponent implements OnInit {
 
   public add(): void {
     this._modal?.show(BanksModalComponent, 'Crear Banco', { grid: this._grid });
-  }
-
-  public edit(bank: Bank): void {
-    this._modal?.show(BanksModalComponent, `Editar ${bank.bank}`, { item: bank, grid: this._grid });
   }
 
   public delete(bank: Bank): void {

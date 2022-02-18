@@ -5,6 +5,9 @@
 	[mapper]="mapper"
 	[globalFilter]="globalFilter"
 	[show]="false"
+	[add]="canInsert"
+	[edit]="canEdit"
+	[delete]="canDelete"
 	(addClick)="add()"
 	(editClick)="edit($event)"
 	(deleteClick)="delete($event)"></app-grid>

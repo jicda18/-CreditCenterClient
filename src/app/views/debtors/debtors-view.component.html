@@ -1,7 +1,7 @@
 <div style="background-color: var(--surface-e); min-height: 100%;">
 	<p-tabView>
 		<p-tabPanel header="Información" leftIcon="pi pi-bell" [selected]="true">
-			<app-debors-form [debtor]="debtor"></app-debors-form>
+			<app-debtors-form-edit [debtor]="debtor"></app-debtors-form-edit>
 		</p-tabPanel>
 		<p-tabPanel header="Deuda" leftIcon="pi pi-bell">
 			<app-grid #loans *ngIf="endpoint !== undefined"

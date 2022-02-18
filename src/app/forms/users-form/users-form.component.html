@@ -4,7 +4,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<input type="text" [class]="'w-100' + (usernameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="username" pInputText>
+					<input type="text" [class]="'w-100 as-enable' + (usernameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="username" pInputText>
 					<label for="float-input">Usuario*</label>
 				</span>
 
@@ -16,7 +16,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<input type="text" [class]="'w-100' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
+					<input type="text" [class]="'w-100 as-enable' + (nameInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="name" pInputText>
 					<label for="float-input">Nombre*</label>
 				</span>
 
@@ -28,7 +28,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fa fa-university"></i>
-					<input type="email" [class]="'w-100' + (mailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="mail" pInputText>
+					<input type="email" [class]="'w-100 as-enable' + (mailInvalid ? ' ng-invalid ng-dirty' : '')" formControlName="mail" pInputText>
 					<label for="float-input">Email*</label>
 				</span>
 
@@ -40,8 +40,8 @@
 		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
-			<button type="button" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()"></button>
-			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple></button>
+			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()" *ngIf="isInsert"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple *ngIf="canSubmit"></button>
 		</div>
 	</form>
 </div>

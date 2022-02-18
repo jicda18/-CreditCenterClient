@@ -6,7 +6,9 @@ import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/services/api.service';
-import { apiDelete, dateTimeStandardFormat } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { permissions } from 'src/app/utils/const.utils';
+import { apiDelete, canEditInsertAndDelete, dateTimeStandardFormat } from 'src/app/utils/helpers.utils';
 import { UsersModalComponent } from './users-modal.component';
 
 @Component({
@@ -31,10 +33,16 @@ export class UsersComponent implements OnInit {
   public endpoint = 'users';
   public includes = []; // Todo: Set Include
 
-  constructor(private api: ApiService, private router: Router, private ms: MessageService) { }
+  public canInsert = false;
+  public canDelete = false;
+
+  constructor(private api: ApiService, private router: Router, private ms: MessageService, private ss: SessionService) { }
 
   ngOnInit(): void {
+    const config = canEditInsertAndDelete(this.ss, permissions.user_store, permissions.user_update, permissions.user_delete);
 
+    this.canInsert = config.insert;
+    this.canDelete = config.delete;
   }
 
   public mapper(user: User): { [key: string]: any } {
@@ -60,10 +68,6 @@ export class UsersComponent implements OnInit {
 
   public add(): void {
     this._modal?.show(UsersModalComponent, 'Crear Usuario', { grid: this._grid });
-  }
-
-  public edit(user: User): void {
-    this._modal?.show(UsersModalComponent, `Editar ${user.name}`, { item: user, grid: this._grid });
   }
 
   public delete(user: User): void {

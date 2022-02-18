@@ -12,10 +12,7 @@ import { Debtor } from 'src/app/models/debtor.model';
 export class DebtorsModalComponent implements OnInit {
   private _grid?: GridComponent;
 
-  public debtor?: Debtor;
-
   constructor(public ref: DynamicDialogRef, private config: DynamicDialogConfig) {
-    this.debtor = config.data?.item;
     this._grid = config.data?.grid;
   }
 

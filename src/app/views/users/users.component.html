@@ -5,9 +5,11 @@
 	[mapper]="mapper"
 	[globalFilter]="globalFilter"
 	[includes]="includes"
+	[add]="canInsert"
+	[edit]="false"
+	[delete]="canDelete"
 	(showClick)="show($event)"
 	(addClick)="add()"
-	(editClick)="edit($event)"
 	(deleteClick)="delete($event)"></app-grid>
 
 <app-modal #modal></app-modal>

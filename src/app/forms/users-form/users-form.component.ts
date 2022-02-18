@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/services/api.service';
-import { createResource, objectToFormData, objectToHttpParams, updateResource } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { permissions } from 'src/app/utils/const.utils';
+import { canEditInsertAndDelete, createResource, objectToFormData, objectToHttpParams, updateResource } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-users-form',
@@ -20,7 +22,11 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output() inserted = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
 
+  private _canInsert = false;
+  private _canEdit = false;
+
   public form: FormGroup;
+  public readonly = false;
   public loading = false;
 
   public get username(): AbstractControl | null {
@@ -47,7 +53,19 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
     return (this.mail?.invalid && (this.mail?.touched || this.mail?.dirty)) ?? false;
   }
 
-  constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
+  public get isInsert(): boolean {
+    return this.user === undefined;
+  }
+
+  public get canSubmit(): boolean {
+    if (this.readonly) {
+      return false;
+    }
+
+    return this.isInsert ? this._canInsert : this._canEdit;
+  }
+
+  constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService, private ss: SessionService) {
     this.form = this.fb.group({
       username: [null, [Validators.required]],
       name: [null, [Validators.required]],
@@ -59,24 +77,34 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.user !== undefined) {
-      const username = this.username;
-      const name = this.name;
-      const mail = this.mail;
+    const options = canEditInsertAndDelete(this.ss, permissions.user_store, permissions.user_update, permissions.user_delete);
 
-      if (username !== null) {
-        username.setValue(this.user.user);
-      }
-      if (name !== null) {
-        name.setValue(this.user.name);
-      }
-      if (mail !== null) {
-        mail.setValue(this.user.mail);
-      }
+    this._canInsert = options.insert;
+    this._canEdit = options.edit;
+    this.readonly = !(this._canInsert || this._canEdit);
+
+    this.username?.enable();
+    this.name?.enable();
+    this.mail?.enable();
+
+    if (this.user !== undefined) {
+      this.username?.setValue(this.user.user);
+      this.name?.setValue(this.user.name);
+      this.mail?.setValue(this.user.mail);
+    }
+
+    if (this.readonly) {
+      this.username?.disable();
+      this.name?.disable();
+      this.mail?.disable();
     }
   }
 
   public async submit(): Promise<void> {
+    if (this.readonly || !this.canSubmit) {
+      return;
+    }
+
     this.loading = true;
 
     if (this.form.valid) {

@@ -6,8 +6,9 @@ import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { Debtor } from 'src/app/models/debtor.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { ApiService } from 'src/app/services/api.service';
-import { genderOptions, maritalStatusOptions } from 'src/app/utils/const.utils';
-import { selectOption, dateTimeStandardFormat, translate, apiDelete } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { genderOptions, maritalStatusOptions, permissions } from 'src/app/utils/const.utils';
+import { selectOption, dateTimeStandardFormat, translate, apiDelete, canEditInsertAndDelete } from 'src/app/utils/helpers.utils';
 import { DebtorsModalComponent } from './debtors-modal.component';
 
 @Component({
@@ -44,10 +45,18 @@ export class DebtorsComponent implements OnInit {
   public endpoint = 'debtors';
   public includes = ['province'];
 
-  constructor(private api: ApiService, private router: Router, private ms: MessageService) { }
+  public canInsert = false;
+  public canDelete = false;
+
+  constructor(private api: ApiService, private router: Router, private ms: MessageService, private ss: SessionService) { }
 
   ngOnInit(): void {
     selectOption('provinces/select', this.api).then((options) => this.cols[5].options = options);
+
+    const config = canEditInsertAndDelete(this.ss, permissions.debtor_store, permissions.debtor_update, permissions.debtor_delete);
+
+    this.canInsert = config.insert;
+    this.canDelete = config.delete;
   }
 
   public mapper(debtor: Debtor): { [key: string]: any } {
@@ -85,10 +94,6 @@ export class DebtorsComponent implements OnInit {
 
   public add(): void {
     this._modal?.show(DebtorsModalComponent, 'Crear Cliente', { grid: this._grid });
-  }
-
-  public edit(debtor: Debtor): void {
-    this._modal?.show(DebtorsModalComponent, `Editar ${debtor.name}`, { item: debtor, grid: this._grid });
   }
 
   public delete(debtor: Debtor): void {

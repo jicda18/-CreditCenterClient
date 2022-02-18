@@ -5,7 +5,9 @@ import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { Currency } from 'src/app/models/currency.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { ApiService } from 'src/app/services/api.service';
-import { apiDelete, dateTimeStandardFormat } from 'src/app/utils/helpers.utils';
+import { SessionService } from 'src/app/services/session.service';
+import { permissions } from 'src/app/utils/const.utils';
+import { apiDelete, canEditInsertAndDelete, dateTimeStandardFormat } from 'src/app/utils/helpers.utils';
 import { CurrencyModalComponent } from './currency-modal.component';
 
 @Component({
@@ -28,9 +30,18 @@ export class CurrenciesComponent implements OnInit {
   ];
   public endpoint = 'currencies';
 
-  constructor(private api: ApiService, private ms: MessageService) { }
+  public canInsert = false;
+  public canEdit = false;
+  public canDelete = false;
+
+  constructor(private api: ApiService, private ms: MessageService, private ss: SessionService) { }
 
   ngOnInit(): void {
+    const config = canEditInsertAndDelete(this.ss, permissions.currency_store, permissions.currency_update, permissions.currency_delete);
+
+    this.canInsert = config.insert;
+    this.canEdit = config.edit;
+    this.canDelete = config.delete;
   }
 
   public mapper(currency: Currency): { [key: string]: any } {

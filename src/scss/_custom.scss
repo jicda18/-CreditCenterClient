@@ -185,6 +185,16 @@ bs-daterangepicker-container {
 	input {
 		opacity: 1 !important;
 	}
+
+	&.p-radiobutton {
+		.p-radiobutton-box {
+			opacity: 1 !important;
+		}
+
+		&+.p-radiobutton-label {
+			opacity: 1 !important;
+		}
+	}
 }
 
 @media (min-width: $sm) {}
