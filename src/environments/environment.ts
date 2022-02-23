@@ -8,11 +8,11 @@ export const environment: Environment = {
   production: false,
   api: 'http://creditcenter.cruz/',
   client: 1,
-  secret: 'tJW274xXDKrkrmiNuu33MOboJq2OYSg8FQx40Syo',
+  secret: 'nyn92mR6Evq4SAMjHBGGrj0iMbQIpWiMfBYUEkM9',
   grant: 'password',
   version: '0.3.0',
   name: 'Credit Center',
-  biweekly: '65548c5c-698c-4877-8e1c-89e6d9ef9132',
+  biweekly: '4fb798e1-f976-46b7-ac31-9916b680f5dd',
 };
 
 /*
