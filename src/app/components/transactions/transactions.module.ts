@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TransactionsComponent } from './transactions.component';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -14,6 +15,7 @@ import { TableModule } from 'primeng/table';
     CommonModule,
     TableModule,
     RippleModule,
+    ButtonModule
   ],
   exports: [TransactionsComponent]
 })

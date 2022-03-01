@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Transaction } from 'src/app/models/transaction.model';
-import { dateStandardFormat, toCurrency } from 'src/app/utils/helpers.utils';
+import { dateStandardFormat, dateTimeStandardFormat, exportExcel, toCurrency } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-transactions',
@@ -13,6 +13,14 @@ export class TransactionsComponent implements OnInit, OnChanges {
   @Input() for_loan = true;
 
   public data: { [key: string]: any }[] = [];
+  public cols = [
+    { field: "was_at", header: "Fecha Pago" },
+    { field: "amount", header: "Monto" },
+    { field: "balance", header: "Balance" },
+    { field: "inserted_at", header: "Usuario" },
+    { field: "register", header: "Fecha Creación" },
+    { field: "comment", header: "Comentario" },
+  ];
 
   constructor() { }
 
@@ -27,13 +35,29 @@ export class TransactionsComponent implements OnInit, OnChanges {
     return this.transactions.map((transaction) => {
       return {
         key: transaction.key,
-        was_at: dateStandardFormat(transaction.was_at),
+        was_at: dateTimeStandardFormat(transaction.was_at),
         cash: transaction.cash,
         amount: toCurrency(this.for_loan ? transaction.loan_amount : transaction.bank_amount),
         balance: toCurrency(this.for_loan ? transaction.loan_balance : transaction.bank_balance),
-        inserted_at: dateStandardFormat(transaction.inserted_at),
+        inserted_at: dateTimeStandardFormat(transaction.inserted_at),
         register: transaction.register?.name,
+        comment: transaction.comments,
       };
     });
+  }
+
+  public exportAsExcel(): void {
+    const data = [];
+
+    for (const item of this.data) {
+      const object: any = {};
+      for (const col of this.cols) {
+        object[col.header] = item[col.field];
+      }
+
+      data.push(object);
+    }
+
+    exportExcel(data);
   }
 }

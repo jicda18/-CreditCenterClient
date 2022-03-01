@@ -22,4 +22,5 @@ export interface Transaction {
   bank?: Bank;
   register?: User;
   fees?: Fee;
+  comments?: string;
 }

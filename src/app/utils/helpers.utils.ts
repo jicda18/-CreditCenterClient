@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { GridComponent } from '../components/grid/grid.component';
 import { EventEmitter } from '@angular/core';
 import { SessionService } from '../services/session.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 // ----- Validations -----
 /**
@@ -585,4 +587,20 @@ export function canEditInsertAndDelete(ss: SessionService, insertPermission: num
   }
 
   return answer;
+}
+
+function saveAsExcelFile(buffer: any, fileName?: string) {
+  const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const EXCEL_EXTENSION = ".xlsx";
+  const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+
+  saveAs(data, (fileName ?? 'export') + EXCEL_EXTENSION);
+}
+
+export function exportExcel(data: { [key: string]: any }[], fileName?: string): void {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+  saveAsExcelFile(excelBuffer, fileName);
 }
