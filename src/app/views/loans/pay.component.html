@@ -61,12 +61,78 @@
 			</div>
 		</div>
 
+		<!-- Tipo -->
+		<div class="flex my-1">
+			<div class="col">
+				<label for="float-input" class="mx-2">Tipo*: </label>
+				<p-radioButton *ngFor="let type of types" [styleClass]="'mx-2' + (typeInvalid ? ' ng-invalid ng-dirty' : '')" name="type" [value]="type.value" [label]="type.label" formControlName="type" [disabled]="type.disable()"></p-radioButton>
+
+				<small class="p-error" *ngIf="typeInvalid">Tipo es requerido.</small>
+			</div>
+		</div>
+
+		<div class="grid m-1" *ngIf="loan_details.show">
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-green-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-green-500">Capital</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-green-500">{{ loan_details.capital }}</span>
+					</div>
+				</p-card>
+			</div>
+
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-red-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-red-500">Pendiente</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-red-500">{{ loan_details.overdue }}</span>
+					</div>
+				</p-card>
+			</div>
+
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-indigo-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-indigo-500">Total</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-indigo-500">{{ loan_details.total }}</span>
+					</div>
+				</p-card>
+			</div>
+
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-blue-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-blue-500">Interes</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-blue-500">{{ loan_details.interest }}</span>
+					</div>
+				</p-card>
+			</div>
+
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-yellow-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-yellow-500">Mora</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-yellow-500">{{ loan_details.late }}</span>
+					</div>
+				</p-card>
+			</div>
+
+			<div class="col-12 md:col-4">
+				<p-card styleClass="border-1 border-teal-500">
+					<div class="flex align-content-center my-1">
+						<span class="flex align-items-center justify-content-center title text-teal-500">Pago Capital</span>
+						<span class="flex align-items-center justify-content-center box ml-auto mr-2 text-white bg-teal-500">{{ loan_details.pay }}</span>
+					</div>
+				</p-card>
+			</div>
+		</div>
+
 		<!-- Monto -->
 		<div class="flex my-1">
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="far fa-money-bill-alt"></i>
-					<p-inputNumber [class]="'w-100' + (amountInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="amount" [showButtons]="true" [minFractionDigits]="2" [min]="0"></p-inputNumber>
+					<p-inputNumber [class]="'w-100' + (amountInvalid ? ' ng-invalid ng-dirty' : '')" styleClass="w-100" formControlName="amount" [showButtons]="true" [minFractionDigits]="2" [min]="0" [max]="maxAmount"></p-inputNumber>
 					<label for="float-input">Monto*</label>
 				</span>
 

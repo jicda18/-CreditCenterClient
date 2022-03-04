@@ -4,13 +4,15 @@
 			<tr>
 				<th class="text-center px-3">Fecha Pago</th>
 				<th class="text-center px-3">Fecha Limite</th>
-				<th class="text-center px-3">Monto</th>
+				<th class="text-center px-3 border-left-1">Monto</th>
 				<th class="text-center px-3">Capital</th>
 				<th class="text-center px-3">Interes</th>
-				<th class="text-center px-3">Pendiente</th>
+				<th class="text-center px-3">Mora</th>
+				<th class="text-center px-3 border-left-1">Pendiente</th>
 				<th class="text-center px-3">P. Capital</th>
 				<th class="text-center px-3">P. Interes</th>
-				<th class="text-center px-3">Fecha de Pago</th>
+				<th class="text-center px-3">P. Mora</th>
+				<th class="text-center px-3 border-left-1">Fecha de Pago</th>
 				<th class="text-center px-3">Pago Extra</th>
 			</tr>
 		</ng-template>
@@ -19,13 +21,15 @@
 			<tr [class]="fee.bg_color">
 				<td class="text-center px-2">{{fee.payment_at}}</td>
 				<td class="text-center px-2">{{fee.limit_at}}</td>
-				<td class="text-center px-2">{{fee.amount}}</td>
+				<td class="text-center px-2 border-left-1">{{fee.amount}}</td>
 				<td class="text-center px-2">{{fee.capital}}</td>
 				<td class="text-center px-2">{{fee.interest}}</td>
-				<td class="text-center px-2">{{fee.pending}}</td>
+				<td class="text-center px-2">{{fee.late}}</td>
+				<td class="text-center px-2 border-left-1">{{fee.pending}}</td>
 				<td class="text-center px-2">{{fee.pending_capital}}</td>
 				<td class="text-center px-2">{{fee.pending_interest}}</td>
-				<td class="text-center px-2">{{fee.paid_at}}</td>
+				<td class="text-center px-2">{{fee.pending_late_payment}}</td>
+				<td class="text-center px-2 border-left-1">{{fee.paid_at}}</td>
 				<td class="text-center px-2"><i [class]="'far fa-' + (fee.extra ? 'check-square' : 'square')"></i></td>
 			</tr>
 		</ng-template>

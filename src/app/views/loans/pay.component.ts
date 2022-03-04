@@ -6,7 +6,7 @@ import { Currency } from 'src/app/models/currency.model';
 import { Loan } from 'src/app/models/loan.model';
 import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
-import { createResource, objectToFormData, selectOption } from 'src/app/utils/helpers.utils';
+import { createResource, objectToFormData, overdues, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 import { CustomValidations } from 'src/app/utils/validations.util';
 
 @Component({
@@ -24,6 +24,54 @@ export class PayComponent implements OnInit, OnDestroy {
   public debtorOptions: { value: string; label: string; custom?: { value: string; label: string; }[] }[] = [];
   public loanOptions: { value: string; label: string; }[] = [];
 
+  public types = [
+    {
+      value: 'regular', label: 'Regular', disable: () => false
+    },
+    {
+      value: 'capital', label: 'Abono Capital', disable: () => {
+        if (this._loan !== undefined && this._loan !== null) {
+          return this._loan.pending_summary > 0;
+        }
+
+        return true;
+      }
+    },
+    { value: 'total', label: 'Saldo Total', disable: () => false },
+  ];
+
+  public loan_details = {
+    overdue: '',
+    interest: '',
+    late: '',
+    pay: '',
+    capital: '',
+    total: '',
+    show: false,
+  };
+
+  public maxAmount = 0;
+
+  private set loan(value: Loan | undefined) {
+    if (value !== undefined && value !== null) {
+      this.loan_details.capital = toCurrency(value.summary);
+      this.loan_details.overdue = toCurrency(value.pending_summary);
+      this.loan_details.total = toCurrency(value.total);
+
+      this.loan_details.interest = toCurrency(value.interest_summary);
+      this.loan_details.late = toCurrency(value.late_summary);
+      this.loan_details.pay = toCurrency(value.pay_summary);
+
+      this.loan_details.show = true;
+
+      this.maxAmount = value.total;
+    } else {
+      this.loan_details.show = false;
+    }
+
+    this._loan = value;
+  }
+
   public get debtor_key(): AbstractControl | null {
     return this.form?.get('debtor_key') ?? null;
   }
@@ -38,6 +86,10 @@ export class PayComponent implements OnInit, OnDestroy {
 
   public get bank_key(): AbstractControl | null {
     return this.form?.get('bank_key') ?? null;
+  }
+
+  public get type(): AbstractControl | null {
+    return this.form?.get('type') ?? null;
   }
 
   public get amount(): AbstractControl | null {
@@ -64,6 +116,10 @@ export class PayComponent implements OnInit, OnDestroy {
     return (this.bank_key?.invalid && (this.bank_key?.touched || this.bank_key?.dirty)) ?? false;
   }
 
+  public get typeInvalid(): boolean {
+    return (this.type?.invalid && (this.type?.touched || this.type?.dirty)) ?? false;
+  }
+
   public get amountInvalid(): boolean {
     return (this.amount?.invalid && (this.amount?.touched || this.amount?.dirty)) ?? false;
   }
@@ -80,6 +136,7 @@ export class PayComponent implements OnInit, OnDestroy {
       bank_key: [null, [CustomValidations.fn((value?: string) => this.cash?.value === false ? (value !== undefined && value !== null && value !== '') : true)]],
       amount: [null, [Validators.required, Validators.min(0)]],
       comments: [null, [Validators.required]],
+      type: [null, [Validators.required]],
     });
 
     this.debtor_key?.valueChanges.subscribe((value: string) => {
@@ -90,34 +147,64 @@ export class PayComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.loan_key?.valueChanges.subscribe(async (value: string) => {
+      const loan = this.loanOptions.find((option) => option.value === value);
+
+      if (loan !== undefined && loan !== null) {
+        this.loan = await this.getLoan(loan.value);
+      } else {
+        this.loan = undefined;
+      }
+    });
+
+    this.type?.valueChanges.subscribe((value: string) => {
+      if (value === 'total') {
+        this.amount?.setValue(this.maxAmount);
+        this.amount?.disable();
+      } else {
+        this.amount?.reset();
+        this.amount?.enable();
+      }
+    });
+
+    this.amount?.valueChanges.subscribe((value: number) => {
+      const type = this.type?.value;
+
+      if (type !== 'total' && value === this.maxAmount) {
+        this.type?.setValue('total');
+      }
+    });
+
     // Todo: only load bank with currency
-    // this.loan_key?.valueChanges.subscribe(console.log);
   }
 
   ngOnInit(): void {
     this.init();
   }
 
+  private async getLoan(loan_key: string): Promise<Loan | undefined> {
+    return (await this.api.get<Loan>(`loans/${loan_key}?include=debtor`)).data;
+  }
+
   private async init(): Promise<void> {
     this.loading = true;
 
     const loan_key = this.route.snapshot.paramMap.get('loan_key');
-    let loan: Loan | undefined;
 
     if (loan_key !== null) {
-      loan = (await this.api.get<Loan>(`loans/${loan_key}?include=debtor`)).data;
+      this.loan = await this.getLoan(loan_key);
     }
 
     this.bankOptions = await selectOption('banks/select', this.api);
 
-    if (loan === undefined) {
+    if (this._loan === undefined) {
       this.debtorOptions = await selectOption('debtors/loan/select', this.api);
     } else {
-      this.debtorOptions = [{ value: loan.debtor?.key ?? '', label: loan.debtor?.name ?? '', custom: [{ value: loan.key, label: loan.label }] }];
-      this.debtor_key?.setValue(loan.debtor?.key ?? '');
+      this.debtorOptions = [{ value: this._loan.debtor?.key ?? '', label: this._loan.debtor?.name ?? '', custom: [{ value: this._loan.key, label: this._loan.label }] }];
+      this.debtor_key?.setValue(this._loan.debtor?.key ?? '');
       this.debtor_key?.disable();
 
-      this.loan_key?.setValue(loan.key ?? '');
+      this.loan_key?.setValue(this._loan.key ?? '');
       this.loan_key?.disable();
     }
 
@@ -136,7 +223,18 @@ export class PayComponent implements OnInit, OnDestroy {
     }
 
     if (this.form?.valid) {
+      const loan_key = this.route.snapshot.paramMap.get('loan_key');
+
+      this.debtor_key?.enable();
+      this.loan_key?.enable();
+      this.amount?.enable();
+
       const inputs = this.form?.value;
+
+      if (loan_key !== null) {
+        this.debtor_key?.disable();
+        this.loan_key?.disable();
+      }
 
       const form = objectToFormData(inputs);
 

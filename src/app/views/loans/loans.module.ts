@@ -21,6 +21,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabViewModule } from 'primeng/tabview';
 import { FeesModule } from 'src/app/components/fees/fees.module';
 import { TransactionsModule } from 'src/app/components/transactions/transactions.module';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TransactionsModule } from 'src/app/components/transactions/transactions
     TabViewModule,
     BsDatepickerModule.forRoot(),
     FeesModule,
-    TransactionsModule
+    TransactionsModule,
+    CardModule
   ]
 })
 export class LoansModule { }

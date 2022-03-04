@@ -197,6 +197,16 @@ bs-daterangepicker-container {
 	}
 }
 
+.box {
+	padding: 0.5rem;
+	font-size: 24px;
+	border-radius: 4px;
+}
+
+.title {
+	font-size: 20px;
+}
+
 @media (min-width: $sm) {}
 
 @media (min-width: $md) {}

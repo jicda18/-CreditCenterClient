@@ -18,6 +18,10 @@ export interface Loan {
   summary: number;
   interest_summary: number;
   amount: number;
+  total: number;
+  late_summary: number;
+  pending_summary: number;
+  pay_summary: number;
   type: 'fixed_interest' | 'interest_capital';
   interest: number;
   number_fees: number;

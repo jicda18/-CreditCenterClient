@@ -54,6 +54,8 @@ export class FeesComponent implements OnInit, OnChanges {
         status: fee.status,
         extra: fee.extra,
         bg_color: bgColorFee(fee),
+        late: toCurrency(fee.late_payment),
+        pending_late_payment: toCurrency(fee.pending_late_payment),
       };
     });
   }

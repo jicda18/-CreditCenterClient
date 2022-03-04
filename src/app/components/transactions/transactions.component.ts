@@ -17,8 +17,8 @@ export class TransactionsComponent implements OnInit, OnChanges {
     { field: "was_at", header: "Fecha Pago" },
     { field: "amount", header: "Monto" },
     { field: "balance", header: "Balance" },
-    { field: "inserted_at", header: "Usuario" },
-    { field: "register", header: "Fecha Creación" },
+    { field: "register", header: "Creado Por" },
+    { field: "inserted_at", header: "Fecha Creación" },
     { field: "comment", header: "Comentario" },
   ];
 

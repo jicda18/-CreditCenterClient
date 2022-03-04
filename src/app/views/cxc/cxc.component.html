@@ -16,7 +16,7 @@
 	</ng-template>
 
 	<ng-template pTemplate="body" let-loan let-expanded="expanded">
-		<tr [class]="loan.bg_color">
+		<tr [class]="loan.bg_color" (dblclick)="goToPay(loan)">
 			<td>
 				<button type="button" pButton pRipple [pRowToggler]="loan" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
 			</td>
@@ -42,25 +42,29 @@
 		<tr>
 			<th class="text-center px-3">Fecha Pago</th>
 			<th class="text-center px-3">Fecha Limite</th>
-			<th class="text-center px-3">Monto</th>
+			<th class="text-center px-3 border-left-1">Monto</th>
 			<th class="text-center px-3">Capital</th>
 			<th class="text-center px-3">Interes</th>
-			<th class="text-center px-3">Pendiente</th>
+			<th class="text-center px-3">Mora</th>
+			<th class="text-center px-3 border-left-1">Pendiente</th>
 			<th class="text-center px-3">P. Capital</th>
 			<th class="text-center px-3">P. Interes</th>
+			<th class="text-center px-3">P. Mora</th>
 		</tr>
 	</ng-template>
 
 	<ng-template pTemplate="body" let-fee>
-		<tr [class]="fee.bg_color">
+		<tr [class]="fee.bg_color" (dblclick)="goToPay(loan)">
 			<td class="text-center px-2">{{fee.payment_at}}</td>
 			<td class="text-center px-2">{{fee.limit_at}}</td>
-			<td class="text-center px-2">{{fee.amount}}</td>
+			<td class="text-center px-2 border-left-1">{{fee.amount}}</td>
 			<td class="text-center px-2">{{fee.capital}}</td>
 			<td class="text-center px-2">{{fee.interest}}</td>
-			<td class="text-center px-2">{{fee.pending}}</td>
+			<td class="text-center px-2">{{fee.late}}</td>
+			<td class="text-center px-2 border-left-1">{{fee.pending}}</td>
 			<td class="text-center px-2">{{fee.pending_capital}}</td>
 			<td class="text-center px-2">{{fee.pending_interest}}</td>
+			<td class="text-center px-2">{{fee.pending_late_payment}}</td>
 		</tr>
 	</ng-template>
 </p-table>

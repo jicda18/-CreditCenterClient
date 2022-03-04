@@ -5,6 +5,7 @@ import { Loan } from 'src/app/models/loan.model';
 import { ApiService } from 'src/app/services/api.service';
 import { convertToDate, dateStandardFormat, dateTimeStandardFormat, groupBy, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cxc',
@@ -31,7 +32,7 @@ export class CxcComponent implements OnInit {
   public data: any[] = [];
   public loading = false;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
@@ -48,20 +49,6 @@ export class CxcComponent implements OnInit {
   }
 
   private _mapper(fees: Fee[]): { [key: string]: any } {
-    const overdues = (array?: Fee[]): Fee[] => {
-      return array?.filter((fee) => {
-        return fee.status === 'overdue' || fee.status === 'in-thanks';
-      }) ?? [];
-    };
-
-    const pending = (array?: Fee[]): number => {
-      if (array === undefined || array === null || array.length === 0) {
-        return 0;
-      }
-
-      return array.map((fee) => fee.amount).reduce((previous, current) => previous + current);
-    };
-
     const bgColorFee = (fee: Fee): string => {
       if (fee.status === 'paid') {
         return '';
@@ -100,8 +87,6 @@ export class CxcComponent implements OnInit {
     const debtor = loan?.debtor;
     const currency = loan?.currency;
 
-    const overdue = overdues(fees);
-
     return {
       key: loan?.key,
       loan_label: loan?.label,
@@ -110,8 +95,8 @@ export class CxcComponent implements OnInit {
       interest: ((loan?.interest ?? 0) * 100) + '%',
       summary: toCurrency(loan?.summary ?? 0),
       currency_key: currency?.currency,
-      overdue: overdue.length,
-      pending: toCurrency(pending(overdue)),
+      overdue: fees.length,
+      pending: toCurrency(loan?.pending_summary ?? 0),
       inserted_at: dateTimeStandardFormat(loan?.inserted_at),
       bg_color: bgColorLoan(loan?.fees ?? []),
       phone: debtor?.phone_number,
@@ -129,8 +114,14 @@ export class CxcComponent implements OnInit {
           paid_at: fee.paid_at === null ? null : dateStandardFormat(fee.paid_at),
           status: fee.status,
           bg_color: bgColorFee(fee),
+          late: toCurrency(fee.late_payment),
+          pending_late_payment: toCurrency(fee.pending_late_payment),
         };
       }),
     };
+  }
+
+  public goToPay(loan: Loan) {
+    this.router.navigate([`loans/pay/${loan.key}`]);
   }
 }

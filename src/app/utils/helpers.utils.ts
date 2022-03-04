@@ -11,6 +11,7 @@ import { EventEmitter } from '@angular/core';
 import { SessionService } from '../services/session.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Fee } from '../models/fee.model';
 
 // ----- Validations -----
 /**
@@ -604,3 +605,9 @@ export function exportExcel(data: { [key: string]: any }[], fileName?: string): 
 
   saveAsExcelFile(excelBuffer, fileName);
 }
+
+export function overdues(array?: Fee[]): Fee[] {
+  return array?.filter((fee) => {
+    return fee.status === 'overdue' || fee.status === 'in-thanks';
+  }) ?? [];
+};
