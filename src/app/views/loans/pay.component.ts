@@ -162,7 +162,9 @@ export class PayComponent implements OnInit, OnDestroy {
         this.amount?.setValue(this.maxAmount);
         this.amount?.disable();
       } else {
-        this.amount?.reset();
+        if (this.amount?.value === this.maxAmount) {
+          this.amount?.reset();
+        }
         this.amount?.enable();
       }
     });
