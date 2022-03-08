@@ -25,14 +25,14 @@ const routes: Routes = [
     path: 'pay',
     component: PayComponent,
     data: {
-      permission: [permissions.transantions_store],
+      permission: [permissions.transactions_store],
     },
   },
   {
     path: 'pay/:loan_key',
     component: PayComponent,
     data: {
-      permission: [permissions.transantions_store],
+      permission: [permissions.transactions_store],
     },
   },
   {

@@ -611,3 +611,29 @@ export function overdues(array?: Fee[]): Fee[] {
     return fee.status === 'overdue' || fee.status === 'in-thanks';
   }) ?? [];
 };
+
+export function biweeklyCheck(frequency_key?: string | null, start_at?: Date | null): Date | null {
+  if (frequency_key !== undefined && start_at !== undefined && frequency_key !== null && start_at !== null) {
+    if (frequency_key === environment.biweekly) {
+      if (start_at.getDate() !== 15 && start_at.getDate() !== 30) {
+        const format = dateFormat(start_at, 'yyyy-LL');
+        if (start_at.getDate() < 15) {
+          return convertToDate(`${format}-15`);
+        } else {
+          if (start_at.getMonth() === 1) {
+            const luxon = convertToDateTime(start_at);
+            if (luxon.isInLeapYear) {
+              return convertToDate(`${format}-29`);
+            } else {
+              return convertToDate(`${format}-28`);
+            }
+          } else {
+            return convertToDate(`${format}-30`);
+          }
+        }
+      }
+    }
+  }
+
+  return null;
+}

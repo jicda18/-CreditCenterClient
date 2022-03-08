@@ -106,7 +106,7 @@
 					<div class="col">
 						<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 							<i class="fas fa-sync-alt"></i>
-							<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+							<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia" (onChange)="biweekly()">
 								<ng-template let-option pTemplate="item">
 									<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 								</ng-template>

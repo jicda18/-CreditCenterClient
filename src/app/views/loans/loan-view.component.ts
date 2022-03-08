@@ -7,7 +7,7 @@ import { Fee } from 'src/app/models/fee.model';
 import { Loan } from 'src/app/models/loan.model';
 import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
-import { convertToDate, objectToHttpParams, selectOption, toCurrency, updateResource } from 'src/app/utils/helpers.utils';
+import { biweeklyCheck, convertToDate, objectToHttpParams, selectOption, toCurrency, updateResource } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-loan-view',
@@ -25,6 +25,7 @@ export class LoanViewComponent implements OnInit {
   private _amount?: string;
   private _summary?: string;
   private _fee_amount?: string;
+  private _pending_summary?: string;
 
   public form?: FormGroup;
   public mainLoading = true;
@@ -90,8 +91,20 @@ export class LoanViewComponent implements OnInit {
     return this._fee_amount!;
   }
 
+  public get pending_summary(): string {
+    if (this._pending_summary === undefined || this._pending_summary === null) {
+      this._pending_summary = toCurrency(this.loan.pending_summary);
+    }
+
+    return this._pending_summary!;
+  }
+
   public get frequency_key(): AbstractControl | null {
     return this.form?.get('frequency_key') ?? null;
+  }
+
+  public get next_at(): AbstractControl | null {
+    return this.form?.get('next_at') ?? null;
   }
 
   public get thanks_days(): AbstractControl | null {
@@ -114,6 +127,10 @@ export class LoanViewComponent implements OnInit {
     return (this.frequency_key?.invalid && (this.frequency_key?.touched || this.frequency_key?.dirty)) ?? false;
   }
 
+  public get next_atInvalid(): boolean {
+    return (this.next_at?.invalid && (this.next_at?.touched || this.next_at?.dirty)) ?? false;
+  }
+
   public get thanks_daysInvalid(): boolean {
     return (this.thanks_days?.invalid && (this.thanks_days?.touched || this.thanks_days?.dirty)) ?? false;
   }
@@ -130,6 +147,10 @@ export class LoanViewComponent implements OnInit {
     return (this.type?.invalid && (this.type?.touched || this.type?.dirty)) ?? false;
   }
 
+  public get minStartDay(): Date {
+    return new Date();
+  }
+
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
@@ -139,6 +160,7 @@ export class LoanViewComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       frequency_key: [null, [Validators.required]],
+      next_at: [null, [Validators.required]],
       thanks_days: [null, [Validators.required, Validators.min(0)]],
       interest: [null, [Validators.required, Validators.min(0)]],
       fees: [null, [Validators.min(1)]],
@@ -178,12 +200,14 @@ export class LoanViewComponent implements OnInit {
     this._amount = undefined;
     this._summary = undefined;
     this._fee_amount = undefined;
+    this._pending_summary = undefined;
 
     this.form?.reset();
 
     this.interest?.setValue(this.loan.interest * 100);
     this.type?.setValue(this.loan.type);
     this.frequency_key?.setValue(this.loan.frequency_key);
+    this.next_at?.setValue(convertToDate(this.loan.next_at));
     this.thanks_days?.setValue(this.loan.thanks_days);
     this.fees?.setValue(this.loan.number_fees);
 
@@ -221,5 +245,16 @@ export class LoanViewComponent implements OnInit {
     }
 
     this.secondaryLoading = false;
+  }
+
+  public biweekly() {
+    const frequency_key = this.frequency_key?.value as null | undefined | string;
+    const next_at = this.next_at?.value as null | undefined | Date;
+
+    const value = biweeklyCheck(frequency_key, next_at);
+
+    if (value !== null) {
+      this.next_at?.setValue(value);
+    }
   }
 }

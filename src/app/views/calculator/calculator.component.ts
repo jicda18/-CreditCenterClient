@@ -3,8 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { CalculatorItem } from 'src/app/models/calculator-item.model';
 import { ApiService } from 'src/app/services/api.service';
-import { convertToDate, convertToDateTime, dateFormat, dateStandardFormat, objectToFormData, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
-import { environment } from 'src/environments/environment';
+import { biweeklyCheck, convertToDate, convertToDateTime, dateFormat, dateStandardFormat, exportExcel, objectToFormData, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-calculator',
@@ -19,6 +18,31 @@ export class CalculatorComponent implements OnInit {
   public loading = false;
 
   public frequencyOptions: { value: string; label: string; }[] = [];
+
+  public cols = [
+    { field: 'paid_at', header: 'Fecha de Pago' },
+    { field: 'preview', header: 'Balance Anterio' },
+    { field: 'amount', header: 'Monto de Couta' },
+    { field: 'payment', header: 'Capital' },
+    { field: 'interest', header: 'Interes' },
+    { field: 'pending', header: 'Balance' },
+  ];
+
+  public get total_capital(): string {
+    if (this._items === undefined || this._items === null || this._items.length === 0) {
+      return '';
+    }
+
+    return toCurrency(this._items.map((item) => item.payment).reduce((preview, value) => preview + value));
+  }
+
+  public get total_interest(): string {
+    if (this._items === undefined || this._items === null || this._items.length === 0) {
+      return '';
+    }
+
+    return toCurrency(this._items.map((item) => item.interest).reduce((preview, value) => preview + value));
+  }
 
   public get items(): { [key: string]: string }[] {
     if (this._items === undefined || this._items === null) {
@@ -96,29 +120,13 @@ export class CalculatorComponent implements OnInit {
   }
 
   public biweekly(): void {
-    const frequency_key = this.frequency_key?.value as null | string;
-    const start_at = this.start_at?.value as null | Date;
+    const frequency_key = this.frequency_key?.value as null | undefined | string;
+    const start_at = this.start_at?.value as null | undefined | Date;
 
-    if (frequency_key !== undefined && start_at !== undefined && frequency_key !== null && start_at !== null) {
-      if (frequency_key === environment.biweekly) {
-        if (start_at.getDate() !== 15 && start_at.getDate() !== 30) {
-          const format = dateFormat(start_at, 'yyyy-LL');
-          if (start_at.getDate() < 15) {
-            this.start_at?.setValue(convertToDate(`${format}-15`));
-          } else {
-            if (start_at.getMonth() === 1) {
-              const luxon = convertToDateTime(start_at);
-              if (luxon.isInLeapYear) {
-                this.start_at?.setValue(convertToDate(`${format}-29`));
-              } else {
-                this.start_at?.setValue(convertToDate(`${format}-28`));
-              }
-            } else {
-              this.start_at?.setValue(convertToDate(`${format}-30`));
-            }
-          }
-        }
-      }
+    const value = biweeklyCheck(frequency_key, start_at);
+
+    if (value !== null) {
+      this.start_at?.setValue(value);
     }
   }
 
@@ -151,5 +159,20 @@ export class CalculatorComponent implements OnInit {
     }
 
     this.loading = false;
+  }
+
+  public exportAsExcel(): void {
+    const data = [];
+
+    for (const item of this.items) {
+      const object: any = {};
+      for (const col of this.cols) {
+        object[col.header] = item[col.field];
+      }
+
+      data.push(object);
+    }
+
+    exportExcel(data);
   }
 }

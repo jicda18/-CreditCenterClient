@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Fee } from 'src/app/models/fee.model';
-import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
 import { ApiService } from 'src/app/services/api.service';
 import { convertToDate, dateStandardFormat, dateTimeStandardFormat, groupBy, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
@@ -30,6 +29,7 @@ export class CxcComponent implements OnInit {
   private _endpoint = 'fees/cxc';
 
   public data: any[] = [];
+  public totals: { title: string, icon: string, value: string | number, description?: string, theme: string }[] = [];
   public loading = false;
 
   constructor(private api: ApiService, private router: Router) { }
@@ -43,6 +43,19 @@ export class CxcComponent implements OnInit {
 
     if (data !== undefined) {
       this.data = data.map((item) => this._mapper(item));
+      const hash: { [key: string]: number } = {};
+
+      for (const item of this.data) {
+        if (Object.prototype.hasOwnProperty.call(hash, item.currency_key)) {
+          const index = hash[item.currency_key];
+
+          this.totals[index].value += item.for_total;
+        } else {
+          hash[item.currency_key] = this.totals.length;
+
+          this.totals.push({ title: item.currency_key, icon: 'fas fa-dollar-sign', value: item.for_total, theme: 'red' });
+        }
+      }
     }
 
     this.loading = false;
@@ -96,6 +109,7 @@ export class CxcComponent implements OnInit {
       summary: toCurrency(loan?.summary ?? 0),
       currency_key: currency?.currency,
       overdue: fees.length,
+      for_total: loan?.pending_summary ?? 0,
       pending: toCurrency(loan?.pending_summary ?? 0),
       inserted_at: dateTimeStandardFormat(loan?.inserted_at),
       bg_color: bgColorLoan(loan?.fees ?? []),
@@ -121,7 +135,11 @@ export class CxcComponent implements OnInit {
     };
   }
 
-  public goToPay(loan: Loan) {
+  public currencyToString(value: number) {
+    return toCurrency(value);
+  }
+
+  public goToPay(loan: Loan): void {
     this.router.navigate([`loans/pay/${loan.key}`]);
   }
 }

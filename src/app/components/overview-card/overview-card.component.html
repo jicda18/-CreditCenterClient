@@ -1,0 +1,10 @@
+<div class="grid my-2 mx-1">
+	<div class="col-12 md:col-4" *ngFor="let item of data">
+		<div [class]="'overview-box overview-' + item.theme">
+			<div class="overview-box-icon"><i [class]="item.icon"></i></div>
+			<div class="overview-box-title">{{item.title}}</div>
+			<div class="overview-box-value">{{ format_value(item.value) }}</div>
+			<div class="overview-box-status">{{item.description}}</div>
+		</div>
+	</div>
+</div>

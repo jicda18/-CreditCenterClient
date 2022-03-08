@@ -77,9 +77,9 @@ export const permissions = {
   loan_update: 28,
   loan_delete: 29,
   fee_view: 30,
-  frecuency_view: 31,
-  transantions_view: 32,
-  transantions_store: 33,
+  frequency_view: 31,
+  transactions_view: 32,
+  transactions_store: 33,
   currency_view: 34,
   currency_store: 35,
   currency_update: 36,
@@ -88,6 +88,7 @@ export const permissions = {
   log_view: 39,
   securitylog_view: 40,
   accesslist_view: 41,
+  transactions_bank_store: 44,
 };
 
 export const navs: NavItem[] = [
@@ -102,6 +103,20 @@ export const navs: NavItem[] = [
     icon: 'fas fa-university',
     href: '/banks',
     permission: [permissions.bank_view],
+  },
+  {
+    label: 'Transacción',
+    icon: 'fas fa-book-open',
+    href: '/transactions',
+    permission: [],
+    children: [
+      {
+        label: 'Registrar',
+        icon: 'fas fa-receipt',
+        href: '/transactions/form',
+        permission: [permissions.transactions_bank_store],
+      },
+    ],
   },
   {
     label: 'Clientes',
@@ -143,7 +158,7 @@ export const navs: NavItem[] = [
         label: 'Pagos',
         icon: 'fas fa-money-bill-wave',
         href: '/loans/pay',
-        permission: [permissions.transantions_store],
+        permission: [permissions.transactions_store],
       },
     ]
   },
@@ -171,4 +186,9 @@ export const maritalStatusOptions: { value: string; label: string }[] = [
   { value: 'married', label: translate('married') },
   { value: 'divorced', label: translate('divorced') },
   { value: 'widowed', label: translate('widowed') },
+];
+
+export const statusOptions: { value: string; label: string }[] = [
+  { value: 'paid', label: 'Saldado' },
+  { value: 'active', label: 'Activo' },
 ];

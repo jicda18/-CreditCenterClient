@@ -6,6 +6,8 @@ import { CxcComponent } from './cxc.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { CardModule } from 'primeng/card';
+import { OverviewCardModule } from 'src/app/components/overview-card/overview-card.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { RippleModule } from 'primeng/ripple';
     TableModule,
     ButtonModule,
     RippleModule,
+    OverviewCardModule,
   ]
 })
 export class CxcModule { }

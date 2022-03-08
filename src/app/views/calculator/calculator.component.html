@@ -31,7 +31,7 @@
 			<div class="col">
 				<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
 					<i class="fas fa-sync-alt"></i>
-					<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia">
+					<p-dropdown [options]="frequencyOptions" [class]="frequency_keyInvalid ? 'ng-invalid ng-dirty' : ''" styleClass="w-100" [filter]="true" filterBy="label" formControlName="frequency_key" optionLabel="label" optionValue="value" placeholder="Frecuencia" (onChange)="biweekly()">
 						<ng-template let-option pTemplate="item">
 							<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
 						</ng-template>
@@ -78,16 +78,20 @@
 </div>
 
 <div class="flex my-3" *ngIf="items.length !== 0">
-	<p-table #table [value]="items" [loading]="loading" class="mx-auto">
-		<ng-template pTemplate="header">
+	<p-table #dt [columns]="cols" [value]="items" [loading]="loading" class="mx-auto" styleClass="p-datatable-striped">
+		<ng-template pTemplate="caption">
+			<div class="flex">
+				<button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+				<button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportAsExcel()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+			</div>
+		</ng-template>
+
+		<ng-template pTemplate="header" let-columns>
 			<tr class="bg-yellow-500">
 				<th></th>
-				<th>Fecha de Pago</th>
-				<th>Balance Anterior</th>
-				<th>Monto de Couta</th>
-				<th>Capital</th>
-				<th>Interes</th>
-				<th>Balance</th>
+				<th class="text-center px-3" *ngFor="let column of columns">
+					{{column.header}}
+				</th>
 			</tr>
 		</ng-template>
 
@@ -100,6 +104,16 @@
 				<td>{{loan.payment}}</td>
 				<td>{{loan.interest}}</td>
 				<td>{{loan.pending}}</td>
+			</tr>
+		</ng-template>
+
+		<ng-template pTemplate="footer">
+			<tr class="bg-yellow-500">
+				<td colspan="4">Total</td>
+
+				<td>{{total_capital}}</td>
+				<td>{{total_interest}}</td>
+				<td></td>
 			</tr>
 		</ng-template>
 	</p-table>

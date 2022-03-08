@@ -96,6 +96,16 @@ const routes: Routes = [
           permission: [],
         },
       },
+      {
+        path: 'transactions',
+        loadChildren: () => import('./views/transactions/transactions.module').then(m => m.TransactionsModule),
+        canActivate: [PolicyGuard],
+        canActivateChild: [PolicyGuard],
+        canLoad: [PolicyGuard],
+        data: {
+          permission: [],
+        },
+      },
     ],
   },
   {

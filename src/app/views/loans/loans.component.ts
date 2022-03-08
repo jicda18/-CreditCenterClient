@@ -4,6 +4,7 @@ import { Fee } from 'src/app/models/fee.model';
 import { GridCol } from 'src/app/models/grid-col.model';
 import { Loan } from 'src/app/models/loan.model';
 import { ApiService } from 'src/app/services/api.service';
+import { statusOptions } from 'src/app/utils/const.utils';
 import { convertToDate, dateTimeStandardFormat, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 
 @Component({
@@ -14,6 +15,7 @@ import { convertToDate, dateTimeStandardFormat, selectOption, toCurrency } from 
 })
 export class LoansComponent implements OnInit {
   public cols: GridCol[] = [
+    { key: 'status', label: 'Estatus', type: 'text', filter: true, enableOptions: true, options: statusOptions },
     { key: 'debtor_key', label: 'Cliente', type: 'text', filter: true, enableOptions: true },
     { key: 'amount', label: 'Monto', type: 'text', filter: false },
     { key: 'interest', label: 'Interes', type: 'text', filter: false },
@@ -24,14 +26,16 @@ export class LoansComponent implements OnInit {
     { key: 'pending', label: 'Monto Pendiente', type: 'date', filter: false },
     { key: 'inserted_at', label: 'Fecha Creación', type: 'date', filter: false },
   ];
+
   public endpoint = 'loans';
+
   public includes = ['debtor', 'currency', 'fees', 'transactions'];
 
   constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
-    selectOption('debtors/select', this.api).then((options) => this.cols[0].options = options);
-    selectOption('currencies/select', this.api).then((options) => this.cols[4].options = options);
+    selectOption('debtors/select', this.api).then((options) => this.cols[1].options = options);
+    selectOption('currencies/select', this.api).then((options) => this.cols[5].options = options);
   }
 
   public mapper(loan: Loan): { [key: string]: any } {
@@ -73,7 +77,16 @@ export class LoansComponent implements OnInit {
     const overdue = overdueFee(fees);
     const nextFee = next(fees);
 
+    let status: string = loan.status;
+    for (const option of statusOptions) {
+      if (option.value === status) {
+        status = option.label;
+        break;
+      }
+    }
+
     return {
+      status: status,
       debtor_key: debtor?.name,
       amount: toCurrency(loan.amount ?? 0),
       interest: (loan.interest * 100) + '%',
@@ -81,7 +94,7 @@ export class LoansComponent implements OnInit {
       currency_key: currency?.currency,
       next_fee: dateTimeStandardFormat(nextFee?.payment_at ?? loan.next_at),
       overdue: overdue.length,
-      pending: toCurrency(pending(overdue)),
+      pending: toCurrency(loan.pending_summary),
       inserted_at: dateTimeStandardFormat(loan.inserted_at),
     };
   }

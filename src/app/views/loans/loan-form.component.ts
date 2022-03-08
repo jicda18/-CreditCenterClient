@@ -3,8 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { ApiService } from 'src/app/services/api.service';
 import { MessageService } from 'primeng/api';
 import { Loan } from 'src/app/models/loan.model';
-import { convertToDate, convertToDateTime, createResource, dateFormat, objectToFormData, selectOption } from 'src/app/utils/helpers.utils';
-import { environment } from 'src/environments/environment';
+import { biweeklyCheck, createResource, objectToFormData, selectOption } from 'src/app/utils/helpers.utils';
 import { Currency } from 'src/app/models/currency.model';
 import { CustomValidations } from 'src/app/utils/validations.util';
 
@@ -173,29 +172,13 @@ export class LoanFormComponent implements OnInit {
   }
 
   public biweekly(): void {
-    const frequency_key = this.frequency_key?.value as null | string;
-    const start_at = this.start_at?.value as null | Date;
+    const frequency_key = this.frequency_key?.value as null | undefined | string;
+    const start_at = this.start_at?.value as null | undefined | Date;
 
-    if (frequency_key !== undefined && start_at !== undefined && frequency_key !== null && start_at !== null) {
-      if (frequency_key === environment.biweekly) {
-        if (start_at.getDate() !== 15 && start_at.getDate() !== 30) {
-          const format = dateFormat(start_at, 'yyyy-LL');
-          if (start_at.getDate() < 15) {
-            this.start_at?.setValue(convertToDate(`${format}-15`));
-          } else {
-            if (start_at.getMonth() === 1) {
-              const luxon = convertToDateTime(start_at);
-              if (luxon.isInLeapYear) {
-                this.start_at?.setValue(convertToDate(`${format}-29`));
-              } else {
-                this.start_at?.setValue(convertToDate(`${format}-28`));
-              }
-            } else {
-              this.start_at?.setValue(convertToDate(`${format}-30`));
-            }
-          }
-        }
-      }
+    const value = biweeklyCheck(frequency_key, start_at);
+
+    if (value !== null) {
+      this.start_at?.setValue(value);
     }
   }
 
