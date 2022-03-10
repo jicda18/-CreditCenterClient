@@ -116,6 +116,12 @@ export const navs: NavItem[] = [
         href: '/transactions/form',
         permission: [permissions.transactions_bank_store],
       },
+      {
+        label: 'Filter',
+        icon: 'fas fa-filter',
+        href: '/transactions/filter',
+        permission: [permissions.transactions_bank_store],
+      },
     ],
   },
   {

@@ -14,12 +14,12 @@ export class TransactionsComponent implements OnInit, OnChanges {
 
   public data: { [key: string]: any }[] = [];
   public cols = [
-    { field: "was_at", header: "Fecha Pago" },
-    { field: "amount", header: "Monto" },
-    { field: "balance", header: "Balance" },
-    { field: "register", header: "Creado Por" },
-    { field: "inserted_at", header: "Fecha Creación" },
-    { field: "comment", header: "Comentario" },
+    { field: 'was_at', header: 'Fecha Pago' },
+    { field: 'amount', header: 'Monto' },
+    { field: 'balance', header: 'Balance' },
+    { field: 'register', header: 'Creado Por' },
+    { field: 'inserted_at', header: 'Fecha Creación' },
+    { field: 'comment', header: 'Comentario' },
   ];
 
   constructor() { }

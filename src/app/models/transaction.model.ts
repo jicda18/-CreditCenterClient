@@ -1,4 +1,5 @@
 import { Bank } from './bank.model';
+import { Currency } from './currency.model';
 import { Fee } from './fee.model';
 import { Loan } from './loan.model';
 import { User } from './user.model';
@@ -23,4 +24,5 @@ export interface Transaction {
   register?: User;
   fees?: Fee;
   comments?: string;
+  currency?: Currency;
 }

@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Fee } from 'src/app/models/fee.model';
 import { Loan } from 'src/app/models/loan.model';
@@ -156,7 +156,8 @@ export class LoanViewComponent implements OnInit {
     private api: ApiService,
     private ms: MessageService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {
     this.form = this.fb.group({
       frequency_key: [null, [Validators.required]],
@@ -247,7 +248,7 @@ export class LoanViewComponent implements OnInit {
     this.secondaryLoading = false;
   }
 
-  public biweekly() {
+  public biweekly(): void {
     const frequency_key = this.frequency_key?.value as null | undefined | string;
     const next_at = this.next_at?.value as null | undefined | Date;
 
@@ -256,5 +257,9 @@ export class LoanViewComponent implements OnInit {
     if (value !== null) {
       this.next_at?.setValue(value);
     }
+  }
+
+  public goToPay(): void {
+    this.router.navigate([`loans/pay/${this.loan.key}`]);
   }
 }

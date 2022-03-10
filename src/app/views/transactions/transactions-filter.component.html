@@ -1,0 +1,80 @@
+<div class="m-0 p-0">
+	<form class="grid p-2" [formGroup]="form" (ngSubmit)="submit()">
+		<!-- Banco -->
+		<div class="col-12 md:col-6 my-1">
+			<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+				<i class="fa fa-university"></i>
+				<p-dropdown [options]="bankOptions" styleClass="w-100" [filter]="true" filterBy="label" formControlName="bank_key" optionLabel="label" optionValue="value" placeholder="Banco" [showClear]="true">
+					<ng-template let-option pTemplate="item">
+						<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+					</ng-template>
+				</p-dropdown>
+				<label for="float-input">Banco</label>
+			</span>
+		</div>
+
+		<!-- currency -->
+		<div class="col-12 md:col-6 my-1">
+			<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+				<i class="fas fa-coins"></i>
+				<p-dropdown [options]="currencyOptions" styleClass="w-100" [filter]="true" filterBy="label" formControlName="currency_key" optionLabel="label" optionValue="value" placeholder="Currency" [showClear]="true">
+					<ng-template let-option pTemplate="item">
+						<span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+					</ng-template>
+				</p-dropdown>
+				<label for="float-input">Moneda</label>
+			</span>
+		</div>
+
+		<!-- From -->
+		<div class="col-12 md:col-6 my-1">
+			<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+				<i class="fas fa-calendar"></i>
+				<input type="text" class="w-100 p-inputtext" formControlName="from" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, showClearButton: true }">
+				<label for="float-input">From</label>
+			</span>
+		</div>
+
+		<!-- To -->
+		<div class="col-12 md:col-6 my-1">
+			<span class="p-float-label p-input-icon-left mb-0 mt-1" style="width: 100%;">
+				<i class="fas fa-calendar"></i>
+				<input type="text" class="w-100 p-inputtext" formControlName="to" pInputText bsDatepicker [bsConfig]="{ isAnimated: true, adaptivePosition: true, containerClass: 'dark theme-indigo', showWeekNumbers: false, showClearButton: true }">
+				<label for="float-input">To</label>
+			</span>
+		</div>
+
+		<div class="col-12" *ngIf="loading">
+			<p-progressBar mode="indeterminate" class="progressbar-success my-3 p-0 mb-0"></p-progressBar>
+		</div>
+
+		<div class="flex col-12 mx-0 my-2 p-0" *ngIf="!loading">
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Buscar" pButton pRipple icon="fas fa-search" iconPos="left"></button>
+		</div>
+	</form>
+</div>
+
+<div class="flex mx-1" *ngIf="data.length">
+	<p-table #dt [columns]="cols" [value]="data" dataKey="key" class="mx-auto">
+		<ng-template pTemplate="caption">
+			<div class="flex">
+				<button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+				<button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportAsExcel()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+			</div>
+		</ng-template>
+
+		<ng-template pTemplate="header" let-columns>
+			<tr>
+				<th class="text-center px-3" *ngFor="let column of columns">
+					{{column.header}}
+				</th>
+			</tr>
+		</ng-template>
+
+		<ng-template pTemplate="body" let-transaction>
+			<tr>
+				<td class="text-center px-2" *ngFor="let col of cols">{{transaction[col.field]}}</td>
+			</tr>
+		</ng-template>
+	</p-table>
+</div>

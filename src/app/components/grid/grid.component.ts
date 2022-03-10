@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { dateFormat, getViewAreaSize } from 'src/app/utils/helpers.utils';
 import { ConfirmationService } from 'primeng/api';
 import { CustomFilterMode } from 'src/app/class/custom-filter-mode.class';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-grid',
@@ -23,6 +24,7 @@ export class GridComponent implements OnInit, OnDestroy {
   @Input() header = '';
   @Input() globalFilter: undefined | ((query: string) => string);
   @Input() includes: string[] = [];
+  @Input() doubleClick?: (item: any, router: Router) => void;
 
   @Input() filter = true;
   @Input() add = true;
@@ -57,7 +59,7 @@ export class GridComponent implements OnInit, OnDestroy {
     return route;
   }
 
-  constructor(private api: ApiService, private cs: ConfirmationService) {
+  constructor(private api: ApiService, private cs: ConfirmationService, private router: Router) {
     this.mapper = (item) => item;
   }
 
@@ -237,5 +239,11 @@ export class GridComponent implements OnInit, OnDestroy {
     }
 
     this.loading = false;
+  }
+
+  public onDoubleClick(item: any): void {
+    if (this.doubleClick !== undefined && this.doubleClick !== null) {
+      this.doubleClick(item, this.router);
+    }
   }
 }

@@ -106,4 +106,8 @@ export class LoansComponent implements OnInit {
   public show(loan: Loan): void {
     this.router.navigate([`loans/${loan.key}`]);
   }
+
+  public goToPay(loan: Loan, router: Router): void {
+    router.navigate([`loans/pay/${loan.key}`]);
+  }
 }
