@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 
@@ -21,6 +22,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ButtonModule,
     InputNumberModule,
     ProgressBarModule,
+    FileUploadModule
   ],
   exports: [
     UsersFormComponent

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/services/api.service';
 import { SessionService } from 'src/app/services/session.service';
-import { permissions } from 'src/app/utils/const.utils';
+import { defaultPassword, permissions } from 'src/app/utils/const.utils';
 import { canEditInsertAndDelete, createResource, objectToFormData, objectToHttpParams, updateResource } from 'src/app/utils/helpers.utils';
 
 @Component({
@@ -14,13 +15,13 @@ import { canEditInsertAndDelete, createResource, objectToFormData, objectToHttpP
   ]
 })
 export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
-  private _defaultPassword = 'Password1*';
-
   @Input() user?: User;
 
   @Output() cancel = new EventEmitter<void>();
   @Output() inserted = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
+
+  @ViewChild('upload', { static: false }) private _upload?: FileUpload;
 
   private _canInsert = false;
   private _canEdit = false;
@@ -28,6 +29,7 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
   public form: FormGroup;
   public readonly = false;
   public loading = false;
+  public files?: any[];
 
   public get username(): AbstractControl | null {
     return this.form.get('username');
@@ -91,6 +93,8 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
       this.username?.setValue(this.user.user);
       this.name?.setValue(this.user.name);
       this.mail?.setValue(this.user.mail);
+
+      this.username?.disable();
     }
 
     if (this.readonly) {
@@ -111,16 +115,28 @@ export class UsersFormComponent implements OnInit, OnChanges, OnDestroy {
       const username = this.username?.value as string;
       const name = this.name?.value as string;
       const mail = this.mail?.value as string;
+      const data: any = { name, mail };
+
+      if (this.files !== undefined && this.files !== null && this.files.length !== 0) {
+        data.avatar = this.files[0];
+      } else {
+        delete data.avatar;
+      }
 
       if (this.user === undefined) {
-        const form = objectToFormData({ user: username, password: this._defaultPassword, name, mail });
+        data.user = username;
+        data.password = defaultPassword;
+        const form = objectToFormData(data);
 
-        await createResource<User>(this.api, 'users', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente. Su contraseña es: ${this._defaultPassword}`);
+        await createResource<User>(this.api, 'users', form, this.ms, this.inserted, (item) => `${item.name} fue agregado exitosamente. La contraseña es: ${defaultPassword}`);
       } else {
-        const form = objectToHttpParams({ name, mail });
+        data._method = 'PUT';
+        const form = objectToFormData(data);
 
-        await updateResource<User>(this.api, `users/${this.user.key}`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
+        await createResource<User>(this.api, `users/${this.user.key}`, form, this.ms, this.updated, (item) => `${item.name} fue actualizado exitosamente.`);
       }
+
+      this._upload?.clear();
     } else {
       this.form.markAllAsTouched();
     }

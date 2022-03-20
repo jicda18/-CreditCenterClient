@@ -76,7 +76,9 @@ body {
 		border-bottom: 2px transparentize($ghostwhite, 0.25) solid;
 
 		.p-dialog-title {
-			color: transparentize($ghostwhite, 0.25);
+			color: var(--primary-color);
+			font-weight: 800;
+			font-size: 32px;
 		}
 
 		.p-dialog-header-close-icon {

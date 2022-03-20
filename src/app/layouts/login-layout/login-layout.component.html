@@ -49,7 +49,7 @@
 			</form>
 
 			<div class="flex my-0">
-				<button pButton pRipple type="button" label="¿Olvido su contraseña?" class="p-button-info p-button-text ml-auto mr-0 pr-0"></button>
+				<button pButton pRipple type="button" label="¿Olvido su contraseña?" class="p-button-info p-button-text ml-auto mr-0 pr-0" (click)="passwordRecovery()"></button>
 			</div>
 		</div>
 	</div>
@@ -57,5 +57,6 @@
 
 <p-toast position="top-right"></p-toast>
 
-<!-- Todo: Implement ¿Olvido su contraseña? -->
+<app-modal #modal></app-modal>
+
 <!-- Todo: use Theme -->

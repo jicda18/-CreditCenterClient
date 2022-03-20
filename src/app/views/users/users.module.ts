@@ -9,20 +9,24 @@ import { UsersModalComponent } from './users-modal.component';
 import { ModalModule } from 'src/app/components/modal/modal.module';
 import { UsersFormModule } from 'src/app/forms/users-form/users-form.module';
 import { TabViewModule } from 'primeng/tabview';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
-    declarations: [
-        UsersComponent,
-        UsersViewComponent,
-        UsersModalComponent
-    ],
-    imports: [
-        CommonModule,
-        UsersRoutingModule,
-        GridModule,
-        ModalModule,
-        UsersFormModule,
-        TabViewModule,
-    ]
+  declarations: [
+    UsersComponent,
+    UsersViewComponent,
+    UsersModalComponent
+  ],
+  imports: [
+    CommonModule,
+    UsersRoutingModule,
+    GridModule,
+    ModalModule,
+    UsersFormModule,
+    TabViewModule,
+    ConfirmPopupModule,
+    ButtonModule
+  ]
 })
 export class UsersModule { }

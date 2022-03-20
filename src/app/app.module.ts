@@ -22,6 +22,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { ModalModule } from './components/modal/modal.module';
+import { ChangePasswordModule } from './forms/change-password/change-password.module';
+import { UpdateProfileModule } from './forms/update-profile/update-profile.module';
+import { PasswordRecoveryModule } from './forms/password-recovery/password-recovery.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,10 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     BadgeModule,
     TieredMenuModule,
     PanelMenuModule,
+    ModalModule,
+    ChangePasswordModule,
+    UpdateProfileModule,
+    PasswordRecoveryModule,
   ],
   providers: [{
     provide: LocationStrategy,

@@ -108,6 +108,12 @@ export class SessionService {
     return this._user;
   }
 
+  public set user(value: undefined | User) {
+    if (this._user !== undefined && value !== undefined) {
+      this._user = value;
+    }
+  }
+
   public get admin(): boolean {
     return this._user?.administrator ?? false;
   }

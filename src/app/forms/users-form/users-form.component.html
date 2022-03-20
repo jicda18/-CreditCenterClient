@@ -37,11 +37,18 @@
 			</div>
 		</div>
 
+		<!-- avatar -->
+		<div class="flex mt-1">
+			<div class="col">
+				<p-fileUpload #upload mode="advanced" [showUploadButton]="false" accept="image/png,image/jpeg" chooseLabel="Avatar" (onSelect)="files = $event.currentFiles" (onClear)="files = undefined" (onRemove)="files = undefined"></p-fileUpload>
+			</div>
+		</div>
+
 		<p-progressBar mode="indeterminate" class="progressbar-warning my-3 p-0 mb-0" *ngIf="loading"></p-progressBar>
 
 		<div class="flex m-0 mt-2 p-0 w-100" *ngIf="!loading">
 			<button type="button" class="p-button-outlined p-button-raised p-button-danger my-1 mx-auto" label="Cancelar" pButton pRipple (click)="cancel.emit()" *ngIf="isInsert"></button>
-			<button type="submit" class="p-button-outlined p-button-raised p-button-warning my-1 mx-auto" label="Guardar" pButton pRipple *ngIf="canSubmit"></button>
+			<button type="submit" class="p-button-outlined p-button-raised p-button-success my-1 mx-auto" label="Guardar" pButton pRipple *ngIf="canSubmit"></button>
 		</div>
 	</form>
 </div>

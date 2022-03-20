@@ -198,3 +198,5 @@ export const statusOptions: { value: string; label: string }[] = [
   { value: 'paid', label: 'Saldado' },
   { value: 'active', label: 'Activo' },
 ];
+
+export const defaultPassword = 'Password1*';

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
+import { PasswordRecoveryComponent } from 'src/app/forms/password-recovery/password-recovery.component';
 import { SessionService } from 'src/app/services/session.service';
 import { environment } from 'src/environments/environment';
 
@@ -34,6 +36,8 @@ export class LoginLayoutComponent implements OnInit {
     return environment.name;
   }
 
+  @ViewChild('modal', { static: false }) private _modal?: ModalComponent;
+
   constructor(private fb: FormBuilder, private ss: SessionService, private router: Router) {
     this.form = this.fb.group({
       username: ['', [Validators.required]],
@@ -66,8 +70,10 @@ export class LoginLayoutComponent implements OnInit {
   }
 
   public async passwordRecovery(): Promise<void> {
-    this.loading = true;
+    this.openModal(PasswordRecoveryComponent, 'Recuperar contaseña');
+  }
 
-    this.loading = false;
+  private openModal(componentType: Type<any>, title: string): void {
+    this._modal?.show(componentType, title, {});
   }
 }
