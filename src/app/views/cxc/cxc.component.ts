@@ -111,6 +111,7 @@ export class CxcComponent implements OnInit {
       overdue: fees.length,
       for_total: loan?.pending_summary ?? 0,
       pending: toCurrency(loan?.pending_summary ?? 0),
+      day: loan?.day,
       next_at: dateStandardFormat(fees[0]?.payment_at),
       bg_color: bgColorLoan(loan?.fees ?? []),
       phone: debtor?.phone_number,

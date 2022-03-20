@@ -1,4 +1,8 @@
 <div class="m-0 p-0">
+	<div class="grid m-1" style="max-height: 128px; overflow-y: auto; background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.38);">
+		<button *ngFor="let item of buttonSearch" type="button" class="p-button-outlined p-button-raised p-button-primary my-1 mx-2" [label]="item.label" (click)="dateFilter(item.data)" pButton pRipple></button>
+	</div>
+
 	<form class="grid p-2" [formGroup]="form" (ngSubmit)="submit()">
 		<!-- Banco -->
 		<div class="col-12 md:col-6 my-1">

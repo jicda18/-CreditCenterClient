@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { DateTime } from 'luxon';
 import { MessageService } from 'primeng/api';
 import { Transaction } from 'src/app/models/transaction.model';
 import { ApiService } from 'src/app/services/api.service';
-import { basicTypeToString, dateTimeStandardFormat, exportExcel, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
+import { basicTypeToString, convertToDate, convertToDateTime, dateFormat, dateTimeStandardFormat, exportExcel, selectOption, toCurrency } from 'src/app/utils/helpers.utils';
 
 @Component({
   selector: 'app-transactions-filter',
@@ -13,6 +14,7 @@ import { basicTypeToString, dateTimeStandardFormat, exportExcel, selectOption, t
 })
 export class TransactionsFilterComponent implements OnInit {
   public form: FormGroup;
+  public buttonSearch: { label: string, data: Date[] }[] = [];
 
   public loading = false;
   public bankOptions: { value: string; label: string }[] = [];
@@ -57,10 +59,32 @@ export class TransactionsFilterComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading = true;
 
+    const stop = convertToDateTime(new Date(2022, 0, 1)).startOf('day');
+    for (let dte = DateTime.local().startOf('day'); dte >= stop; dte = dte.minus({ months: 1 })) {
+      this.buttonSearch.push({
+        label: dateFormat(dte.setLocale('es'), 'LLLL yyyy').toLocaleUpperCase(),
+        data: [convertToDate(dte.startOf('month')), convertToDate(dte.endOf('month'))]
+      });
+    }
+
     this.bankOptions = await selectOption<string, undefined>('banks/select', this.api);
     this.currencyOptions = await selectOption<string, undefined>('currencies/select', this.api);
 
     this.loading = false;
+  }
+
+  public dateFilter(dates: Date[]): void {
+    this.form.reset();
+
+    if (dates.length > 0) {
+      this.from?.setValue(dates[0]);
+    }
+
+    if (dates.length > 1) {
+      this.to?.setValue(dates[1]);
+    }
+
+    this.submit();
   }
 
   public async submit(): Promise<void> {

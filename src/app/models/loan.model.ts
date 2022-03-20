@@ -14,6 +14,7 @@ export interface Loan {
   start_at: string;
   thanks_days: number;
   next_at: string;
+  day: string;
   status: 'active' | 'paid' | 'paused' | 'canceled';
   summary: number;
   interest_summary: number;
