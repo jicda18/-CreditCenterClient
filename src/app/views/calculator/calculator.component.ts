@@ -14,7 +14,7 @@ import { biweeklyCheck, convertToDate, convertToDateTime, dateFormat, dateStanda
 export class CalculatorComponent implements OnInit {
   private _items?: CalculatorItem[];
 
-  public form?: FormGroup;
+  public form: FormGroup;
   public loading = false;
 
   public frequencyOptions: { value: string; label: string; }[] = [];
@@ -81,6 +81,14 @@ export class CalculatorComponent implements OnInit {
     return this.form?.get('start_at') ?? null;
   }
 
+  public get name(): AbstractControl | null {
+    return this.form?.get('name') ?? null;
+  }
+
+  public get email(): AbstractControl | null {
+    return this.form?.get('email') ?? null;
+  }
+
   public get balanceInvalid(): boolean {
     return (this.balance?.invalid && (this.balance?.touched || this.balance?.dirty)) ?? false;
   }
@@ -101,6 +109,14 @@ export class CalculatorComponent implements OnInit {
     return (this.start_at?.invalid && (this.start_at?.touched || this.start_at?.dirty)) ?? false;
   }
 
+  public get nameInvalid(): boolean {
+    return (this.name?.invalid && (this.name?.touched || this.name?.dirty)) ?? false;
+  }
+
+  public get emailInvalid(): boolean {
+    return (this.email?.invalid && (this.email?.touched || this.email?.dirty)) ?? false;
+  }
+
   constructor(private fb: FormBuilder, private api: ApiService, private ms: MessageService) {
     this.form = this.fb.group({
       balance: [null, [Validators.required, Validators.min(0)]],
@@ -108,6 +124,8 @@ export class CalculatorComponent implements OnInit {
       fees: [null, [Validators.min(1)]],
       frequency_key: [null, [Validators.required]],
       start_at: [null, [Validators.required]],
+      name: [null, []],
+      email: [null, [Validators.email]],
     });
   }
 
@@ -150,6 +168,50 @@ export class CalculatorComponent implements OnInit {
       const form = objectToFormData(inputs);
 
       const items = (await this.api.post<CalculatorItem[]>('calculator', form)).data ?? false;
+
+      if (items !== false) {
+        this._items = items;
+      }
+    } else {
+      this.form?.markAllAsTouched();
+    }
+
+    this.loading = false;
+  }
+
+  public async send(): Promise<void> {
+    this.loading = true;
+
+    for (const key in this.form?.controls) {
+      if (Object.prototype.hasOwnProperty.call(this.form?.controls, key)) {
+        const control = this.form?.controls[key];
+
+        control?.updateValueAndValidity();
+      }
+    }
+
+    let valid = true;
+    const name = this.name?.value;
+    if (name === undefined || name === null || name === '') {
+      this.name?.setErrors({ require: true }, { emitEvent: true });
+      valid = false;
+    }
+
+    const email = this.email?.value;
+    if (email === undefined || email === null || email === '') {
+      this.email?.setErrors({ require: true }, { emitEvent: true });
+      valid = false;
+    }
+
+    if (this.form?.valid && valid) {
+      const inputs = this.form?.value;
+
+      inputs.interest /= 100;
+      inputs.fees = inputs.fees ?? 1;
+
+      const form = objectToFormData(inputs);
+
+      const items = (await this.api.post<CalculatorItem[]>('calculator/email', form)).data ?? false;
 
       if (items !== false) {
         this._items = items;
